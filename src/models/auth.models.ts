@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema<User>({
     this.password = await bcrypt.hash(this.password, salt);
     next();
   });
-const maxAge = 3 * 24 * 60 * 60
+
 const jwtSecretKey = config.JWT_SECRET || "random"
 
 
