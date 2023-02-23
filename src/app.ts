@@ -1,6 +1,6 @@
 import express from "express"
 import cors from "cors"
-import router from "./routes/index.router"
+import routes from "./routes/index"
 import config from "./config/config"
 import dbConnect from "./config/mongo"
 
@@ -10,7 +10,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 try {
-app.use(router)
+app.use('/api/auth', routes.authRouter);
 dbConnect()
 .then(data => {
     console.log("db conectada con exito");
