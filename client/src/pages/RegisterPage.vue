@@ -34,19 +34,25 @@
 <script lang="ts" setup>
 import { authStore } from '@/stores/auth/authStore';
 import { ref, reactive } from 'vue';
+import { useRouter } from 'vue-router';
 const useAuthStore = authStore()
+const router = useRouter()
 const userCredentials = reactive({
   email: '',
   password: '',
 })
 
 const userRegister = async () => {
+  try {
   await useAuthStore.register({
     email: userCredentials.email,
     password: userCredentials.password,
 
   })
-
+  router.push({ path: '/' })
+} catch(err) {
+  console.error(err)
+}
   
   
 }
