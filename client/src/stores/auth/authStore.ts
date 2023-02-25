@@ -28,6 +28,17 @@ export const authStore = defineStore('auth',  {
             localStorage.setItem('user', JSON.stringify(this.user))
             router.push("/")
         },
+        async login (payload: {email: string, password: string}) {
+            const { data } = await axios.post("http://localhost:3000/api/auth/login", payload)
+            if (data.message === 'Network Error') {
+                console.log("Erorraco")
+            }
+            console.log(data)
+            this.user.email = data.user.email
+            this.user.token = data.token
+            localStorage.setItem('user', JSON.stringify(this.user))
+            router.push("/")
+        },
         logout() {
                 localStorage.removeItem('user');
                 this.user.email = null;

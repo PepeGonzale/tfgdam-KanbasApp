@@ -33,7 +33,6 @@ const userSchema = new mongoose.Schema<User>({
     next();
   });
 
-const jwtSecretKey = config.JWT_SECRET || "random"
 
 
   const UserModel = model<User, UserModel>("Users", userSchema) as UserModel;

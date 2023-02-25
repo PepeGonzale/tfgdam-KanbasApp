@@ -1,12 +1,9 @@
 <template>
-    <button @click="auth.logout">logout</button>
-<div>
-Bienvenido a tu Kanban App
-{{ auth.isLoggedIn }}
-</div>
+ <Header/>
 </template>
 <script lang="ts" setup>
 import { authStore } from '@/stores/auth/authStore';
+import Header from '@/components/layout/Header.vue';
 import {watch} from "vue"
 import { storeToRefs } from 'pinia';
 const auth = authStore();

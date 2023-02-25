@@ -1,11 +1,10 @@
 <template>
-<header>
-    <div class="flex">
-        <h1>Cacique</h1>
-        <h1>Barcelo</h1>
-    </div>
-</header>
+<Sidebar/>  
 </template>
 <script lang="ts" setup>
+import { layoutStore } from "@/stores/LayouStore";
+import Sidebar from "./Sidebar.vue"
+const useLayoutStore = layoutStore()
+
 
 </script>
