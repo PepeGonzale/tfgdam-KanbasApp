@@ -1,5 +1,5 @@
 <template>
- <div class="relative flex min-h-screen bg-black">
+ <div class="relative flex justify-between min-h-screen bg-black">
     <div v-if = "useLayoutStore.open" class="bg-gray-900 text-cyan-100 w-64 space-y-6 py-4 absolute inset-y-0 left-0 transform -translate-x-full transition duration-200 ease-in-out md:relative md:translate-x-0">
         <a href="" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
@@ -25,6 +25,11 @@
 </svg>
   Create board
 </button>
+<button class="flex items-center p-4 text-white bg-gray-800 hover:bg-gray-600 w-full rounded showModal" @click="logout"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+</svg>
+  Logout
+</button>
                 </div>
               
             
@@ -32,17 +37,20 @@
       
     </div>
     <!-- Main content -->
-    <div class="flex-1">
-    <div class="bg-white flex shadow py-6">
-       
-        <button @click =" useLayoutStore.open = !useLayoutStore.open" :class="{'hidden': useLayoutStore.open}">
-         
+    <div class="w-full">
+    <div class="justify-between bg-white flex shadow py-6">
+      <div class="flex items-center">
+        <button @click =" useLayoutStore.open = !useLayoutStore.open" :class="{'hidden': useLayoutStore.open}">     
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
 </svg>
 </button>
-<div>First big project</div>
-<div class="inline-block fixed right-0 mr-12">
+<a class="m-4 text-xl">First Big project</a>
+</div>
+<div>
+  <img class="h-20" src="https://imgs.search.brave.com/LZR0W8iWf1juPwCgYH-Vzn90mGLePi9TlUTYZ6UJg3U/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9yZXZl/bHJ5LmNvL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIwLzAxL2xv/Z28tZGVmYXVsdC1z/dGFja2VkQDJ4LTEu/cG5n"/>
+</div>
+<div class="inline-block mr-12 items-center">
   <button class="flex items-center p-2 text-white bg-gray-800 hover:bg-gray-600 rounded-full" @click=""><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 </svg>

@@ -10,7 +10,7 @@ const tokenSchema = new mongoose.Schema<IToken>({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    ref: 'UserModel',
+    ref: 'Users',
   },
   token: {
     type: String,
