@@ -43,11 +43,16 @@ const store = useStore()
 const useLayoutStore = layoutStore()
 const columnName = ref('')
 const columnColor = ref('')
-const createColumn = () => {
+const createColumn = async () => {
   const payload = {
     name: columnName.value,
     color: columnColor.value
   }
-  store.createColumn(payload)
+  const result = await store.createColumn(payload)
+  const save = result.data.column
+  const last = save[save.length-1]
+  store.selectedBoard?.column.push(last)
+  useLayoutStore.drawerOpen = false
+
 }
 </script>

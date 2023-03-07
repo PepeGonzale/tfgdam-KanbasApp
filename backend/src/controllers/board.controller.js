@@ -1,4 +1,4 @@
-const { createBoard, getBoards, newColumn } = require("../services/board.service")
+const { createBoard, getBoards, newColumn, createTask } = require("../services/board.service")
 
 const getBoard = async (req, res) => {
     const {_id} = req.user
@@ -23,7 +23,6 @@ const createColumn = async (req, res) => {
   const {id} = req.params;
   const {name, color} = req.body;
   const {_id} = req.user
-  console.log(name, color);
   try {
     const column = await newColumn(id, name, color, _id)
     res.json(column)
@@ -31,9 +30,21 @@ const createColumn = async (req, res) => {
     throw new Error(err)
   }
 }
-
+const postTask = async(req, res) => {
+  const {id} = req.params
+  const {title, description, status} = req.body
+  const {_id} = req.user
+  console.log(id, title, description, status, _id);
+  try {
+  const tarea = await createTask(id, title, description,status, _id)
+  res.json(tarea)
+  } catch(err) {
+    throw new Error(err)
+  }
+}
 module.exports = {
     postBoard,
     getBoard,
-    createColumn
+    createColumn,
+    postTask
 }

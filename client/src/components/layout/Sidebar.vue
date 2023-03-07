@@ -1,5 +1,5 @@
 <template>
- <div class="relative flex justify-between min-h-screen bg-black">
+ <div class="relative flex justify-between min-h-screen ">
     <div v-if = "useLayoutStore.open" class="bg-gray-900 text-cyan-100 w-64 space-y-6 py-4 absolute inset-y-0 left-0 transform -translate-x-full transition duration-200 ease-in-out md:relative md:translate-x-0">
         <a href="" class="flex items-center">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10">
@@ -50,7 +50,7 @@
   <img class="h-20" src="https://imgs.search.brave.com/LZR0W8iWf1juPwCgYH-Vzn90mGLePi9TlUTYZ6UJg3U/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9yZXZl/bHJ5LmNvL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIwLzAxL2xv/Z28tZGVmYXVsdC1z/dGFja2VkQDJ4LTEu/cG5n"/>
 </div>
 <div class="inline-block mr-12 items-center">
-  <button class="flex items-center p-2 text-white bg-gray-800 hover:bg-gray-600 rounded-full"  @click=""><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <button class="flex items-center p-2 text-white bg-gray-800 hover:bg-gray-600 rounded-full"  @click="createTask"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 </svg>
   Add New Task
@@ -59,18 +59,19 @@
     </div>
 <!-- Content -->
     <div class="p-8 text-cyan-700">
-      <div v-if="store.selectedBoard?.columns === undefined">
+      <div v-if="store.selectedBoard?.column === undefined">
         <button @click="createColumn">Create Column</button>
       </div>
       <div v-else>
-        {{store.selectedBoard?._id}}
+  <Column/>
+      <div class="col-span-6 items-center "><button @click="createColumn" class="rounded shadow-sm p-4 text-white bg-blue-500 hover:bg-blue-350 focus:outline-dotted">Create Column</button></div>
       </div>
     </div>
   </div>
 </div>
 <Modal v-if="useLayoutStore.drawerOpen && useLayoutStore.modalContent === 'createBoard'"/>
 <ColumnModal v-if="useLayoutStore.drawerOpen && useLayoutStore.modalContent === 'createColumn'"/>
-
+<TaskModal v-if="useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'createTask'"/>
 
 </template>
 <script lang="ts" setup>
@@ -78,8 +79,10 @@
  import {useStore} from "@/stores/store"
  import { authStore } from '@/stores/auth/authStore';
 import {onMounted, ref} from "vue"
+import Column from '../Column.vue';
  import Modal from '../modals/Modal.vue';
 import ColumnModal from "../modals/ColumnModal.vue"
+import TaskModal from '../modals/TaskModal.vue';
 const store = useStore()
 const useAuthStore = authStore()
 const useLayoutStore = layoutStore()
@@ -92,12 +95,16 @@ const createColumn = () => {
     useLayoutStore.modalContent = "createColumn"
     useLayoutStore.drawerOpen = true
 }
+const createTask = () => {
+    useLayoutStore.modalContent = "createTask"
+    useLayoutStore.drawerOpen = true
+}
 onMounted(() => {
   store.fetchBoards();
 });
 const handleSelectedBoard = (board: any) => {
   store.selectBoard(board)
-  console.log(board);
+  console.log(board.column);
 }
 
 </script>

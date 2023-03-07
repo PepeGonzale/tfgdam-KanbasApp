@@ -45,7 +45,7 @@ const descriptionBoard = ref('')
 const createBoard = async () => {
     const payload:any = {title: nameBoard.value, description: descriptionBoard.value}
     const result = await store.createBoard(payload)
-    console.log(result);
+    useLayoutStore.drawerOpen = false
 }
 
 </script>

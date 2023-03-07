@@ -27,4 +27,19 @@ const newColumn = async (boardId, name, color, userId) => {
     board.save();
     return board
 }
-module.exports = {createBoard, getBoards, newColumn} 
+const createTask = async (boardId, title, description, status, userId) => {
+    const checkTask = await Board.findOne({
+        _id: boardId,
+        createdBy: userId
+    })
+    if (!checkTask) throw new Error(`We can not create this task because the board that you are trying to implement this task not exists`)
+    
+    checkTask.tasks.push({
+        title: title,
+        description: description,
+        status
+    })
+    checkTask.save()
+    return checkTask
+}
+module.exports = {createBoard, getBoards, newColumn, createTask} 

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 export interface Status {
-    name: string;
+    title: string;
     color: string;
     _id: string;
   }
@@ -35,7 +35,7 @@ export interface Status {
     name: string;
     description?: string;
     readonly createdBy: string;
-    columns: {
+    column: {
       name: string;
       color?: string;
       readonly _id: string;
@@ -83,7 +83,7 @@ export const useStore = defineStore("store", {
           title: '',
           description: '',
           status: {
-            name: '',
+            title: '',
             color: '',
             _id: '',
           },
@@ -107,7 +107,6 @@ export const useStore = defineStore("store", {
               }})
               console.log(postBoard.data);
             this.boards.push(postBoard.data)
-
             return postBoard
         },
         async fetchBoards() {
@@ -129,7 +128,17 @@ export const useStore = defineStore("store", {
          const newColumn = await axios.post(`http://localhost:3000/api/boards/column/${this.selectedBoard?._id}`, payload, {headers: {
           Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
         }})
-          console.log(newColumn);     
+        return newColumn
+        },
+        async createTask(payload: {title: string, description: string, status: {title: string}}) {
+          const token = JSON.parse(localStorage.getItem('user') || "error");
+          console.log(payload);
+          
+          const newTask = await axios.post(`http://localhost:3000/api/boards/task/${this.selectedBoard?._id}`, payload, {headers: {
+           Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
+         }})
+         
+         
         },
         selectBoard(board: Board) {
             this.newTask = {
@@ -143,7 +152,7 @@ export const useStore = defineStore("store", {
               title: '',
               description: '',
               status: {
-                name: '',
+                title: '',
                 color: '',
                 _id: '',
               },
