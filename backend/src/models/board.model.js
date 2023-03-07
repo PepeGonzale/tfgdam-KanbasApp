@@ -57,25 +57,22 @@ const BoardSchema = new mongoose.Schema ({
       createdBy: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required:true
+        required: true
       },
-      /*  
+      
       column: {
         type: [{
             name: {
                 type: String,
                 required:true
             },
-            description: {
-                type: String,
-                required: true
-            }
+            color: String,
         }]
       },
       tasks: {
         type: [TaskSchema]
       }
-      */
+      
 },
 {timestamps: true})
 

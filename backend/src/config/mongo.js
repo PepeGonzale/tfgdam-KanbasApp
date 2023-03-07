@@ -1,5 +1,6 @@
 
-const {mongoose} = require('mongoose')
+const { default: mongoose } = require("mongoose");
+
 const config = require('./config')
 const dbConnect = (a) => {
     try{

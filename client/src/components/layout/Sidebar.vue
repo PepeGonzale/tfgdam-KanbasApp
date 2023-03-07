@@ -7,17 +7,19 @@
 </svg>
 <span class="text-2xl font-extrabold text-white ml-2">Laraveler</span>
         </a>
+        <div class="cursor-pointer hover:bg-gray-300 " @click="useLayoutStore.open = !useLayoutStore.open">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+</svg>
+</div>
         <nav class="w-full py-4">
-            <div v-for="board in boards" class="px-2">
-            <a href="/" class="flex items-center border-4 px-4 py-3 border-white"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <div v-for="(board, index) in store.boards" :key="index" class="px-2" @click="handleSelectedBoard(board)">
+            <div class="flex items-center border-4 px-4 py-3 border-white cursor-pointer hover:border-black" :class="{selectBoard: 'bg-white'}"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12.75V12A2.25 2.25 0 014.5 9.75h15A2.25 2.25 0 0121.75 12v.75m-8.69-6.44l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
 </svg>
-
-<span class="text-white ml-2">{{board.name}}</span>
-</a>
-        
+<span class="text-white ml-2">{{board.title}}</span>
+</div>
         </div>
-        
              <div class="fixed bottom-20 w-full bg-black">
                 
                <button class="flex items-center p-4 text-white bg-gray-800 hover:bg-gray-600 w-full rounded showModal" @click="createBoard"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
@@ -25,16 +27,13 @@
 </svg>
   Create board
 </button>
-<button class="flex items-center p-4 text-white bg-gray-800 hover:bg-gray-600 w-full rounded showModal" @click="logout"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+<button class="flex items-center p-4 text-white bg-gray-800 hover:bg-gray-600 w-full rounded showModal" @click="useAuthStore.logout"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 </svg>
   Logout
 </button>
-                </div>
-              
-            
-        </nav>
-      
+                </div>  
+        </nav>      
     </div>
     <!-- Main content -->
     <div class="w-full">
@@ -51,7 +50,7 @@
   <img class="h-20" src="https://imgs.search.brave.com/LZR0W8iWf1juPwCgYH-Vzn90mGLePi9TlUTYZ6UJg3U/rs:fit:1200:1200:1/g:ce/aHR0cHM6Ly9yZXZl/bHJ5LmNvL3dwLWNv/bnRlbnQvdXBsb2Fk/cy8yMDIwLzAxL2xv/Z28tZGVmYXVsdC1z/dGFja2VkQDJ4LTEu/cG5n"/>
 </div>
 <div class="inline-block mr-12 items-center">
-  <button class="flex items-center p-2 text-white bg-gray-800 hover:bg-gray-600 rounded-full" @click=""><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <button class="flex items-center p-2 text-white bg-gray-800 hover:bg-gray-600 rounded-full"  @click=""><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
 </svg>
   Add New Task
@@ -59,23 +58,46 @@
 </div>
     </div>
 <!-- Content -->
-    <div class="p-8 text-cyan-700">Content</div>
+    <div class="p-8 text-cyan-700">
+      <div v-if="store.selectedBoard?.columns === undefined">
+        <button @click="createColumn">Create Column</button>
+      </div>
+      <div v-else>
+        {{store.selectedBoard?._id}}
+      </div>
+    </div>
   </div>
 </div>
-<Modal v-if="useLayoutStore.drawerOpen"/>
+<Modal v-if="useLayoutStore.drawerOpen && useLayoutStore.modalContent === 'createBoard'"/>
+<ColumnModal v-if="useLayoutStore.drawerOpen && useLayoutStore.modalContent === 'createColumn'"/>
+
 
 </template>
 <script lang="ts" setup>
  import { layoutStore } from '@/stores/LayouStore';
- import Modal from './Modal.vue';
-const boards = [
- {id: 1,   name: "Primer projecto"}, {id: 2, name: "Segundo projecto"}
-]
+ import {useStore} from "@/stores/store"
+ import { authStore } from '@/stores/auth/authStore';
+import {onMounted, ref} from "vue"
+ import Modal from '../modals/Modal.vue';
+import ColumnModal from "../modals/ColumnModal.vue"
+const store = useStore()
+const useAuthStore = authStore()
 const useLayoutStore = layoutStore()
-
+const selectBoard = ref(false)
 const createBoard = () => {
     useLayoutStore.modalContent = "createBoard"
     useLayoutStore.drawerOpen = true
+}
+const createColumn = () => {
+    useLayoutStore.modalContent = "createColumn"
+    useLayoutStore.drawerOpen = true
+}
+onMounted(() => {
+  store.fetchBoards();
+});
+const handleSelectedBoard = (board: any) => {
+  store.selectBoard(board)
+  console.log(board);
 }
 
 </script>

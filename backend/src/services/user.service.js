@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
 const User = require('../models/user.model')
-const tokenSecre = config.JWT_SECRET || "problema"
+const tokenSecre = config.JWT_SECRET
 const maxAge = 3 * 24 * 60 * 60
 const registerUser = async (email, password) => {
     const saveUser = await User.create({email, password})
@@ -35,7 +35,7 @@ const loginUser = async (email, password) => {
         },
         tokenSecre,
         {
-          expiresIn: maxAge,
+          expiresIn: 72*60*60*1000,
         }
       );
     return {user: {email: user.email}, token}

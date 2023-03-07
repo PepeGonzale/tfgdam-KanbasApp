@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const dbConnect = require('./config/mongo')
-const {authRouter} = require('./router/index.router')
+const {authRouter, boardRouter} = require('./router/index.router')
 const { errorHandler, notFound } = require('./utils/errorHandler')
 
 const PORT = 3000
@@ -11,6 +11,7 @@ app.use(cors())
 
 dbConnect()
 app.use("/api/auth", authRouter)
+app.use("/api/boards",boardRouter)
 app.use(errorHandler)
 app.use(notFound)
 app.listen(PORT, () => {
