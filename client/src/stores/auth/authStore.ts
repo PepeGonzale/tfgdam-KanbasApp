@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios"
 import router from "@/router";
-
 export interface AuthStore {
     user: {
       email: string | null;
@@ -43,7 +42,9 @@ export const authStore = defineStore('auth',  {
                 localStorage.removeItem('user');
                 this.user.email = null;
                 this.user.token = null;
-                router.push('/login');
+                location.href = "/login"
+                
+                
         }
     }
 })

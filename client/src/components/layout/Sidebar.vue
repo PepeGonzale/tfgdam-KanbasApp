@@ -1,8 +1,8 @@
 <template>
-<div class="z-10 transition-all fixed"
+<div class="z-10 rounded-md transition-all fixed bg-cyan-300"
   :class="useLayoutStore.drawerOpen ? ['translate-x-[0]']: ['translate-x-[-100%]']">
     <div
-      class="bg-white dark:bg-dark-grey min-h-[calc(100vh-80px)] w-64 lg:w-[300px] pb-10 hidden sm:flex sm:flex-col border-r border-r-lines-light dark:border-r-lines-dark">
+      class="dark:bg-dark-grey min-h-[calc(100vh-80px)] w-64 lg:w-[300px] pb-10 hidden sm:flex sm:flex-col border-r border-r-lines-light dark:border-r-lines-dark">
       <p class="text-medium-grey text-xs font-bold py-4 px-6">ALL BOARDS ({{ store.boards.length }})</p>
       <div v-for="(board, index) in store.boards" :key="index"
         class="flex items-center gap-4 w-11/12 rounded-r-full px-6 py-3 cursor-pointer text-medium-grey font-bold   "
@@ -16,7 +16,8 @@
         <span>+ Create New Board</span>
       </div>
       <div class="flex flex-col gap-2 mt-auto">
-       <div>Logout</div>
+        <div class="cursor-pointer bg-cyan-400 rounded-full w-full text-center m-auto p-2 hover:bg-gray-200 hover:border-t-2" @click="useLayoutStore.drawerOpen = !useLayoutStore.drawerOpen">Close sidebar</div>
+       <div @click="useAuthStore.logout" class="cursor-pointer bg-cyan-400 rounded-full w-full text-center m-auto p-2 hover:bg-gray-200 hover:border-t-2">Logout</div>
       </div>
     </div>
   </div>

@@ -1,5 +1,5 @@
 <template>
-   <div class="flex gap-6 ">
+   <div class="flex gap-6 border text-center">
     <section data-dragscroll
       class="min-w-[280px] last:pr-6 box-content">
       <div class="flex items-center gap-3 pb-6 ">
