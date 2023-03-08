@@ -32,6 +32,7 @@ const createTask = async (boardId, title, description, status, userId) => {
         _id: boardId,
         createdBy: userId
     })
+    
     if (!checkTask) throw new Error(`We can not create this task because the board that you are trying to implement this task not exists`)
     
     checkTask.tasks.push({

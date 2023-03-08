@@ -34,7 +34,7 @@ const postTask = async(req, res) => {
   const {id} = req.params
   const {title, description, status} = req.body
   const {_id} = req.user
-  console.log(id, title, description, status, _id);
+  
   try {
   const tarea = await createTask(id, title, description,status, _id)
   res.json(tarea)

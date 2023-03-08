@@ -98,6 +98,18 @@ export const useStore = defineStore("store", {
         newTask: { title: '', description: '', status: '', subtasks: [] },
         selectedBoard: undefined,
       }),  
+      getters: {
+        taskByColumn: (state) => (column: string) => {
+          state.selectedBoard?.tasks.filter((task) => task.status._id === column)
+        },
+        column: (state) =>
+        state.selectedBoard?.column.map((c) => {
+          return {
+            ...c,
+            name: c.name[0].toUpperCase().concat(c.name.slice(1)),
+          };
+        }) || [],
+      },
     actions: {
         async createBoard(payload:{title: string, description: string}) {
             const token = JSON.parse(localStorage.getItem('user') || "error");
@@ -130,9 +142,8 @@ export const useStore = defineStore("store", {
         }})
         return newColumn
         },
-        async createTask(payload: {title: string, description: string, status: {title: string}}) {
+        async createTask(payload: {title: string, description: string, status: {title: string, _id: any}}) {
           const token = JSON.parse(localStorage.getItem('user') || "error");
-          console.log(payload);
           
           const newTask = await axios.post(`http://localhost:3000/api/boards/task/${this.selectedBoard?._id}`, payload, {headers: {
            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token

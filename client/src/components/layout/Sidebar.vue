@@ -63,7 +63,9 @@
         <button @click="createColumn">Create Column</button>
       </div>
       <div v-else>
-  <Column/>
+        
+  <Column v-for="column in store.column" :key="column._id" :column="column"/>
+  
       <div class="col-span-6 items-center "><button @click="createColumn" class="rounded shadow-sm p-4 text-white bg-blue-500 hover:bg-blue-350 focus:outline-dotted">Create Column</button></div>
       </div>
     </div>
@@ -91,6 +93,8 @@ const createBoard = () => {
     useLayoutStore.modalContent = "createBoard"
     useLayoutStore.drawerOpen = true
 }
+
+
 const createColumn = () => {
     useLayoutStore.modalContent = "createColumn"
     useLayoutStore.drawerOpen = true

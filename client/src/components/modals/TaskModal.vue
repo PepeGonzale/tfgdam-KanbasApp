@@ -29,7 +29,7 @@
           <div class="m-4 items-center">
             <label class="block text-sm font-medium">Which column? </label>
             
-          <input v-model="column" type="text" name="city" list="cityname">
+          <input v-model="column" type="text" name="city" list="cityname" autocomplete="off">
     <datalist id="cityname">
       <option v-for="(column, index) in store.selectedBoard?.column" :key="column._id" :value="column.name"/>
         
@@ -60,8 +60,10 @@ const createTask = () => {
   const payload = {
     title: title.value,
     description: description.value,
-    status : {title: column.value}
+    status : { title: column.value, _id: store.selectedBoard?.column.filter((t) => t.name===column.value)[0]._id }
   }
+  console.log(payload);
+  
   const res = store.createTask(payload)
 }
 </script>

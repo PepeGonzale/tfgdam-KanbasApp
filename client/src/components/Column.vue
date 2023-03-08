@@ -1,13 +1,32 @@
 <template>
-<div class="block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-<div v-for="column in store.selectedBoard?.column" :key="column._id" class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">{{ column.name }}</div>
-<div class="font-normal text-gray-700 dark:text-gray-400" v-for="task in store.selectedBoard?.tasks" :key="task._id">{{ task.title }}</div>
-</div> 
-
+  <div class="flex gap-6 ">
+      <div class="flex items-center gap-3 pb-6 ">
+        <div class="rounded-full h-4 w-4" ></div>
+        <h2 class="text-medium-grey font-bold text-xs uppercase">
+          {{ column.name }} 
+        </h2>
+        <TaskVue v-for="task in store.selectedBoard?.tasks.filter(t => t.status._id === column._id)" :key="task._id" :task="task" />
+    <div>
+      
+    </div>
+  </div>  
     
+    
+  </div>
+     
 </template>
 <script lang="ts" setup>
 import { useStore } from '@/stores/store';
+import TaskVue from './Task.vue';
+
+const props = defineProps({
+  column: {
+    type: Object,
+    required: true
+  }
+})
+
+
 
 const store = useStore()
 </script>
