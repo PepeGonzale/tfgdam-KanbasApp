@@ -32,7 +32,7 @@ export interface Status {
   
   export interface Board {
     readonly _id: string;
-    name: string;
+    title: string;
     description?: string;
     readonly createdBy: string;
     column: {
@@ -100,7 +100,7 @@ export const useStore = defineStore("store", {
       }),  
       getters: {
         taskByColumn: (state) => (column: string) => {
-          state.selectedBoard?.tasks.filter((task) => task.status._id === column)
+          state.selectedBoard?.tasks.filter((t) => t.status._id === column)
         },
         column: (state) =>
         state.selectedBoard?.column.map((c) => {
