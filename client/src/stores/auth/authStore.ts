@@ -43,8 +43,6 @@ export const authStore = defineStore('auth',  {
                 this.user.email = null;
                 this.user.token = null;
                 location.href = "/login"
-                
-                
         }
     }
 })
