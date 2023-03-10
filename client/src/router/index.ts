@@ -3,6 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import RegisterPageVue from "@/pages/RegisterPage.vue"
 import ResetPasswordVue from "@/pages/ResetPassword.vue"
 import HomePageVue from "@/pages/HomePage.vue"
+import BoardPage from "@/pages/BoardPage.vue"
 import { authStore } from '@/stores/auth/authStore'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/',
       name: 'Home',
       component: HomePageVue
+    },
+    {
+      path: '/boards',
+      name: 'Boards',
+      component: BoardPage
     },
   
   ]

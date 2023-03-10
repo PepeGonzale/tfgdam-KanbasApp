@@ -1,5 +1,5 @@
 <template>
-   <div class="flex gap-6 border text-center bg-gray-100 min-h-screen w-72">
+   <div class="flex gap-6 border text-center bg-gray-100 max-h-full w-72">
     <section data-dragscroll
       class="min-w-[250px] last:pr-6 box-content items-center w-80">
       <div class="flex items-center gap-3 pb-6 ">
@@ -11,7 +11,7 @@
         
       </div>
       <div class="">
-        <TaskVue v-for="task in store.selectedBoard?.tasks.filter(t => t.status._id === column._id)" :key="task._id" :task="task"/>
+        <TaskVue class="w-full hover:bg-lessblack" v-for="task in store.selectedBoard?.tasks.filter(t => t.status._id === column._id)" :key="task._id" :task="task"/>
     </div>
     </section>
     

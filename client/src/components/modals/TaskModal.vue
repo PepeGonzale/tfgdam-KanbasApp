@@ -1,6 +1,6 @@
 <template>
   
-  <div v-if="useLayoutStore.drawerOpen && useLayoutStore.modalContent === 'createTask'" class="modal bg-gray-300 pl-8 rounded-lg">
+  <div class="modal bg-slate-900 text-white pl-8 rounded-lg">
     <!-- The button to open modal -->
     <label for="my-modal" class="ml-auto pt-3">open modal</label>
 
@@ -14,7 +14,7 @@
             <input
               type="text"
               v-model="title"
-              class="mt-2 shadow appearance-none border rounded py-1 px-1"
+              class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black"
             />
           </div>
           <div class="m-4 items-center">
@@ -22,7 +22,7 @@
             <input
               v-model="description"
               type="text"
-              class="mt-2 shadow appearance-none border rounded py-1 px-1"
+              class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black"
             />
           </div>
           <div class="m-4 items-center">
@@ -33,7 +33,7 @@
               type="text"
               name="city"
               list="cityname"
-              class="mt-2 shadow appearance-none border rounded py-1 px-1"
+              class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black"
               autocomplete="off"
             />
             <datalist id="cityname">

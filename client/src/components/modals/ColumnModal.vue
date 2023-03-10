@@ -1,10 +1,8 @@
 <template>
- <div class="modal bg-black pl-8 rounded-lg">
+ <div class="modal bg-slate-900 text-white bg-lessblack pl-8 rounded-lg">
     <!-- The button to open modal -->
-    <label for="my-modal" class="ml-auto pt-3">open modal</label>
-
+    <label for="my-modal" class="ml-auto pt-3">{{ store.selectedBoard?.title }} create new column</label>
     <!-- Put this part before </body> tag -->
-
     <div class="modal">
       <div class="modal-box">
         <div class="modal-action items-center">
@@ -45,7 +43,7 @@
           </div>
           <div class="flex">
           <button class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="useLayoutStore.drawerOpen = false">Cancel</button>
-          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="createTask">Create Task</button>
+          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="createColumn">Create Task</button>
       </div>
         </div>
       </div>
