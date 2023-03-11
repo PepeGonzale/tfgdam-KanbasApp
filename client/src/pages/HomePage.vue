@@ -49,6 +49,7 @@
                 <div class="mt-3">
                   <button
                     class="flex items-center p-2 text-sm font-medium text-gray-600 gover:text-black hover:bg-gray-300 rounded-md w-full"
+                    @click="createTask"
                   >
                     add card
                   </button>
@@ -58,6 +59,7 @@
             <div class="w-72">
               <button
                 class="flex items-center bg-white/10 w-full hover:bg-white/20 text-white p-2 text-sm font-medium rounded-md"
+                @click="createColumn"
               >
                 <span>Create new list</span>
               </button>
@@ -121,6 +123,10 @@ console.log(store.boards);
 
 const createColumn = () => {
   useLayoutStore.modalContent = "createColumn";
+  useLayoutStore.drawerOpen = true;
+};
+const createTask = () => {
+  useLayoutStore.modalContent = "createTask";
   useLayoutStore.drawerOpen = true;
 };
 </script>

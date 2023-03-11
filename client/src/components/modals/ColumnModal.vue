@@ -1,5 +1,5 @@
 <template>
- <div class="modal bg-slate-900 text-white bg-lessblack pl-8 rounded-lg">
+ <div class="modal bg-slate-900 text-black bg-lessblack pl-8 rounded-lg">
     <!-- The button to open modal -->
     <label for="my-modal" class="ml-auto pt-3">{{ store.selectedBoard?.title }} create new column</label>
     <!-- Put this part before </body> tag -->
@@ -21,25 +21,6 @@
               type="text"
               class="mt-2 shadow appearance-none border rounded py-1 px-1"
             />
-          </div>
-          <div class="m-4 items-center">
-            <label class="block text-sm font-medium m-auto">Which column? </label>
-
-            <input
-           
-              type="text"
-              name="city"
-              list="cityname"
-              class="mt-2 shadow appearance-none border rounded py-1 px-1"
-              autocomplete="off"
-            />
-            <datalist id="cityname">
-              <option
-                v-for="(column, index) in store.selectedBoard?.column"
-                :key="column._id"
-                :value="column.name"
-              />
-            </datalist>
           </div>
           <div class="flex">
           <button class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="useLayoutStore.drawerOpen = false">Cancel</button>

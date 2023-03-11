@@ -140,7 +140,7 @@ export const useStore = defineStore("store", {
          const newColumn = await axios.post(`http://localhost:3000/api/boards/column/${this.selectedBoard?._id}`, payload, {headers: {
           Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
         }})
-        return newColumn
+        
         },
         async createTask(payload: {title: string, description: string, status: {title: string, _id: any}}) {
           const token = JSON.parse(localStorage.getItem('user') || "error");

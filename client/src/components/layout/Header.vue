@@ -23,8 +23,5 @@ import { useRoute, useRouter } from "vue-router";
 const useLayoutStore = layoutStore();
 const store = useStore();
 const router = useRouter()
-const createTask = () => {
-  useLayoutStore.modalContent = "createTask";
-  useLayoutStore.drawerOpen = true;
-};
+
 </script>
