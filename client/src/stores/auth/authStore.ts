@@ -28,12 +28,14 @@ export const authStore = defineStore('auth',  {
             router.push("/")
         },
         async login (payload: {email: string, password: string}) {
+            console.log(payload);
+            
             const { data } = await axios.post("http://localhost:3000/api/auth/login", payload)
             if (data.message === 'Network Error') {
                 console.log("Erorraco")
             }
             console.log(data)
-            this.user.email = data.user.email
+            this.user.email = data.email
             this.user.token = data.token
             localStorage.setItem('user', JSON.stringify(this.user))
             router.push("/")
