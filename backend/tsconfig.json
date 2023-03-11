@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "strict": true,
+      "useUnknownInCatchVariables": false,
+      "esModuleInterop": true,
+      "rootDir": "./src"
+    },
+    "include": ["src/**/*"]
+  }
