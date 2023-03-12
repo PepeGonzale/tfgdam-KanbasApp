@@ -3,7 +3,7 @@
    <Header/>
     <main class="flex-1 overflow-hidden">
       <div class="flex flex-col">
-        <div class="shrink-0 flex justify-between items-center p-4 bg-gray-100">
+        <div class="shrink-0 flex justify-between items-center p-4">
           <h1 class="text-2xl text-white font-bold">Board title</h1>
           <div>
             <button
@@ -72,12 +72,7 @@
   <div
     class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] max-w-xs w-11/12 sm:max-w-md"
   >
-    <Modal
-      v-if="
-        useLayoutStore.drawerOpen &&
-        useLayoutStore.modalContent === 'createBoard'
-      "
-    />
+   
     <ColumnModal
       v-if="
         useLayoutStore.drawerOpen &&
@@ -90,6 +85,9 @@
       "
       id="modal"
     />
+    <EditTask  v-if="
+        useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'editTask'
+      "/>
   </div>
 </template>
 <script lang="ts" setup>
@@ -108,6 +106,7 @@ import { watch } from "vue";
 import { storeToRefs } from "pinia";
 
 import BoardViewVue from "@/components/views/BoardView.vue";
+import EditTask from "@/components/modals/EditTask.vue";
 
 const auth = authStore();
 

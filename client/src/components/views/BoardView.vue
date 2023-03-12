@@ -10,6 +10,12 @@
   </div>
   </div>
   </div>
+  <div class="p-8 max-h-24 bg-blue-600 rounded-lg text-white m-auto font-bold hover:cursor-pointer" @click="createBoard">
+    <div class="">
+    Create new Board
+  </div>
+  </div>
+  
 </template>
 <script lang="ts" setup>
 import { layoutStore } from "@/stores/LayouStore";

@@ -51,6 +51,7 @@ export interface Status {
     boards: Board[];
     dialogContent: string;
     dialogOpen: boolean;
+    selectedTaskId:string;
     draftTask: {
       _id: string;
       title: string;
@@ -76,6 +77,7 @@ export interface Status {
 export const useStore = defineStore("store", {
     state: ():Store => ({
         boards: [],
+        selectedTaskId: '',
         dialogContent: '',
         dialogOpen: false,
         draftTask: {
@@ -139,7 +141,9 @@ export const useStore = defineStore("store", {
           const token = JSON.parse(localStorage.getItem('user') || "error");
          const newColumn = await axios.post(`http://localhost:3000/api/boards/column/${this.selectedBoard?._id}`, payload, {headers: {
           Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
+          
         }})
+        return newColumn
         
         },
         async createTask(payload: {title: string, description: string, status: {title: string, _id: any}}) {
@@ -148,8 +152,17 @@ export const useStore = defineStore("store", {
           const newTask = await axios.post(`http://localhost:3000/api/boards/task/${this.selectedBoard?._id}`, payload, {headers: {
            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
          }})
-         
-         
+        console.log(newTask)
+         return newTask
+        },
+        async editTask(payload: {title:string,description:string, status: {title:string, _id:any}}){
+          
+          const token = JSON.parse(localStorage.getItem('user') || "error");
+          console.log(this.selectedTaskId)
+          const editTask = await axios.post(`http://localhost:3000/api/boards/task/update/${this.selectedTaskId}`, payload, {headers: {
+            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
+          }})
+          return editTask
         },
         selectBoard(board: Board) {
             this.newTask = {

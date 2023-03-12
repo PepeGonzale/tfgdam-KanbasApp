@@ -10,21 +10,21 @@
             <label class="block text-sm font-medium">Name</label>
             <input
               type="text"
-              
+              v-model="columnName"
               class="mt-2 shadow appearance-none border rounded py-1 px-1"
             />
           </div>
           <div class="m-4 items-center">
             <label class="block text-sm font-medium">Description</label>
             <input
-              
+            v-model="columnColor"
               type="text"
               class="mt-2 shadow appearance-none border rounded py-1 px-1"
             />
           </div>
           <div class="flex">
           <button class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="useLayoutStore.drawerOpen = false">Cancel</button>
-          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="createColumn">Create Task</button>
+          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="createColumn">Create Column</button>
       </div>
         </div>
       </div>
@@ -46,6 +46,8 @@ const createColumn = async () => {
     color: columnColor.value
   }
   const result = await store.createColumn(payload)
+  console.log(result);
+  
   const save = result.data.column
   const last = save[save.length-1]
   store.selectedBoard?.column.push(last)
