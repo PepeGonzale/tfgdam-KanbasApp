@@ -1,8 +1,7 @@
 <template>
   <li
-    class="task-card relative bg-white p-3 shadow m-auto rounded-md border-b border-gray-300 hover:bg-gray-50"
+    class="group relative bg-white p-3 shadow m-auto rounded-md border-b border-gray-300 hover:bg-gray-50"
   >
-  <div class="card-drag">
     <a href="" class="text-sm">{{ props.task.title }}</a>
     <button
       class="absolute text-red-500 top-1 right-1 w-8 h-8 mt-2 bg-gray-50 place-content-center hidden group-hover:grid rounded-md hover:text-black hover:bg-red-400"
@@ -32,7 +31,6 @@
         />
       </svg>
     </button>
-  </div>
   </li>
 </template>
 <script lang="ts" setup>
@@ -62,9 +60,3 @@ const editTask = (id: string, task: any) => {
   
 }
 </script>
-<style scoped>
-.card-drag {
-  transform: rotate(5deg);
-}
-</style>
- 
