@@ -12,7 +12,7 @@
 </svg>
     </button>
     <button
-    @click="editTask(props.task._id)"
+    @click="editTask(props.task._id, props.task)"
       class="absolute top-1 right-10 m-auto w-8 h-8 mt-2 bg-gray-50 place-content-center hidden group-hover:grid rounded-md text-green-600 hover:text-black hover:bg-green-200"
     >
    
@@ -44,12 +44,19 @@ const props = defineProps({
     required: true,
   },
 });
-const editTask = (id: string) => {
+const editTask = (id: string, task: any) => {
   
   store.selectedTaskId = id
+  
+  
+  store.taskDefault = {
+    title: task.title,
+    description: task.description,
+    status: task.status
+  }
   useLayoutStore.drawerOpen = true
   useLayoutStore.modalContent = "editTask"
-  console.log(store.selectedTaskId);
+  console.log('[task]',store.taskDefault);
   
 }
 </script>

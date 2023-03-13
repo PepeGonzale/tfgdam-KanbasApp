@@ -52,6 +52,11 @@ export interface Status {
     dialogContent: string;
     dialogOpen: boolean;
     selectedTaskId:string;
+    taskDefault: {
+      title: string,
+      description:string,
+      status: Status
+    }
     draftTask: {
       _id: string;
       title: string;
@@ -80,6 +85,15 @@ export const useStore = defineStore("store", {
         selectedTaskId: '',
         dialogContent: '',
         dialogOpen: false,
+        taskDefault: {
+          title: '',
+          description:'' ,
+          status: {
+            _id: '',
+            color:'',
+            title: ''
+          } 
+        },
         draftTask: {
           _id: '',
           title: '',
@@ -152,16 +166,25 @@ export const useStore = defineStore("store", {
           const newTask = await axios.post(`http://localhost:3000/api/boards/task/${this.selectedBoard?._id}`, payload, {headers: {
            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
          }})
-        console.log(newTask)
+         if(newTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
+          this.selectedBoard.tasks = newTask.data.tasks 
+          } 
+        console.log(this.selectedBoard?.tasks)
          return newTask
         },
         async editTask(payload: {title:string,description:string, status: {title:string, _id:any}}){
           
           const token = JSON.parse(localStorage.getItem('user') || "error");
-          console.log(this.selectedTaskId)
+        
           const editTask = await axios.post(`http://localhost:3000/api/boards/task/update/${this.selectedTaskId}`, payload, {headers: {
             Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
           }})
+          if(editTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
+          this.selectedBoard.tasks = editTask.data.tasks 
+          }
+          console.log(this.selectedBoard?.tasks);
+          
+          
           return editTask
         },
         selectBoard(board: Board) {
@@ -184,5 +207,15 @@ export const useStore = defineStore("store", {
             };
             this.selectedBoard = board;
           },
+          loadDraftTask(task: Task) {
+            this.draftTask = {
+              _id: task._id,
+              title: task.title,
+              description: task.description,
+              status: task.status,
+              subtasks: task.subtasks,
+            };
+            console
+          }
     }
 })

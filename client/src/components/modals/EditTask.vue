@@ -36,7 +36,7 @@
               class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black"
               autocomplete="off"
             />
-            <datalist id="cityname">
+            <datalist id="cityname" >
               <option
                 v-for="(column, index) in store.selectedBoard?.column"
                 :key="column._id"
@@ -60,9 +60,9 @@
   import { ref } from "vue";
   const useLayoutStore = layoutStore();
   const store = useStore();
-  const title = ref("");
-  const description = ref("");
-  const column = ref("");
+  const title = ref(store.taskDefault.title);
+  const description = ref(store.taskDefault.description);
+  const column = ref(store.taskDefault.status.title);
   
   const editTask = async () => {
     const payload = {
@@ -74,11 +74,15 @@
     },
     
   };
-  const res = await store.editTask(payload);
+    const res = await store.editTask(payload);
+    const deleteData = res.data.tasks.filter((t: any) => t._id === store.selectedTaskId)
+    
+    
+    
+
         
-  const save = res.data.tasks
-  const last = save[save.length-1]
-  store.selectedBoard?.tasks.push(last)
+  
+
   useLayoutStore.drawerOpen = false
   };
   </script>

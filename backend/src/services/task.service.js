@@ -29,7 +29,7 @@ const editTask = async (taskId, taskData, userId) => {
   if (!board) throw new BadRequestError(`Task ${taskId} not found`);
 
   const task = board.tasks.id(taskId);
-  console.log(task);
+  
   task.set({
     ...taskData,
     subtasks: [],
