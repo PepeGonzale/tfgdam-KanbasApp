@@ -21,7 +21,7 @@ const updateTask = async (req, res) => {
     description,
     status
   }
-  console.log(taskData);
+  
   try {
     const updateTask = await editTask(taskId, taskData, _id);
     res.json(updateTask);

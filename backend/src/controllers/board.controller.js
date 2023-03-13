@@ -14,7 +14,6 @@ const getBoard = async (req, res) => {
 const postBoard = async (req, res) => {
   const { _id } = req.user;
   const { title, description } = req.body;
-  console.log(title, description);
   const payload = {
     title,
     description,

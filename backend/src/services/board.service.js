@@ -1,7 +1,6 @@
 const Board = require('../models/board.model')
 
 const createBoard = async (data) => {
-    
     const board = await Board.create(data)
     return board
 }

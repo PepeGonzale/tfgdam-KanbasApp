@@ -39,6 +39,7 @@ const editTask = async (taskId, taskData, userId) => {
   return board;
 };
 const removeTask = async (userId, taskId) => {
+try {  
   const board = await Board.findOne({
     createdBy: userId,
     'tasks._id': taskId,
@@ -47,11 +48,14 @@ const removeTask = async (userId, taskId) => {
   if (!board) {
     console.error("fail");
   }
-
-  await board.tasks.id(taskId).remove()
+  
+  await board.tasks.id(taskId)
   await board.save();
   return board;
-};
+} catch(err) {
+  console.error(err);
+}
+}
 module.exports = {
   createTask,
   editTask,

@@ -55,8 +55,7 @@ const StatusSchema = new mongoose.Schema({
       },
       description: {
         type: String,
-        minlength: 3,
-        maxlength: 100,
+      
       },
       createdBy: {
         type: mongoose.Schema.Types.ObjectId,
