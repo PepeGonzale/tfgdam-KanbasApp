@@ -18,8 +18,10 @@
     "dotenv": "^16.0.3",
     "pinia": "^2.0.28",
     "vue": "^3.2.45",
+    "vue-draggable-next": "^2.1.1",
     "vue-router": "^4.1.6",
-    "vuedraggable": "^2.24.3"
+    "vue3-draggable": "^2.0.9",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "^18.11.12",

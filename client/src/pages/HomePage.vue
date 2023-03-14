@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col max-h-screen bg-blue-600">
-   <Header/>
+    <Header />
     <main class="flex-1 overflow-hidden">
       <div class="flex flex-col">
         <div class="shrink-0 flex justify-between items-center p-4">
@@ -36,15 +36,7 @@
               </div>
               <div class="px-3 pb-3 flex flex-col overflow-hidden">
                 <div class="flex-1 overflow-y-auto">
-                  <ul class="space-y-3">
-                    <Task
-                      v-for="task in store.selectedBoard?.tasks.filter(
-                        (t) => t.status._id === column._id
-                      )"
-                      :key="task._id"
-                      :task="task"
-                    />
-                  </ul>
+                  <Column :column="column"/>
                 </div>
                 <div class="mt-3">
                   <button
@@ -72,7 +64,6 @@
   <div
     class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] max-w-xs w-11/12 sm:max-w-md"
   >
-   
     <ColumnModal
       v-if="
         useLayoutStore.drawerOpen &&
@@ -85,9 +76,11 @@
       "
       id="modal"
     />
-    <EditTask  v-if="
+    <EditTask
+      v-if="
         useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'editTask'
-      "/>
+      "
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -107,6 +100,8 @@ import { storeToRefs } from "pinia";
 
 import BoardViewVue from "@/components/views/BoardView.vue";
 import EditTask from "@/components/modals/EditTask.vue";
+import Draggable from "vuedraggable";
+import type TaskVue from "@/components/Task.vue";
 
 const auth = authStore();
 
@@ -118,7 +113,9 @@ watch(isLoggedIn, () => {
     auth.logout();
   }
 });
-console.log(store.boards);
+
+
+
 
 const createColumn = () => {
   useLayoutStore.modalContent = "createColumn";
@@ -129,3 +126,20 @@ const createTask = () => {
   useLayoutStore.drawerOpen = true;
 };
 </script>
+<style scoped>
+.draggable-list {
+  background: #3f51b5;
+  color: #fff;
+  border: 1px solid;
+  height: 50vh;
+}
+.list-item {
+  margin: 10px;
+  padding: 40px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 5px;
+  background: #f44336;
+  display: inline-block;
+}
+</style>

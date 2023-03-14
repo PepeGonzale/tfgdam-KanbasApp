@@ -35,6 +35,7 @@ const deleteTask = async (req,res) => {
   const { _id } = req.user;
   try {
     const remove = await removeTask(_id, taskId)
+    res.json(remove)
    } catch(err) {
     console.log(err);
    }

@@ -48,9 +48,10 @@ try {
   if (!board) {
     console.error("fail");
   }
-  
-  await board.tasks.id(taskId)
-  await board.save();
+  const boardId = board._id
+  const deleteTask = await Board.updateOne( { _id: boardId },
+    { $pull: { tasks: { _id: taskId } } })
+ console.log(deleteTask);
   return board;
 } catch(err) {
   console.error(err);

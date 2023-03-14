@@ -4,6 +4,7 @@
   >
     <a href="" class="text-sm">{{ props.task.title }}</a>
     <button
+    @click="deleteTask(props.task._id)"
       class="absolute text-red-500 top-1 right-1 w-8 h-8 mt-2 bg-gray-50 place-content-center hidden group-hover:grid rounded-md hover:text-black hover:bg-red-400"
      
     >
@@ -38,12 +39,13 @@ import { layoutStore } from '@/stores/LayouStore';
 import { useStore } from '@/stores/store';
 const useLayoutStore = layoutStore()
 const store = useStore()
-const props = defineProps({
-  task: {
-    type: Object,
-    required: true,
-  },
-});
+const props = defineProps(['task']);
+const deleteTask = async(id:string) => {
+  store.selectedTaskId = id
+  console.log(id);
+  
+  await store.deleteTask()
+}
 const editTask = (id: string, task: any) => {
   
   store.selectedTaskId = id
@@ -60,3 +62,5 @@ const editTask = (id: string, task: any) => {
   
 }
 </script>
+<style scoped>
+</style>

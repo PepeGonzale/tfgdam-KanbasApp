@@ -187,6 +187,19 @@ export const useStore = defineStore("store", {
           
           return editTask
         },
+        async deleteTask() {
+          const token = JSON.parse(localStorage.getItem('user') || "error");
+        
+          const deleteTask = await axios.post(`http://localhost:3000/api/boards/task/delete/${this.selectedTaskId}`,null, {headers: {
+            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
+          }})
+          console.log(deleteTask);
+          
+          if(deleteTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
+            this.selectedBoard.tasks = deleteTask.data.tasks 
+            }
+          return deleteTask
+        },
         selectBoard(board: Board) {
             this.newTask = {
               title: '',
