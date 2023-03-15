@@ -193,7 +193,7 @@ export const useStore = defineStore("store", {
         console.log(this.selectedBoard?.tasks)
          return newTask
         },
-        async editTask(payload: {title:string,description:string, status: {title:string, _id:any}}){
+        async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any}}}){
           
           const token = JSON.parse(localStorage.getItem('user') || "error");
         

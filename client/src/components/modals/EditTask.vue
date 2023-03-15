@@ -66,14 +66,16 @@
   
   const editTask = async () => {
     const payload = {
+      task: {
     title: title.value,
     description: description.value,
     status: {
-      title: column.value,
+      name: column.value,
       _id: store.selectedBoard?.column.filter((t) => t.name === column.value)[0]._id,
     },
-    
+  }
   };
+  console.log(payload)
     const res = await store.editTask(payload);
     const deleteData = res.data.tasks.filter((t: any) => t._id === store.selectedTaskId)
     
