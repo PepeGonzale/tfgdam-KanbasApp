@@ -137,6 +137,26 @@ export const useStore = defineStore("store", {
             this.boards.push(postBoard.data)
             return postBoard
         },
+        async changeStatus(task: Task, status: Status) {
+          const prevStatus = task.status;
+          task.status = status;
+          try {
+            console.log({task});
+            const token = JSON.parse(localStorage.getItem('user') || "error");
+
+            
+            const data = await axios.post(`http://localhost:3000/api/boards/task/update/${task._id}`, { task },{headers: {
+              Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
+            }});
+            console.log(data);
+            
+            /* this.success('Task saved successfully'); */
+            
+          } catch (error) {
+            console.error(error);
+            task.status = prevStatus;
+          } 
+        },
         async fetchBoards() {
             const token = JSON.parse(localStorage.getItem('user') || "error");
             console.log(token);
@@ -160,8 +180,9 @@ export const useStore = defineStore("store", {
         return newColumn
         
         },
-        async createTask(payload: {title: string, description: string, status: {title: string, _id: any}}) {
+        async createTask(payload: {title: string, description: string, status: {name: string, _id: any}}) {
           const token = JSON.parse(localStorage.getItem('user') || "error");
+          console.log(payload);
           
           const newTask = await axios.post(`http://localhost:3000/api/boards/task/${this.selectedBoard?._id}`, payload, {headers: {
            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token

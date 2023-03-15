@@ -69,7 +69,7 @@ const createTask = () => {
     title: title.value,
     description: description.value,
     status: {
-      title: column.value,
+      name: column.value,
       _id: store.selectedBoard?.column.filter((t) => t.name === column.value)[0]
         ._id,
     },

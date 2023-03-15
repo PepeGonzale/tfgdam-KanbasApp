@@ -6,6 +6,7 @@ const postTask = async (req, res) => {
   const { _id } = req.user;
 
   try {
+    console.log(status);
     const tarea = await createTask(id, title, description, status, _id);
     res.json(tarea);
   } catch (err) {
@@ -14,8 +15,9 @@ const postTask = async (req, res) => {
 };
 const updateTask = async (req, res) => {
   const { taskId } = req.params;
-  const {title, description,status} = req.body;
+  const {title, description,status} = req.body.task;
   const { _id } = req.user;
+  console.log(req.body);
   const taskData = {
     title,
     description,

@@ -43,7 +43,8 @@ const handleDrag = (e:any) => {
   if (e?.added?.element) {
     const task = e?.added.element;
     const newStatus = store.column.find((c) => c._id === props.column._id);
-    console.log(task, newStatus);
+    
+    store.changeStatus(task, newStatus)
   }
 };
 
