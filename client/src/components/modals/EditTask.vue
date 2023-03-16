@@ -78,13 +78,6 @@
   console.log(payload)
     const res = await store.editTask(payload);
     const deleteData = res.data.tasks.filter((t: any) => t._id === store.selectedTaskId)
-    
-    
-    
-
-        
-  
-
   useLayoutStore.drawerOpen = false
   };
   </script>

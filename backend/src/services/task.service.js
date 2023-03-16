@@ -29,7 +29,7 @@ const editTask = async (taskId, taskData, userId) => {
   if (!board) throw new BadRequestError(`Task ${taskId} not found`);
 
   const task = board.tasks.id(taskId);
-  
+
   task.set({
     ...taskData,
     subtasks: [],
@@ -39,24 +39,23 @@ const editTask = async (taskId, taskData, userId) => {
   return board;
 };
 const removeTask = async (userId, taskId) => {
-try {  
-  const board = await Board.findOne({
-    createdBy: userId,
-    'tasks._id': taskId,
-  });
-
-  if (!board) {
-    console.error("fail");
+  try {
+    const board = await Board.findOneAndUpdate(
+      {
+        createdBy: userId,
+        "tasks._id": taskId,
+      },
+      { $pull: { tasks: { _id: taskId } } },
+      { new: true } // Return the updated board
+    );
+    if (!board) {
+      console.error("fail");
+    }
+    return board;
+  } catch (err) {
+    console.error(err);
   }
-  const boardId = board._id
-  const deleteTask = await Board.updateOne( { _id: boardId },
-    { $pull: { tasks: { _id: taskId } } })
- console.log(deleteTask);
-  return board;
-} catch(err) {
-  console.error(err);
-}
-}
+};
 module.exports = {
   createTask,
   editTask,
