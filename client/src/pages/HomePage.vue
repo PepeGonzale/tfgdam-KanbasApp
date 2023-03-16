@@ -43,7 +43,12 @@
                     class="flex items-center p-2 text-sm font-medium text-gray-600 gover:text-black hover:bg-gray-300 rounded-md w-full"
                     @click="createTask"
                   >
-                    add card
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+</svg>
+
+
+                    <span>Add Card</span>
                   </button>
                 </div>
               </div>

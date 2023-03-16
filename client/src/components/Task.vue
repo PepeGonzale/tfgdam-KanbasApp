@@ -2,6 +2,8 @@
   <li
     class="group relative bg-white p-3 shadow m-auto rounded-md border-b border-gray-300 hover:bg-gray-50"
   >
+  <span class="drag-handle text-left cursor-move">⠏ </span>
+
     <a href="" class="text-sm">{{ props.task.title }}</a>
     <button
     @click="deleteTask(props.task._id)"

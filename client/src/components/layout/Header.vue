@@ -2,7 +2,7 @@
  <header class="shrink-0 flex justify-between bg-white px-4 py-3">
       <a class="text-2xl font-black tracking-tight" href="">kanboard</a>
       <nav>
-        <a class="text-sm font-medium px-3 py-2 rounded-md hover:bg-gray-100"
+        <a class="text-sm font-medium px-3 py-2 rounded-md hover:bg-gray-100 hover:cursor-pointer"
         @click="router.push({path:'/boards'})"
           >My boards</a
         >
