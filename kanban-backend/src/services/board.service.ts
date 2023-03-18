@@ -15,6 +15,19 @@ const getBoards = async (id:string): Promise<IBoard[]>  => {
     })
     return getUserBoards
 }
+const boardToUser = async (boardId: string, userId: string) => {
+    /* id del nuevo usuario, id de la board */
+    const boardUser = await Board.findByIdAndUpdate(boardId, {
+        $push: {
+            createdBy: userId
+        }
+    }, {
+        new: true
+    });
+    
+    return boardUser;
+}
+
 const newColumn = async (boardId, name, color, userId) => {
     // Comprobar que exista la tabla con el usuario 
     const board = await Board.findOne({
@@ -38,4 +51,5 @@ export {
     createBoard,
     getBoards,
     newColumn,
+    boardToUser
 }

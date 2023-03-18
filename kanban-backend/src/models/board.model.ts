@@ -60,11 +60,11 @@ const StatusSchema = new mongoose.Schema<Status>({
         type: String,
       
       },
-      createdBy: {
+      createdBy: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
-      },
+      }],
       column: {
         type: [
           {
