@@ -5,6 +5,7 @@ import ResetPasswordVue from "@/pages/ResetPassword.vue"
 import HomePageVue from "@/pages/HomePage.vue"
 import BoardPage from "@/pages/BoardPage.vue"
 import { authStore } from '@/stores/auth/authStore'
+import ProfilePageVue from '@/pages/ProfilePage.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -17,6 +18,11 @@ const router = createRouter({
       path: '/register',
       name: "Register",
       component: RegisterPageVue
+    },
+    {
+      path: '/profile',
+      name: "Profile",
+      component: ProfilePageVue
     },
     {
       path: '/forgot',

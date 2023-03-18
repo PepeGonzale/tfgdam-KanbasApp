@@ -3,6 +3,7 @@ import {
   createColumn,
   postBoard,
   getBoard,
+  
 } from "../controller/board.controller";
 import {
   deleteTask,
@@ -17,6 +18,7 @@ router.post("/column/:id", createColumn);
 router.post("/", postBoard);
 router.post("/task/update/:taskId", updateTask);
 router.post("/task/delete/:taskId", deleteTask);
-router.get("/boards", authMiddleware, getBoard);
+
+router.get("/boards",  getBoard);
 
 export default router;

@@ -1,14 +1,15 @@
 import { IBoard } from "../interface/board.interface"
 import Board from "../models/board.model"
+import UserModel from "../models/user.model"
 
 
-const createBoard = async (data): Promise<IBoard> => {
+const createBoard = async (data) => {
+    const {createdBy} = data
     const board = await Board.create(data)
-    console.log(board);
     
     return board
 }
-const getBoards = async (id:string):Promise<IBoard[]>  => {
+const getBoards = async (id:string): Promise<IBoard[]>  => {
     const getUserBoards = await Board.find({
         createdBy: id
     })
@@ -27,7 +28,9 @@ const newColumn = async (boardId, name, color, userId) => {
     board.column.push({
         name: name.toLowerCase()
         , color})
-    board.save();
+    await board.save()
+    console.log(board);
+    
     return board
 }
 

@@ -48,8 +48,9 @@ const StatusSchema = new mongoose.Schema<Status>({
     { timestamps: true }
   );
   
-  const BoardSchema = new mongoose.Schema<IBoard>(
+  export const BoardSchema = new mongoose.Schema<IBoard>(
     {
+      
       title: {
         type: String,
         required: true,

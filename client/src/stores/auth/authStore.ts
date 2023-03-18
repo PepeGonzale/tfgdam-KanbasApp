@@ -6,10 +6,12 @@ export interface AuthStore {
       email: string | null;
       token: string | null;
     };
+    imageUrl: string,
   }
 export const authStore = defineStore('auth',  {
     state: (): AuthStore => ({
         user: JSON.parse(localStorage.getItem('user') || '{}'),
+        imageUrl: ''
     }), 
     getters: {
         isLoggedIn: (state) => !!state.user.token
@@ -35,6 +37,7 @@ export const authStore = defineStore('auth',  {
                 console.log("Erorraco")
             }
             console.log(data)
+            this.imageUrl = data.updateuser.image
             this.user.email = data.email
             this.user.token = data.token
             localStorage.setItem('user', JSON.stringify(this.user))

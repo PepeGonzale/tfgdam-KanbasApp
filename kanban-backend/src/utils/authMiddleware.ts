@@ -17,6 +17,7 @@ const authMiddleware = async (
     try {
       if (token) {
         const decoded = verifyToken(token);
+
         const user = await UserModel.findById(decoded.userId);
 
         req.user = user;

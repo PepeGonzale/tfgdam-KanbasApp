@@ -17,8 +17,7 @@ const postTask = async (req: AuthRequest, res: Response) => {
     const tarea = await createTask(id, title, description, status, _id);
     res.json(tarea);
   } catch (err) {
-    console.log(err);
-  }
+    throw new Error(err)  }
 };
 const updateTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;
@@ -35,8 +34,7 @@ const updateTask = async (req: AuthRequest, res: Response) => {
     const updateTask = await editTask(taskId, taskData, _id);
     res.json(updateTask);
   } catch (err) {
-    console.log(err);
-  }
+    throw new Error(err)  }
 };
 
 const deleteTask = async (req: AuthRequest, res: Response) => {
@@ -46,7 +44,6 @@ const deleteTask = async (req: AuthRequest, res: Response) => {
     const remove = await removeTask(_id, taskId);
     res.json(remove);
   } catch (err) {
-    console.log(err);
-  }
+    throw new Error(err)  }
 };
 export { postTask, deleteTask, updateTask };
