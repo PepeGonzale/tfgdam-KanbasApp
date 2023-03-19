@@ -116,7 +116,7 @@ export const useStore = defineStore("store", {
       }),  
       getters: {
         taskByColumn: (state) => (column: string) => {
-          state.selectedBoard?.tasks.filter((t) => t.status._id === column)
+          return state.selectedBoard?.tasks.filter((task) => task.status._id === column);
         },
         column: (state) =>
         state.selectedBoard?.column.map((c) => {

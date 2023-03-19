@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { createSubtask } from "../services/task.service";
+import { createSubtask, updateSubtask } from "../services/task.service";
 import { AuthRequest } from "../utils/authMiddleware";
 
 const {
@@ -18,7 +18,8 @@ const postTask = async (req: AuthRequest, res: Response) => {
     const tarea = await createTask(id, title, description, status, _id);
     res.json(tarea);
   } catch (err) {
-    throw new Error(err)  }
+    throw new Error(err);
+  }
 };
 const updateTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;
@@ -35,16 +36,22 @@ const updateTask = async (req: AuthRequest, res: Response) => {
     const updateTask = await editTask(taskId, taskData, _id);
     res.json(updateTask);
   } catch (err) {
-    throw new Error(err)  }
+    throw new Error(err);
+  }
 };
-const postSubstask = async (req:AuthRequest, res: Response) => {
+const postSubstask = async (req: AuthRequest, res: Response) => {
   /* Neceito taskId para identificar la tarea donde se va a asignar las subtareas */
-  const {taskId} = req.params;
-  const {_id} = req.user
-  const subtask = await createSubtask(taskId,_id, req.body)
-  res.json(subtask)
-}
-
+  const { taskId } = req.params;
+  const { _id } = req.user;
+  const subtask = await createSubtask(taskId, _id, req.body);
+  res.json(subtask);
+};
+const editSubtask = async (req: AuthRequest, res: Response) => {
+  const { taskId } = req.params;
+  const { _id } = req.user;
+  const patchSubtask = await updateSubtask(taskId, _id, req.body);
+  res.json(patchSubtask);
+};
 
 const deleteTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;
@@ -53,6 +60,7 @@ const deleteTask = async (req: AuthRequest, res: Response) => {
     const remove = await removeTask(_id, taskId);
     res.json(remove);
   } catch (err) {
-    throw new Error(err)  }
+    throw new Error(err);
+  }
 };
-export { postTask, deleteTask, updateTask, postSubstask };
+export { postTask, deleteTask, updateTask, postSubstask, editSubtask };

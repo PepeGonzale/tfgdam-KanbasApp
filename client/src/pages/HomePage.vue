@@ -26,10 +26,10 @@
             >
               <div class="flex items-center justify-between px-3 py-2">
                 <h3 class="text-sm font-semibold text-gray-700">
-                  {{ column.name }}
+                  {{ column.name.toUpperCase() }}
                 </h3>
                 <button
-                  class="hover:bg-gray-300 w-8 h-8 rounded-md grid place-content-center"
+                  class="hover:bg-gray-300 w-auto p-2 rounded-md grid place-content-center"
                 >
                   Options
                 </button>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="mt-3">
                   <button
-                    class="flex items-center p-2 text-sm font-medium text-gray-600 gover:text-black hover:bg-gray-300 rounded-md w-full"
+                    class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full"
                     @click="createTask"
                   >
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

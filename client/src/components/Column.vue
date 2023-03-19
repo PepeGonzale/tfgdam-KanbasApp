@@ -1,20 +1,18 @@
 <template>
-  <div class="flex gap-6 border text-center bg-gray-100 max-h-full overflow-hidden w-auto">
+  <div class="flex items-center text-center overflow-hidden bg-gray-300 rounded-md">
     <section
       data-dragscroll
-      class="min-w-[250px] last:pr-6 box-content items-center w-80"
+      class="min-w-[260px] last:pr-6 box-content"
     >
-      <div class="flex items-center gap-3 pb-6">
-        
+      <div class="m-1 text-center">
+        Tasks: {{ store.taskByColumn(column._id)?.length }}
       </div>
       <div>
         <Draggable
           class="draggable-list"
           tag="ul"
           :model-value="
-            store.selectedBoard?.tasks.filter(
-              (t) => t.status._id === column._id
-            )
+            store.taskByColumn(column._id)
           "
           @change="handleDrag"
           group="my-group"
@@ -34,7 +32,7 @@ import TaskVue from "./Task.vue";
 import Draggable from "vuedraggable";
 
 const props = defineProps(["column"]);
-
+const store = useStore();
 const handleDrag = (e:any) => {
   if (e?.added?.element) {
     const task = e?.added.element;
@@ -44,11 +42,12 @@ const handleDrag = (e:any) => {
   }
 };
 
-const store = useStore();
+
 </script>
 <style scoped>
 .drag-item {
-  background: paleturquoise;
-  margin: 10px 0;
+  background: #01BAEF;
+  margin: 10px;
+  
 }
 </style>

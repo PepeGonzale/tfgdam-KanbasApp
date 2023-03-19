@@ -1,7 +1,5 @@
-
 import Board from "../models/board.model";
 import { boardToUser } from "./board.service";
-
 
 const createTask = async (boardId, title, description, status, userId) => {
   const checkTask = await Board.findOne({
@@ -40,18 +38,36 @@ const editTask = async (taskId, taskData, userId) => {
   await board.save();
   return board;
 };
-const createSubtask = async (taskId,userId, subtask) => {
-
+const createSubtask = async (taskId, userId, subtask) => {
   const createSubtask = await Board.findOne({
-    createdBy:userId,
-    'tasks._id': taskId
-  })
-  const tasks = createSubtask.tasks.id(taskId)
+    createdBy: userId,
+    "tasks._id": taskId,
+  });
+  const tasks = createSubtask.tasks.id(taskId);
 
-tasks.subtasks.push(subtask)
- await createSubtask.save()
+  tasks.subtasks.push(subtask);
+  await createSubtask.save();
   return createSubtask;
-}
+};
+
+const updateSubtask = async (taskId, userId, subtask) => {
+  const checkTask = await Board.findOne({
+    createdBy: userId,
+    "tasks._id": taskId,
+  });
+  if (!checkTask) throw new Error(`Task ${checkTask} not exist`);
+
+  const task = checkTask.tasks.id(taskId);
+  const locSubtask = task.subtasks.id(subtask._id);
+  /* Comprobar que la subtarea existe en la bbdd */
+  if (!locSubtask) throw new Error(`This subtask not exist, please create`);
+  locSubtask.set(subtask);
+  await checkTask.save();
+  return checkTask;
+};
+const removeSubtask = async () => {
+  return;
+};
 
 const removeTask = async (userId, taskId) => {
   try {
@@ -75,5 +91,7 @@ export {
   createTask,
   editTask,
   removeTask,
-  createSubtask
+  createSubtask,
+  updateSubtask,
+  removeSubtask,
 };
