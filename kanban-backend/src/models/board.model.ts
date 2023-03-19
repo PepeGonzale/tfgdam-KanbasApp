@@ -63,7 +63,7 @@ const StatusSchema = new mongoose.Schema<Status>({
       createdBy: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
+        required: true
       }],
       column: {
         type: [

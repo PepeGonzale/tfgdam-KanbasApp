@@ -8,6 +8,7 @@ import {
 } from "../controller/board.controller";
 import {
   deleteTask,
+  postSubstask,
   postTask,
   updateTask,
 } from "../controller/task.controller";
@@ -15,6 +16,7 @@ import authMiddleware from "../utils/authMiddleware";
 
 const router = Router({ mergeParams: true });
 router.post("/task/:id", postTask);
+router.post("/subtask/:taskId", postSubstask)
 router.post("/column/:id", createColumn);
 router.post("/", postBoard);
 router.post("/asign/:boardId", asignUser)

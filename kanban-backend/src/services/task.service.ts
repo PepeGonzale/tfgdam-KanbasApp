@@ -1,4 +1,6 @@
+
 import Board from "../models/board.model";
+import { boardToUser } from "./board.service";
 
 
 const createTask = async (boardId, title, description, status, userId) => {
@@ -38,6 +40,19 @@ const editTask = async (taskId, taskData, userId) => {
   await board.save();
   return board;
 };
+const createSubtask = async (taskId,userId, subtask) => {
+
+  const createSubtask = await Board.findOne({
+    createdBy:userId,
+    'tasks._id': taskId
+  })
+  const tasks = createSubtask.tasks.id(taskId)
+
+tasks.subtasks.push(subtask)
+ await createSubtask.save()
+  return createSubtask;
+}
+
 const removeTask = async (userId, taskId) => {
   try {
     const board = await Board.findOneAndUpdate(
@@ -60,4 +75,5 @@ export {
   createTask,
   editTask,
   removeTask,
+  createSubtask
 };

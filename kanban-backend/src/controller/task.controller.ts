@@ -1,4 +1,5 @@
 import { Response } from "express";
+import { createSubtask } from "../services/task.service";
 import { AuthRequest } from "../utils/authMiddleware";
 
 const {
@@ -36,6 +37,14 @@ const updateTask = async (req: AuthRequest, res: Response) => {
   } catch (err) {
     throw new Error(err)  }
 };
+const postSubstask = async (req:AuthRequest, res: Response) => {
+  /* Neceito taskId para identificar la tarea donde se va a asignar las subtareas */
+  const {taskId} = req.params;
+  const {_id} = req.user
+  const subtask = await createSubtask(taskId,_id, req.body)
+  res.json(subtask)
+}
+
 
 const deleteTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;
@@ -46,4 +55,4 @@ const deleteTask = async (req: AuthRequest, res: Response) => {
   } catch (err) {
     throw new Error(err)  }
 };
-export { postTask, deleteTask, updateTask };
+export { postTask, deleteTask, updateTask, postSubstask };
