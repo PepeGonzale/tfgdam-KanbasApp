@@ -4,6 +4,7 @@ import {
   postBoard,
   getBoard,
   asignUser,
+  removeColumn,
   
 } from "../controller/board.controller";
 import {
@@ -24,7 +25,7 @@ router.post("/", postBoard);
 router.post("/asign/:boardId", asignUser)
 router.post("/task/update/:taskId", updateTask);
 router.post("/task/delete/:taskId", deleteTask);
-
+router.post("/board/:boardId/column/:columnId", removeColumn)
 router.get("/boards",  getBoard);
 
 export default router;

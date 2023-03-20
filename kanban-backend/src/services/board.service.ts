@@ -46,10 +46,26 @@ const newColumn = async (boardId, name, color, userId) => {
     
     return board
 }
+const deleteColumn = async (boardId, columnId) => {
+    const column = await Board.findOne({_id: boardId})
+    const taskInColumn = column.tasks.filter((t) => {
+        return t.status._id.toString() === column.column.id(columnId)._id.toString()
+       
+    })
+    taskInColumn.map((t) => {
+        return t.deleteOne()
+    })
+     const actualColumn = column.column.id(columnId).deleteOne() 
+    
+    await column.save()
+    
+    return column;
+} 
 
 export {
     createBoard,
     getBoards,
     newColumn,
-    boardToUser
+    boardToUser,
+    deleteColumn
 }

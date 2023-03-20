@@ -30,23 +30,47 @@
                 </h3>
                 <button
                   class="hover:bg-gray-300 w-auto p-2 rounded-md grid place-content-center"
+                  @click="editColumn(column)"
                 >
-                  Options
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="w-6 h-6"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
+                    />
+                  </svg>
                 </button>
               </div>
               <div class="px-3 pb-3 flex flex-col overflow-hidden">
                 <div class="flex-1 overflow-y-auto">
-                  <Column :column="column"/>
+                  <Column :column="column" />
                 </div>
                 <div class="mt-3">
                   <button
                     class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full"
                     @click="createTask"
                   >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
-</svg>
-
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke-width="1.5"
+                      stroke="currentColor"
+                      class="w-6 h-6"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="M12 6v12m6-6H6"
+                      />
+                    </svg>
 
                     <span>Add Card</span>
                   </button>
@@ -86,6 +110,11 @@
         useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'editTask'
       "
     />
+    <EditColumn
+      v-if="
+        useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'editColumn'
+      "
+    />
   </div>
 </template>
 <script lang="ts" setup>
@@ -101,12 +130,13 @@ import Modal from "@/components/modals/Modal.vue";
 import ColumnModal from "@/components/modals/ColumnModal.vue";
 import TaskModal from "@/components/modals/TaskModal.vue";
 import { watch } from "vue";
-import { storeToRefs } from "pinia";
+import { storeToRefs, type Store } from "pinia";
 
 import BoardViewVue from "@/components/views/BoardView.vue";
 import EditTask from "@/components/modals/EditTask.vue";
 import Draggable from "vuedraggable";
 import type TaskVue from "@/components/Task.vue";
+import EditColumn from "@/components/modals/EditColumn.vue";
 
 const auth = authStore();
 
@@ -119,9 +149,12 @@ watch(isLoggedIn, () => {
   }
 });
 
-
-
-
+type Column = {name: string, _id: string, color: string}
+const editColumn = (column: Column) => {
+  useLayoutStore.modalContent = 'editColumn'
+  store.loadDraftColumn(column)
+  useLayoutStore.drawerOpen = true
+}
 const createColumn = () => {
   useLayoutStore.modalContent = "createColumn";
   useLayoutStore.drawerOpen = true;

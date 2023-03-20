@@ -1,5 +1,5 @@
 import { Response } from "express";
-import {  boardToUser, createBoard, getBoards, newColumn } from "../services/board.service";
+import {  boardToUser, createBoard, deleteColumn, getBoards, newColumn } from "../services/board.service";
 import { AuthRequest } from "../utils/authMiddleware";
 import validateMongoDbID from "../utils/validateMongoDbId";
 
@@ -29,7 +29,11 @@ const asignUser = async (req: AuthRequest, res: Response) => {
   const asign = await boardToUser(boardId, userId)
   res.json(asign)
 }
-
+const removeColumn = async (req: AuthRequest, res: Response) => {
+  const {boardId, columnId} = req.params
+  const column = await deleteColumn(boardId, columnId) 
+  res.json(column)
+};
 const createColumn = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
   const { name, color } = req.body;
@@ -44,4 +48,4 @@ const createColumn = async (req: AuthRequest, res: Response) => {
   }
 };
 
-export { getBoard, postBoard, createColumn, asignUser };
+export { getBoard, postBoard, createColumn, asignUser, removeColumn };

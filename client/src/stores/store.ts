@@ -1,5 +1,6 @@
 import axios from "axios";
 import { defineStore } from "pinia";
+
 export interface Status {
     title: string;
     color: string;
@@ -133,7 +134,6 @@ export const useStore = defineStore("store", {
             const postBoard = await axios.post(`http://localhost:3000/api/boards/`, payload, {headers: {
                 Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
               }})
-              console.log(postBoard.data);
             this.boards.push(postBoard.data)
             return postBoard
         },
@@ -148,7 +148,6 @@ export const useStore = defineStore("store", {
             const data = await axios.post(`http://localhost:3000/api/boards/task/update/${task._id}`, { task },{headers: {
               Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
             }});
-            console.log(data);
             
             /* this.success('Task saved successfully'); */
             
@@ -159,7 +158,6 @@ export const useStore = defineStore("store", {
         },
         async fetchBoards() {
             const token = JSON.parse(localStorage.getItem('user') || "error");
-            console.log(token);
             
             const getBoards = await axios.get(`http://localhost:3000/api/boards/boards`, {headers: {
                 Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
@@ -167,7 +165,6 @@ export const useStore = defineStore("store", {
               
               
               this.boards = getBoards.data
-              console.log(this.boards);
               
             
         },
@@ -182,7 +179,6 @@ export const useStore = defineStore("store", {
         },
         async createTask(payload: {title: string, description: string, status: {name: string, _id: any}}) {
           const token = JSON.parse(localStorage.getItem('user') || "error");
-          console.log(payload);
           
           const newTask = await axios.post(`http://localhost:3000/api/boards/task/${this.selectedBoard?._id}`, payload, {headers: {
            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
@@ -190,7 +186,7 @@ export const useStore = defineStore("store", {
          if(newTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
           this.selectedBoard.tasks = newTask.data.tasks 
           } 
-        console.log(this.selectedBoard?.tasks)
+
          return newTask
         },
         async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any}}}){
@@ -203,7 +199,6 @@ export const useStore = defineStore("store", {
           if(editTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
           this.selectedBoard.tasks = editTask.data.tasks 
           }
-          console.log(this.selectedBoard?.tasks);
           
           
           return editTask
@@ -214,13 +209,25 @@ export const useStore = defineStore("store", {
           const deleteTask = await axios.post(`http://localhost:3000/api/boards/task/delete/${this.selectedTaskId}`,null, {headers: {
             Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
           }})
-          console.log(deleteTask);
           
           if(deleteTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
             this.selectedBoard.tasks = deleteTask.data.tasks 
             }
           return deleteTask
         },
+        async deleteColumn (columnId: string) {
+          const token = JSON.parse(localStorage.getItem('user') || "error");
+
+          const response = await axios.post(`http://localhost:3000/api/boards/board/${this.selectedBoard?._id}/column/${columnId}`, null, {headers: {
+            Authorization: 'Bearer ' + token.token
+          }})
+          if (response.data.column && this.selectedBoard?.column !== undefined) {
+            this.selectedBoard.column = response.data.column
+            
+          }
+          
+          
+        }, 
         selectBoard(board: Board) {
             this.newTask = {
               title: '',
@@ -240,6 +247,13 @@ export const useStore = defineStore("store", {
               subtasks: [],
             };
             this.selectedBoard = board;
+          },
+          loadDraftColumn(column: Column) {
+            this.draftColumn = {
+              _id: column._id,
+              name: column.name,
+              color: column.color
+            }
           },
           loadDraftTask(task: Task) {
             this.draftTask = {
