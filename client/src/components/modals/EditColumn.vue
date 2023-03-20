@@ -1,10 +1,7 @@
 <template>
       <div class="modal bg-slate-900 text-white pl-8 rounded-lg">
-    <!-- The button to open modal -->
+    
     <label for="my-modal" class="ml-auto pt-3">open modal</label>
-
-    <!-- Put this part before </body> tag -->
-
     <div class="modal">
       <div class="modal-box">
         <div class="modal-action items-center">
@@ -33,7 +30,7 @@
 
             </button>
           <button class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="useLayoutStore.drawerOpen = false">Cancel</button>
-          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="editTask">Edit Task</button>
+          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="">Edit Task</button>
       </div>
         </div>
       </div>
