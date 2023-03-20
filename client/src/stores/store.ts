@@ -1,3 +1,4 @@
+import { api } from "@/helpers/axios";
 import axios from "axios";
 import { defineStore } from "pinia";
 
@@ -129,11 +130,8 @@ export const useStore = defineStore("store", {
       },
     actions: {
         async createBoard(payload:{title: string, description: string}) {
-            const token = JSON.parse(localStorage.getItem('user') || "error");
            
-            const postBoard = await axios.post(`http://localhost:3000/api/boards/`, payload, {headers: {
-                Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
-              }})
+            const postBoard = await api.post(`/`, payload)
             this.boards.push(postBoard.data)
             return postBoard
         },
