@@ -10,17 +10,19 @@ import {
   
 } from "../services/user.service";
 import { AuthRequest } from "../utils/authMiddleware";
+import { createJwt } from "../utils/createJwt";
 import validateMongoDbID from "../utils/validateMongoDbId";
 
 const register = async (req: Request, res: Response) => {
   const { email, password } = req.body;
-  console.log(req.body);
-
   if (!email || !password) {
     throw new Error("Please rewrite the fields with correct data");
   }
-  const user = await registerUser(email, password);
-  res.send({ status: "OK", user: user });
+  const user = await registerUser({
+    email: email,
+    password: password
+  });
+  res.json(user);
 };
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
@@ -54,7 +56,14 @@ const getUser = async (req: Request, res: Response) => {
   const user = await getIUser(userId);
   res.json(user);
 };
-
+const tokenAuthenticate = async (req:Request, res: Response) => {
+  const user = {
+    _id: "6415e88d2c1995cf4b150ba7",
+    email: "pepille@gmail.com"
+  }
+  const token = await createJwt(user);
+  res.json({token:token})
+}
 const getOneBoard = async (req: AuthRequest, res: Response) => {
   const {_id} = req.user
   const {boardId} = req.params
@@ -69,5 +78,6 @@ export {
   deleteUser,
   updateCUsers,
   getUser,
-  getOneBoard
+  getOneBoard,
+  tokenAuthenticate
 };

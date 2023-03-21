@@ -3,9 +3,9 @@ import UserModel from "../models/user.model";
 import bcrypt from "bcryptjs";
 import { createJwt, createRefreshTOken } from "../utils/createJwt";
 import Board from "../models/board.model";
-const registerUser = async (email, password) => {
+const registerUser = async (data) => {
   try {
-    const saveUser = await UserModel.create({ email, password });
+    const saveUser = await UserModel.create({ email: data.email, password: data.password });
     const token = await createJwt(saveUser);
     return { user: { email: saveUser.email }, token };
   } catch (err) {
