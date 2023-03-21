@@ -40,7 +40,7 @@ const router = createRouter({
       component: BoardPage
     },
   
-  ]
+  ],
 })
 router.beforeEach((to) => {
   const publicPages = ['/login', '/register'];
@@ -54,7 +54,7 @@ router.beforeEach((to) => {
     return '/login';
   }
   if (!authRequired && auth.user.token) {
-    return '/';
+    return '/boards';
   }
 });
 

@@ -1,10 +1,12 @@
 <template>
   <div class="flex flex-col max-h-screen bg-blue-600">
     <Header />
+    
     <main class="flex-1 overflow-hidden">
       <div class="flex flex-col">
         <div class="shrink-0 flex justify-between items-center p-4">
-          <h1 class="text-2xl text-white font-bold">Board title</h1>
+          <h1 class="text-2xl text-white font-bold">Board title : {{ store.selectedBoard?.title }}</h1>
+          
           <div>
             <button
               class="inline-flex items-center bg-white hover:bg.white/20 px-3 py-2 font-medium text-sm text-black rounded-md"
@@ -124,18 +126,13 @@ import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
 import Header from "@/components/layout/Header.vue";
 import Column from "@/components/Column.vue";
-import Task from "@/components/Task.vue";
 import Sidebar from "@/components/layout/Sidebar.vue";
-import Modal from "@/components/modals/Modal.vue";
 import ColumnModal from "@/components/modals/ColumnModal.vue";
 import TaskModal from "@/components/modals/TaskModal.vue";
 import { watch } from "vue";
 import { storeToRefs, type Store } from "pinia";
-
-import BoardViewVue from "@/components/views/BoardView.vue";
 import EditTask from "@/components/modals/EditTask.vue";
-import Draggable from "vuedraggable";
-import type TaskVue from "@/components/Task.vue";
+
 import EditColumn from "@/components/modals/EditColumn.vue";
 
 const auth = authStore();
