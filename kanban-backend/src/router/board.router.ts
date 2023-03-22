@@ -14,7 +14,6 @@ import {
   postTask,
   updateTask,
 } from "../controller/task.controller";
-import authMiddleware from "../utils/authMiddleware";
 
 const router = Router({ mergeParams: true });
 router.post("/task/:id", postTask);

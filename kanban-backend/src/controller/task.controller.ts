@@ -10,12 +10,12 @@ const {
 
 const postTask = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
-  const { title, description, status } = req.body;
+  const task = req.body;
   const { _id } = req.user;
 
   try {
-    console.log(status);
-    const tarea = await createTask(id, title, description, status, _id);
+
+    const tarea = await createTask(id, task, _id);
     res.json(tarea);
   } catch (err) {
     throw new Error(err);

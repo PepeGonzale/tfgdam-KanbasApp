@@ -36,12 +36,12 @@ const removeColumn = async (req: AuthRequest, res: Response) => {
 };
 const createColumn = async (req: AuthRequest, res: Response) => {
   const { id } = req.params;
-  const { name, color } = req.body;
+  const columns = req.body;
   const { _id } = req.user;
-  console.log(name, color);
+  
   try {
-    const column = await newColumn(id, name, color, _id);
-    console.log(name, color);
+    const column = await newColumn(id, columns, _id);
+    
     res.json(column);
   } catch (err) {
     throw new Error(err)

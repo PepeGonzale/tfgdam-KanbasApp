@@ -1,7 +1,7 @@
 import Board from "../models/board.model";
 import { boardToUser } from "./board.service";
 
-const createTask = async (boardId, title, description, status, userId) => {
+const createTask = async (boardId, task, userId) => {
   const checkTask = await Board.findOne({
     _id: boardId,
     createdBy: userId,
@@ -13,9 +13,9 @@ const createTask = async (boardId, title, description, status, userId) => {
     );
 
   checkTask.tasks.push({
-    title: title,
-    description: description,
-    status,
+    title: task.title,
+    description: task.description,
+    status: task.status,
   });
   checkTask.save();
   return checkTask;

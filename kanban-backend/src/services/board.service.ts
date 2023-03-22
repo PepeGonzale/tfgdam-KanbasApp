@@ -28,19 +28,19 @@ const boardToUser = async (boardId: string, userId: string) => {
     return boardUser;
 }
 
-const newColumn = async (boardId, name, color, userId) => {
+const newColumn = async (boardId, columns, userId) => {
     // Comprobar que exista la tabla con el usuario 
     const board = await Board.findOne({
         _id:boardId, 
         createdBy: userId
     })
     if(!board) throw new Error(`This board not exist`)
-    if (board.column.map((e) => e.name.toLowerCase()).includes(name.toLowerCase())) {
+    if (board.column.map((e) => e.name.toLowerCase()).includes(columns.name.toLowerCase())) {
         throw new Error("This column already exist")
     }
     board.column.push({
-        name: name.toLowerCase()
-        , color})
+        name: columns.name.toLowerCase()
+        , color:columns.color})
     await board.save()
     console.log(board);
     
