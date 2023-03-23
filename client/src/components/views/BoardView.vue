@@ -4,6 +4,7 @@
     class="text-black flex cursor-pointer m-8 "
     @click="handleSelectedBoard(board)"
   >
+ 
   <div class="p-8 max-h-24 bg-blue-600 rounded-lg text-white m-auto font-bold">
     <div class="">
     {{ board.title }}

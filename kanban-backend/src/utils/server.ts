@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import authRouter from "../router/user.router"
 import boardRouter from "../router/board.router"
-import authMiddleware from './authMiddleware';
+import {authMiddleware} from './authMiddleware';
 const createServer = () => {
 const app = express();
 app.use(express.json())

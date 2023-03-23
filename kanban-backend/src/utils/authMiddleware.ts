@@ -30,4 +30,14 @@ const authMiddleware = async (
     throw new Error("There is no token atached to the header");
   }
 };
-export default authMiddleware;
+const isAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  const {email} = req.user;
+  const adminUser = await UserModel.findOne({
+    email: email
+  });
+  if (adminUser.email !== "admin") throw new Error("You are not an admin")
+  else {
+    next()
+  }
+}
+export { authMiddleware, isAdmin};

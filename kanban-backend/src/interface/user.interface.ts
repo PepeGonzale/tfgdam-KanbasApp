@@ -9,6 +9,7 @@ export interface User {
     _id: string,
     email: string,
     refreshToken: string,
+    role: string;
     image: string,
     password: string, 
     dateSignUp: Date

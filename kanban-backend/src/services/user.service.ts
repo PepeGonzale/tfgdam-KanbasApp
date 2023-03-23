@@ -5,7 +5,7 @@ import { createJwt, createRefreshTOken } from "../utils/createJwt";
 import Board from "../models/board.model";
 const registerUser = async (data) => {
   try {
-    const saveUser = await UserModel.create({ email: data.email, password: data.password });
+    const saveUser = await UserModel.create({ email: data.email, password: data.password, role: data.role });
     const token = await createJwt(saveUser);
     return { user: { email: saveUser.email }, token };
   } catch (err) {
@@ -56,8 +56,12 @@ const searchByBoardId = async (userId, boardId) => {
   })
   return searchByBoard
 }
-const getIUser = async (id: string) => {
-  const search = await UserModel.findById(id);
+const getIUser = async (email: any) => {
+  
+  const search = await UserModel.find({
+    email
+  }).exec()
+  console.log(search)
   return search;
 };
 const deleteUserId = async (id: string) => {

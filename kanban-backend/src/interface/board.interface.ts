@@ -23,7 +23,8 @@ export interface Task {
 export interface IBoard {
     title: string,
     description: string,
-    createdBy: [],
+    createdBy: mongoose.Types.ObjectId,
+    usersWithAccess: [mongoose.Types.ObjectId]
     column: mongoose.Types.DocumentArray<Status>,
     tasks: mongoose.Types.DocumentArray<Task>
 }

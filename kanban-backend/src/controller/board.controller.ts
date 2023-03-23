@@ -18,6 +18,7 @@ const postBoard = async (req: AuthRequest, res: Response) => {
     title,
     description,
     createdBy: _id,
+    usersWithAccess: [_id]
   };
   const newBoard = await createBoard(payload)
   
@@ -27,6 +28,7 @@ const asignUser = async (req: AuthRequest, res: Response) => {
   const {boardId} = req.params
   const {userId} = req.body;
   const asign = await boardToUser(boardId, userId)
+  
   res.json(asign)
 }
 const removeColumn = async (req: AuthRequest, res: Response) => {

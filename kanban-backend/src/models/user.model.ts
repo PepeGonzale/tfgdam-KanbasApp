@@ -23,6 +23,11 @@ const userSchema = new mongoose.Schema<User>({
      type: String,
      default: "https://imgs.search.brave.com/jWyn9gi5EKahMq2igHEESBuW59uePq6GwLXCBz-aCK0/rs:fit:820:860:1/g:ce/aHR0cHM6Ly9pMS53/cC5jb20vd2lsY2l0/eS5jb20vd3AtY29u/dGVudC91cGxvYWRz/LzIwMjAvMDYvMTE1/LTExNTAxNTJfZGVm/YXVsdC1wcm9maWxl/LXBpY3R1cmUtYXZh/dGFyLXBuZy1ncmVl/bi5qcGc_Zml0PTgy/MCUyQzg2MCZzc2w9/MQ"
     },
+    role:{
+      type: String,
+      default: "guest",
+      enum:['admin', 'developer', 'maintainer', 'guest' ],
+    },
     refreshToken: {
       type: String,
     },

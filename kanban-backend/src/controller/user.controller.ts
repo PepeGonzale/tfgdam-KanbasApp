@@ -14,13 +14,14 @@ import { createJwt } from "../utils/createJwt";
 import validateMongoDbID from "../utils/validateMongoDbId";
 
 const register = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
   if (!email || !password) {
     throw new Error("Please rewrite the fields with correct data");
   }
   const user = await registerUser({
     email: email,
-    password: password
+    password: password,
+    role: role
   });
   res.json(user);
 };
@@ -52,10 +53,16 @@ const deleteUser = async (req: Request, res: Response) => {
   res.json(deleteUsers);
 };
 const getUser = async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  const user = await getIUser(userId);
-  res.json(user);
+  const email = req.query['email']
+  console.log("Email", email);
+  if (typeof email !== "string") throw new Error("Not found")
+  else{
+    const regex = new RegExp(email, 'i'); // case-insensitive regular expression
+    const usersWithEmail = await getIUser(regex);
+    res.json(usersWithEmail);
+  }
 };
+
 const tokenAuthenticate = async (req:Request, res: Response) => {
   const user = {
     _id: "6415e88d2c1995cf4b150ba7",

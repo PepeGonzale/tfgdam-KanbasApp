@@ -11,15 +11,21 @@ const createBoard = async (data) => {
 }
 const getBoards = async (id:string): Promise<IBoard[]>  => {
     const getUserBoards = await Board.find({
-        createdBy: id
+        $or: [
+            { createdBy: id },
+            { usersWithAccess: { $in: [id] } }
+          ]
     })
+    
+    console.log(getUserBoards);
+    
     return getUserBoards
 }
 const boardToUser = async (boardId: string, userId: string) => {
     /* id del nuevo usuario, id de la board */
     const boardUser = await Board.findByIdAndUpdate(boardId, {
         $push: {
-            createdBy: userId
+            usersWithAccess: userId
         }
     }, {
         new: true

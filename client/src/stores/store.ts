@@ -147,6 +147,7 @@ export const useStore = defineStore("store", {
             this.boards.push(postBoard.data)
             return postBoard
         },
+        
         async changeStatus(task: Task, status: Status) {
           const prevStatus = task.status;
           task.status = status;

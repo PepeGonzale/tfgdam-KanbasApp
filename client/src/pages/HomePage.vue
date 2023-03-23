@@ -10,8 +10,9 @@
           <div>
             <button
               class="inline-flex items-center bg-white hover:bg.white/20 px-3 py-2 font-medium text-sm text-black rounded-md"
+              @click="listUsers"
             >
-              Settings
+              Add Users
             </button>
           </div>
         </div>
@@ -117,6 +118,9 @@
         useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'editColumn'
       "
     />
+    <AddUsers v-if="
+        useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'addUsers'
+      "/>
   </div>
 </template>
 <script lang="ts" setup>
@@ -124,6 +128,7 @@ import { onMounted } from "vue";
 import { authStore } from "@/stores/auth/authStore";
 import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
+import AddUsers from "@/components/modals/AddUsers.vue"
 import Header from "@/components/layout/Header.vue";
 import Column from "@/components/Column.vue";
 import Sidebar from "@/components/layout/Sidebar.vue";
@@ -147,6 +152,13 @@ watch(isLoggedIn, () => {
 });
 
 type Column = {name: string, _id: string, color: string}
+
+const listUsers = () => {
+  useLayoutStore.drawerOpen = true
+  useLayoutStore.modalContent = 'addUsers'
+  auth.listUsers()
+}
+
 const editColumn = (column: Column) => {
   useLayoutStore.modalContent = 'editColumn'
   store.loadDraftColumn(column)
