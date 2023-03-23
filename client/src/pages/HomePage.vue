@@ -5,7 +5,7 @@
     <main class="flex-1 overflow-hidden">
       <div class="flex flex-col">
         <div class="shrink-0 flex justify-between items-center p-4">
-          <h1 class="text-2xl text-white font-bold">Board title : {{ store.selectedBoard?.title }}</h1>
+          <h1 class="text-2xl text-white font-bold">Project Name : {{ store.selectedBoard?.title }}</h1>
           
           <div>
             <button
@@ -18,7 +18,7 @@
         <div class="flex-1 overflow-x-auto">
           <div class="inline-flex items-start h-full px-4 pb-4 space-x-4">
             <div
-              class="w-72 bg-gray-200 flex h-129 flex-col rounded-md"
+              class="w-80 bg-gray-200 flex h-129 flex-col rounded-md"
               :class="
                 store.selectedBoard?.column?.length || 0 >= 6
                   ? 'h-128'

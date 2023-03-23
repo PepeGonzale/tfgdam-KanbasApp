@@ -44,6 +44,18 @@
               />
             </datalist>
           </div>
+          <div class="m-4 items-center">
+            Comments: <button class="text-blue-600 underline" @click="leaveComment">Leave a comment</button>
+            <div v-if="useLayoutStore.commentInput">
+              <input
+              v-model="commentt"
+              type="text"
+              class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black"
+              
+            />
+            <button @click="commentUpload" class="bg-blue-600">Reply</button>
+            </div>
+          </div>
           <div class="flex">
           <button class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="useLayoutStore.drawerOpen = false">Cancel</button>
           <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="editTask">Edit Task</button>
@@ -62,8 +74,8 @@
   const store = useStore();
   const title = ref(store.taskDefault.title);
   const description = ref(store.taskDefault.description);
-  const column = ref(store.taskDefault.status.title);
-  
+  const column = ref(store.taskDefault.status.name);
+  const commentt = ref(store.taskDefault.comments.title)
   const editTask = async () => {
     const payload = {
       task: {
@@ -71,14 +83,26 @@
     description: description.value,
     status: {
       name: column.value,
-      _id: store.selectedBoard?.column.filter((t) => t.name === column.value)[0]._id,
+      _id: store.selectedBoard?.column.filter((t) => t._id === store.taskDefault.status._id)[0]._id,
     },
   }
   };
-  console.log(payload)
     const res = await store.editTask(payload);
     const deleteData = res.data.tasks.filter((t: any) => t._id === store.selectedTaskId)
   useLayoutStore.drawerOpen = false
+  console.log(commentt.value)
+
   };
+  const leaveComment = () => {
+    useLayoutStore.commentInput = !useLayoutStore.commentInput;
+    
+  }
+  const commentUpload = async () => {
+    console.log(commentt.value)
+    const payload= {
+      comment: commentt.value
+    }
+    await store.updateComment(payload)
+  }
   </script>
   

@@ -36,11 +36,10 @@ export const authStore = defineStore('auth',  {
             if (data.message === 'Network Error') {
                 console.log("Erorraco")
             }
-            console.log(data)
             this.imageUrl = data.updateuser.image
             this.user.email = data.email
             this.user.token = data.token
-            localStorage.setItem('user', JSON.stringify(this.user))
+            localStorage.setItem('user', JSON.stringify(this.user));
             router.push("/")
         },
         logout() {

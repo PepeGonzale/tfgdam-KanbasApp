@@ -12,6 +12,7 @@ import {
   editSubtask,
   postSubstask,
   postTask,
+  sendComment,
   updateTask,
 } from "../controller/task.controller";
 
@@ -22,6 +23,7 @@ router.post("/edit/subtask/:taskId", editSubtask)
 router.post("/column/:id", createColumn);
 router.post("/", postBoard);
 router.post("/asign/:boardId", asignUser)
+router.post("/task/update/comment/:taskId", sendComment);
 router.post("/task/update/:taskId", updateTask);
 router.post("/task/delete/:taskId", deleteTask);
 router.post("/board/:boardId/column/:columnId", removeColumn)

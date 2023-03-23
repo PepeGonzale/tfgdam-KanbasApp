@@ -7,7 +7,8 @@ export const layoutStore = defineStore("layout", {
         open: false,
         modalContent: '',
         drawerOpen: false,
-        sidebar:false
+        sidebar:false,
+        commentInput: false
         
     }),
     actions: {

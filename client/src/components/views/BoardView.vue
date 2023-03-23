@@ -32,7 +32,6 @@ const router = useRouter()
 const useLayoutStore = layoutStore();
 const handleSelectedBoard = (board: any) => {
   store.selectBoard(board);
-  console.log(board.column);
   router.push({path: "/"})
 };
 const createBoard = () => {

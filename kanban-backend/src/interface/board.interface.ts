@@ -8,9 +8,14 @@ export interface SubTask {
     title: string,
     completed: boolean
 }
+export interface IComment {
+    commentBy: import('mongoose').Types.ObjectId,
+    comment: string,
+}
 export interface Task {
     title: string,
     description: string,
+    comments: mongoose.Types.DocumentArray<IComment>
     subtasks: mongoose.Types.DocumentArray<SubTask>,
     status: Status
 }

@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { createSubtask, updateSubtask } from "../services/task.service";
+import { createSubtask, updateComments, updateSubtask } from "../services/task.service";
 import { AuthRequest } from "../utils/authMiddleware";
 
 const {
@@ -20,6 +20,14 @@ const postTask = async (req: AuthRequest, res: Response) => {
   } catch (err) {
     throw new Error(err);
   }
+};
+const sendComment = async (req: AuthRequest, res: Response) => {
+  const { taskId } = req.params; 
+  const {_id} = req.user;
+  const {comment} = req.body;
+  console.log(req.body)
+  const postComment = await updateComments(taskId, _id, comment)
+  res.json(postComment)
 };
 const updateTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;
@@ -63,4 +71,4 @@ const deleteTask = async (req: AuthRequest, res: Response) => {
     throw new Error(err);
   }
 };
-export { postTask, deleteTask, updateTask, postSubstask, editSubtask };
+export { postTask, deleteTask, updateTask, postSubstask, editSubtask, sendComment };

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { Task, SubTask, Status, IBoard } from "../interface/board.interface";
+import { Task, SubTask, Status, IBoard, IComment } from "../interface/board.interface";
 
 
 
@@ -27,7 +27,18 @@ const StatusSchema = new mongoose.Schema<Status>({
     },
     { timestamps: true }
   );
-  
+  const CommentSchema = new mongoose.Schema<IComment>({
+    commentBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+    comment: {
+      type: String,
+      unique: true
+    }
+  }, {
+    timestamps: true
+  })
   const TaskSchema = new mongoose.Schema<Task>(
     {
       title: {
@@ -40,6 +51,7 @@ const StatusSchema = new mongoose.Schema<Status>({
       subtasks: {
         type: [SubtaskSchema],
       },
+      comments: [CommentSchema],
       status: {
         type: StatusSchema,
         required: true,

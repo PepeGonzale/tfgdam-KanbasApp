@@ -68,7 +68,21 @@ const updateSubtask = async (taskId, userId, subtask) => {
 const removeSubtask = async () => {
   return;
 };
+const updateComments = async (taskId, userId, comment) => {
+  const createComment = await Board.findOne({
+    createdBy: userId,
+    "tasks._id": taskId
+  });
+  // Tarea que queremos subir el comentario
+  const task = createComment.tasks.id(taskId);
+  await task.comments.push({
+    comment: comment,
+    commentBy: userId
+  })
+  await createComment.save();
 
+  return createComment.populate("tasks.comments.commentBy");
+}
 const removeTask = async (userId, taskId) => {
   try {
     const board = await Board.findOneAndUpdate(
@@ -94,4 +108,5 @@ export {
   createSubtask,
   updateSubtask,
   removeSubtask,
+  updateComments
 };

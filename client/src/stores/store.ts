@@ -57,7 +57,15 @@ export interface Status {
     taskDefault: {
       title: string,
       description:string,
-      status: Status
+      status: {
+        _id: '',
+        color:'',
+        name: ''
+      },
+      comments: {
+        title: '',
+        _id:''
+      }
     }
     draftTask: {
       _id: string;
@@ -93,8 +101,12 @@ export const useStore = defineStore("store", {
           status: {
             _id: '',
             color:'',
+            name: ''
+          },
+          comments:  {
+            _id: '',
             title: ''
-          } 
+          }
         },
         draftTask: {
           _id: '',
@@ -187,7 +199,7 @@ export const useStore = defineStore("store", {
 
          return newTask
         },
-        async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any}}}){
+        async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any}, comments?: {comment: string}}}){
           
           const token = JSON.parse(localStorage.getItem('user') || "error");
         
@@ -200,6 +212,10 @@ export const useStore = defineStore("store", {
           
           
           return editTask
+        },
+        async updateComment(payload: {comment: string}) {
+          const updateComment = api.post(`/task/update/comment/${this.selectedTaskId}`, payload);
+          console.log(updateComment)
         },
         async deleteTask() {
           const token = JSON.parse(localStorage.getItem('user') || "error");
@@ -261,7 +277,7 @@ export const useStore = defineStore("store", {
               status: task.status,
               subtasks: task.subtasks,
             };
-            console
+            
           }
     }
 })

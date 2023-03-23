@@ -1,10 +1,17 @@
 <template>
   <li
-    class="group relative bg-white p-3 items-center shadow-md rounded-md border-b border-gray-300 hover:bg-gray-50"
+    class="group gap-4 relative flex flex-col bg-white p-3 items-center shadow-lg transition-shadow duration-300 hover:shadow-xl rounded-md border-b border-gray-300 hover:bg-gray-50 hover:cursor-pointer"
+    @click="editTask(props.task._id, props.task)"
   >
-  <span class="drag-handle text-left cursor-move">⠏ </span>
+  
 
-    <a href="" class="text-sm">{{ props.task.title }}</a>
+    <a class="text-sm"><span class="drag-handle text-left cursor-move">⠏ </span>{{ props.task.title }}</a>
+    <div class="text-sm">
+      Created: {{props.task.createdAt}}
+    </div>
+    <div class="text-sm">
+      <CommentTask :task="task"/>
+    </div>
     <button
     @click="deleteTask(props.task._id)"
       class="absolute text-red-500 top-1 right-1 w-8 h-8 mt-2 bg-gray-50 place-content-center hidden group-hover:grid rounded-md hover:text-black hover:bg-red-400"
@@ -39,6 +46,7 @@
 <script lang="ts" setup>
 import { layoutStore } from '@/stores/LayouStore';
 import { useStore } from '@/stores/store';
+import CommentTask from './task/CommentTask.vue';
 const useLayoutStore = layoutStore()
 const store = useStore()
 const props = defineProps(['task']);
@@ -56,7 +64,8 @@ const editTask = (id: string, task: any) => {
   store.taskDefault = {
     title: task.title,
     description: task.description,
-    status: task.status
+    status: task.status,
+    comments: task.comments
   }
   useLayoutStore.drawerOpen = true
   useLayoutStore.modalContent = "editTask"
