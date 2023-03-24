@@ -6,7 +6,7 @@ const createTask = async (boardId, task, userId) => {
     _id: boardId,
     createdBy: userId,
   });
-console.log(checkTask);
+console.log(task);
 
   if (!checkTask)
     throw new Error(
@@ -17,7 +17,8 @@ console.log(checkTask);
     title: task.title,
     description: task.description,
     status: task.status,
-    taskNum: checkTask.tasks.length + 1
+    taskNum: checkTask.tasks.length + 1,
+    priority: task.priority
   });
   checkTask.save();
   return checkTask;

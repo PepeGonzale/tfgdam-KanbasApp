@@ -31,13 +31,14 @@ const sendComment = async (req: AuthRequest, res: Response) => {
 };
 const updateTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;
-  const { title, description, status } = req.body.task;
+  const { title, description, status, priority } = req.body.task;
   const { _id } = req.user;
   console.log(req.body);
   const taskData = {
     title,
     description,
     status,
+    priority
   };
 
   try {

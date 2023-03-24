@@ -58,7 +58,8 @@ const StatusSchema = new mongoose.Schema<Status>({
       },
       priority: {
         type: String,
-        enum: ["High", "Medium", "Low"]
+        enum: ["","High", "Medium", "Low"],
+        default: "",
       },
       comments: [CommentSchema],
       status: {
