@@ -49,7 +49,7 @@ export interface Status {
   }
   
   export interface Store {
-    
+
     boards: Board[];
     dialogContent: string;
     dialogOpen: boolean;
@@ -62,6 +62,7 @@ export interface Status {
         color:'',
         name: ''
       },
+      priority: '',
       comments: {
         title: '',
         _id:''
@@ -103,6 +104,7 @@ export const useStore = defineStore("store", {
             color:'',
             name: ''
           },
+          priority: '',
           comments:  {
             _id: '',
             title: ''
@@ -188,7 +190,7 @@ export const useStore = defineStore("store", {
         return newColumn
         
         },
-        async createTask(payload: {title: string, description: string, status: {name: string, _id: any}}) {
+        async createTask(payload: {title: string, description: string, status: {name: string, _id: any}, priority: string}) {
           const token = JSON.parse(localStorage.getItem('user') || "error");
           
           const newTask = await axios.post(`http://localhost:3000/api/boards/task/${this.selectedBoard?._id}`, payload, {headers: {

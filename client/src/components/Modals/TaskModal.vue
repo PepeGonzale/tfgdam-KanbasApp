@@ -24,20 +24,19 @@
           <div>
             <label class="text-gray-500 block sm:inline">Priority: </label>
             <input
-              v-model="column"
+              v-model="priority"
               type="text"
-              name="city"
-              list="cityname"
+              name="priority"
+              list="prioritys"
               class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black"
               autocomplete="off"
             />
-            <datalist id="cityname">
-              <option
-                v-for="(column, index) in store.selectedBoard?.column"
-                :key="column._id"
-                :value="column.name"
-              />
-            </datalist>
+            <datalist id="prioritys" placeholder="">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+
+              </datalist>
           </div>
           <div class="mt-8 sm:mt-0 sm:ml-12">
             <label class="text-gray-500 block sm:inline">Select a column: </label>
@@ -102,6 +101,8 @@ import { ref } from "vue";
 const useLayoutStore = layoutStore();
 const store = useStore();
 const commentt = ref('')
+const priority = ref(store.taskDefault.priority)
+
 const title =ref('');
   const description = ref('');
   const column = ref('');
@@ -109,7 +110,7 @@ const check = () => {
   console.log(description.value, column.value)
   console.log(store.taskDefault.status)
 }
-const createTask = () => {
+const createTask =async () => {
   const payload = {
     title: title.value,
     description: description.value,
@@ -117,10 +118,10 @@ const createTask = () => {
       name: column.value,
       _id: store.selectedBoard?.column.filter((t) => t.name === column.value)[0]
         ._id,
-        
     },
+    priority: priority.value
   };
-   const res = store.createTask(payload);
+   const res = await store.createTask(payload);
    useLayoutStore.drawerOpen = false
 };
   const leaveComment = () => {

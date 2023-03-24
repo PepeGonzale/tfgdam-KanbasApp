@@ -24,19 +24,18 @@
             <div>
               <label class="text-gray-500 block sm:inline">Priority: </label>
               <input
-                v-model="column"
+                v-model="priority"
                 type="text"
-                name="city"
-                list="cityname"
+                name="priority"
+                list="prioritys"
                 class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black"
                 autocomplete="off"
               />
-              <datalist id="cityname">
-                <option
-                  v-for="(column, index) in store.selectedBoard?.column"
-                  :key="column._id"
-                  :value="column.name"
-                />
+              <datalist id="prioritys" placeholder="">
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+
               </datalist>
             </div>
             <div class="mt-8 sm:mt-0 sm:ml-12">
@@ -50,7 +49,7 @@
                 class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black hover:cursor-pointer" 
                 autocomplete="off"
               />
-              <datalist id="column">
+              <datalist id="column" class="mr-1 py-1 px-1 border-r-1">
                 <option
                 class="hover:cursor-pointer"
                   v-for="(column, index) in store.selectedBoard?.column"
@@ -102,6 +101,7 @@
   const useLayoutStore = layoutStore();
   const store = useStore();
   const commentt = ref(store.taskDefault.comments.title)
+  const priority = ref(store.taskDefault.priority)
   const title = ref(store.taskDefault.title);
     const description = ref(store.taskDefault.description);
     const column = ref(store.taskDefault.status.name);
@@ -110,6 +110,7 @@
     console.log(store.taskDefault.status)
   }
   const createTask = () => {
+    console.log(priority.value)
     const payload = {
       title: title.value,
       description: description.value,

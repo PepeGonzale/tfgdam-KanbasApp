@@ -6,8 +6,8 @@
   
 
     <a class="text-sm"><span class="drag-handle text-left cursor-move">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
-    <div class="text-sm">
-      Created: {{props.task.createdAt.substring(0,10)}}
+    <div class="text-sm" :class="task.priority === 'high' ? 'bg-red-900': 'bg-blue-900'">
+      Priority: {{ task.priority }}
     </div>
     <div class="text-sm">
       <CommentTask :task="task"/>
@@ -65,7 +65,8 @@ const editTask = (id: string, task: any) => {
     title: task.title,
     description: task.description,
     status: task.status,
-    comments: task.comments
+    comments: task.comments,
+    priority: task.priority
   }
   useLayoutStore.drawerOpen = true
   useLayoutStore.modalContent = "editTask"
