@@ -1,7 +1,7 @@
 <template>
     <div v-for="c in props.task.comments">
         <div>
-            CreatedBy: {{  }}
+            CreatedBy: {{ c.commentBy }}
         </div>
     {{ c.comment }}
     </div>

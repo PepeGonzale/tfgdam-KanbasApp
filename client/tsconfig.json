@@ -1,6 +1,6 @@
 {
   "extends": "@vue/tsconfig/tsconfig.web.json",
-  "include": [".env", "src/**/*", "src/**/*.vue", "__tests__/*.ts"],
+  "include": [".env", "src/**/*", "src/**/*.vue", "src/**/*/*.vue","__tests__/*.ts"],
   "compilerOptions": {
     "baseUrl": ".",
     "types": ["vite/client", "jest"],

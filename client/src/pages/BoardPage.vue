@@ -21,9 +21,9 @@
 </div>
 </template>
 <script lang="ts" setup>
-import Header from '@/components/layout/Header.vue';
-import Modal from '@/components/modals/Modal.vue';
-import BoardView from '@/components/views/BoardView.vue';
+import Header from '../components/Layout/Header.vue';
+import Modal from '@/components/Modals/Modal.vue';
+import BoardView from '@/components/Views/BoardView.vue';
 import { layoutStore } from '@/stores/LayouStore';
 import { useStore } from '@/stores/store';
 import { onMounted } from 'vue';

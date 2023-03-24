@@ -28,7 +28,7 @@
 </template>
 <script lang="ts" setup>
 import { useStore } from "@/stores/store";
-import TaskVue from "./Task.vue";
+import TaskVue from "../Task/Task.vue";
 import Draggable from "vuedraggable";
 
 const props = defineProps(["column"]);

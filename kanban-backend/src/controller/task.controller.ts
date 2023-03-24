@@ -25,7 +25,7 @@ const sendComment = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params; 
   const {_id} = req.user;
   const {comment} = req.body;
-  console.log(req.body)
+  
   const postComment = await updateComments(taskId, _id, comment)
   res.json(postComment)
 };

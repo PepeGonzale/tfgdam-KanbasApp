@@ -91,10 +91,14 @@
           </div>
         </div>
       </div>
+         
     </main>
+ 
   </div>
+  <div class="top-0 bottom-0 left-0 right-0 fixed modal overflow-auto z-index-40" v-if="useLayoutStore.drawerOpen">
+    <div class="p-1.5 my-10 mx-auto outline-none shadow-xl w-4/6">
   <div
-    class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] max-w-xs w-11/12 sm:max-w-md"
+    class=""
   >
     <ColumnModal
       v-if="
@@ -122,23 +126,25 @@
         useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'addUsers'
       "/>
   </div>
+</div>
+</div>
 </template>
 <script lang="ts" setup>
 import { onMounted } from "vue";
 import { authStore } from "@/stores/auth/authStore";
 import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
-import AddUsers from "@/components/modals/AddUsers.vue"
-import Header from "@/components/layout/Header.vue";
-import Column from "@/components/Column.vue";
-import Sidebar from "@/components/layout/Sidebar.vue";
-import ColumnModal from "@/components/modals/ColumnModal.vue";
-import TaskModal from "@/components/modals/TaskModal.vue";
+import AddUsers from "@/components/Modals/AddUsers.vue"
+import Header from "@/components/Layout/Header.vue";
+import Column from "@/components/Column/Column.vue";
+import Sidebar from "@/components/Layout/Sidebar.vue";
+import ColumnModal from "@/components/Modals/ColumnModal.vue";
+import TaskModal from "@/components/Modals/TaskModal.vue";
 import { watch } from "vue";
 import { storeToRefs, type Store } from "pinia";
-import EditTask from "@/components/modals/EditTask.vue";
+import EditTask from "@/components/Modals/EditTask.vue";
 
-import EditColumn from "@/components/modals/EditColumn.vue";
+import EditColumn from "@/components/Modals/EditColumn.vue";
 
 const auth = authStore();
 
@@ -188,5 +194,8 @@ const createTask = () => {
   border-radius: 5px;
   background: #f44336;
   display: inline-block;
+}
+.modal {
+  background: rgba(0,0,0,.33);
 }
 </style>

@@ -5,9 +5,9 @@
   >
   
 
-    <a class="text-sm"><span class="drag-handle text-left cursor-move">⠏ </span>{{ props.task.title }}</a>
+    <a class="text-sm"><span class="drag-handle text-left cursor-move">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
     <div class="text-sm">
-      Created: {{props.task.createdAt}}
+      Created: {{props.task.createdAt.substring(0,10)}}
     </div>
     <div class="text-sm">
       <CommentTask :task="task"/>
@@ -46,7 +46,7 @@
 <script lang="ts" setup>
 import { layoutStore } from '@/stores/LayouStore';
 import { useStore } from '@/stores/store';
-import CommentTask from './task/CommentTask.vue';
+import CommentTask from './CommentTask.vue';
 const useLayoutStore = layoutStore()
 const store = useStore()
 const props = defineProps(['task']);

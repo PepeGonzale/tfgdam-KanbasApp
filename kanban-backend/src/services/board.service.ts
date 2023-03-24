@@ -5,8 +5,9 @@ import UserModel from "../models/user.model"
 
 const createBoard = async (data) => {
     const {createdBy} = data
-    const board = await Board.create(data)
-    
+    console.log(data)
+    const board = new Board(data)
+    await board.save()
     return board
 }
 const getBoards = async (id:string): Promise<IBoard[]>  => {

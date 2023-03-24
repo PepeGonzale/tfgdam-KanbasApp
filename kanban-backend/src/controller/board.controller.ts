@@ -14,11 +14,12 @@ const getBoard = async (req: AuthRequest, res: Response) => {
 const postBoard = async (req: AuthRequest, res: Response) => {
   const { _id } = req.user;
   const { title, description } = req.body;
+  console.log('hola')
   const payload = {
     title,
     description,
     createdBy: _id,
-    usersWithAccess: [_id]
+    usersWithAccess: [_id],
   };
   const newBoard = await createBoard(payload)
   

@@ -6,6 +6,7 @@ const createTask = async (boardId, task, userId) => {
     _id: boardId,
     createdBy: userId,
   });
+console.log(checkTask);
 
   if (!checkTask)
     throw new Error(
@@ -16,6 +17,7 @@ const createTask = async (boardId, task, userId) => {
     title: task.title,
     description: task.description,
     status: task.status,
+    taskNum: checkTask.tasks.length + 1
   });
   checkTask.save();
   return checkTask;
@@ -73,16 +75,23 @@ const updateComments = async (taskId, userId, comment) => {
     createdBy: userId,
     "tasks._id": taskId
   });
+
   // Tarea que queremos subir el comentario
   const task = createComment.tasks.id(taskId);
   await task.comments.push({
     comment: comment,
     commentBy: userId
-  })
-  await createComment.save();
+  });
 
-  return createComment.populate("tasks.comments.commentBy");
-}
+  await createComment.save();
+  await createComment.populate({
+    path: 'tasks.comments.commentBy',
+    model: 'User'
+  });
+console.log('[task]', task)
+  return task;
+};
+
 const removeTask = async (userId, taskId) => {
   try {
     const board = await Board.findOneAndUpdate(

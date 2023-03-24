@@ -34,7 +34,7 @@ const StatusSchema = new mongoose.Schema<Status>({
     },
     comment: {
       type: String,
-      unique: true
+      required:true
     }
   }, {
     timestamps: true
@@ -50,6 +50,15 @@ const StatusSchema = new mongoose.Schema<Status>({
       },
       subtasks: {
         type: [SubtaskSchema],
+      },
+      taskNum: {
+        type: Number,
+        required: true,
+        default: 0,
+      },
+      priority: {
+        type: String,
+        enum: ["High", "Medium", "Low"]
       },
       comments: [CommentSchema],
       status: {
