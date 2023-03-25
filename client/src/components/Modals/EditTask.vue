@@ -1,6 +1,6 @@
 <template>
   
-  <div class="z-20 bg-white rounded-lg">
+  <div class="fixed top-20 right-0 bottom-0 w-2/3 overflow-hidden bg-white">
     <div class="flex-justify-end">
       <div>
         <div
@@ -25,6 +25,7 @@
         <div class="px-3 py-2 md:px-12 text-sm md:text-base">
           <form autocomplete="off" @submit.prevent="createTask">
             <h4 class="text-lg sm:text-2xl text-gray-800">Add a New Task</h4>
+            <h1>{{ store.selectedBoard?.createdBy.email }}</h1>
             <div class="mt-6 sm:mt-12">
               <div>
                 <label class="block text-gray-500">Title: </label>
@@ -84,8 +85,24 @@
               </div>
               <div>
                 <label class="text-gray-500 block sm:inline">
-                  Asgined to:</label
+                  Asgined to: </label
                 >
+                <input
+                    v-model="asigned"
+                    type="text"
+                    name="asign"
+                    list="asigned"
+                    class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black hover:cursor-pointer"
+                    autocomplete="off"
+                  />
+                  <datalist id="asigned" class="mr-1 py-1 px-1 border-r-1">
+                    <option
+                      class="hover:cursor-pointer"
+                      v-for="user in store.usersInBoard"
+                      :value="user.email"
+                      :key="user._id"
+                      />
+                  </datalist>
               </div>
             </div>
             <div class="my-8">
@@ -120,7 +137,7 @@
               </div>
             </div>
             <button class="bg-purple-500 text-white px-2 py-1 rounded-sm">
-              Add Task
+              Add Tasks
             </button>
           </form>
         </div>
@@ -133,8 +150,8 @@ import { useStore } from "@/stores/store";
 import { layoutStore } from "@/stores/LayouStore";
 import Toast from "../buttons/Toast.vue"
 import ErrorToast from "../buttons/ErrorToast.vue";
-import { ref } from "vue";
-import { use } from "chai";
+import { ref, onMounted } from "vue";
+
 const useLayoutStore = layoutStore();
 const store = useStore();
 var error = ""
@@ -142,13 +159,25 @@ const commentt = ref(store.taskDefault.comments.title);
 const priority = ref(store.taskDefault.priority);
 const title = ref(store.taskDefault.title);
 const description = ref(store.taskDefault.description);
+const asigned = ref(store.taskDefault.asigned)
 const column = ref(store.taskDefault.status.name);
-const check = () => {
+var users: {};
+onMounted(async ()=> {
+  await store.asignedTo()
+  console.log(store.usersInBoard)
+  
+})
+const check = async () => {
   console.log(description.value, column.value);
   console.log(store.taskDefault.status);
+  const res =await  store.asignedTo()
+  
+  console.log('[res]',res.data.usersWithAccess)
 };
 const createTask = () => {
+  
   const payload = {
+    task: {
     title: title.value,
     description: description.value,
     status: {
@@ -157,8 +186,9 @@ const createTask = () => {
         (t) => t._id === store.taskDefault.status._id
       )[0]._id,
     },
+  }
   };
-  const res = store.createTask(payload);
+  const res = store.editTask(payload);
 };
 const leaveComment = () => {
   useLayoutStore.commentInput = !useLayoutStore.commentInput;

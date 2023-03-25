@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { createSubtask, updateComments, updateSubtask } from "../services/task.service";
+import { createSubtask, updateComments, updateSubtask, userWithAccess } from "../services/task.service";
 import { AuthRequest } from "../utils/authMiddleware";
 
 const {
@@ -32,6 +32,11 @@ const sendComment = async (req: AuthRequest, res: Response) => {
     res.send({error: "You have to type something"}).status(403)
   }
 };
+const listAccessUsers = async (req: AuthRequest, res: Response) => {
+  const {boardId} = req.params; 
+  const list = await userWithAccess(boardId)
+  res.json(list)
+}
 const updateTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;
   const { title, description, status, priority } = req.body.task;
@@ -75,4 +80,4 @@ const deleteTask = async (req: AuthRequest, res: Response) => {
     throw new Error(err);
   }
 };
-export { postTask, deleteTask, updateTask, postSubstask, editSubtask, sendComment };
+export { postTask, deleteTask, updateTask, postSubstask, editSubtask, sendComment,listAccessUsers };

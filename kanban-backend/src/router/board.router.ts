@@ -10,6 +10,7 @@ import {
 import {
   deleteTask,
   editSubtask,
+  listAccessUsers,
   postSubstask,
   postTask,
   sendComment,
@@ -23,6 +24,7 @@ router.post("/subtask/:taskId", postSubstask)
 router.post("/edit/subtask/:taskId", editSubtask)
 router.post("/column/:id", createColumn);
 router.post("/", postBoard);
+router.get("/access/user/:boardId", listAccessUsers)
 router.post("/board/:boardId/user/:userId", asignUser);
 router.post("/task/update/comment/:taskId", sendComment);
 router.post("/task/update/:taskId", updateTask);

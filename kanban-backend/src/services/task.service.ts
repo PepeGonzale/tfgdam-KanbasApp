@@ -4,7 +4,7 @@ import { boardToUser } from "./board.service";
 const createTask = async (boardId, task, userId) => {
   const checkTask = await Board.findOne({
     _id: boardId,
-    createdBy: userId,
+    usersWithAccess: userId,
   });
   console.log(task);
 
@@ -27,7 +27,7 @@ const createTask = async (boardId, task, userId) => {
 const editTask = async (taskId, taskData, userId) => {
   const board = await Board.findOne({
     "tasks._id": taskId,
-    createdBy: userId,
+    usersWithAccess: userId,
   });
   if (!board) throw new Error(`Task ${taskId} not found`);
 
@@ -43,7 +43,7 @@ const editTask = async (taskId, taskData, userId) => {
 };
 const createSubtask = async (taskId, userId, subtask) => {
   const createSubtask = await Board.findOne({
-    createdBy: userId,
+    usersWithAccess: userId,
     "tasks._id": taskId,
   });
   const tasks = createSubtask.tasks.id(taskId);
@@ -52,10 +52,15 @@ const createSubtask = async (taskId, userId, subtask) => {
   await createSubtask.save();
   return createSubtask;
 };
+const userWithAccess = async (boardId) => {
+  const listUsers = await Board.findById(boardId);
+  listUsers.populate("usersWithAccess")
+  return listUsers.populate("usersWithAccess")
+}
 
 const updateSubtask = async (taskId, userId, subtask) => {
   const checkTask = await Board.findOne({
-    createdBy: userId,
+    usersWithAccess: userId,
     "tasks._id": taskId,
   });
   if (!checkTask) throw new Error(`Task ${checkTask} not exist`);
@@ -73,7 +78,7 @@ const removeSubtask = async () => {
 };
 const updateComments = async (taskId, userId, comment) => {
   const createComment = await Board.findOne({
-    createdBy: userId,
+    usersWithAccess: userId,
     "tasks._id": taskId,
   });
   try {
@@ -123,4 +128,5 @@ export {
   updateSubtask,
   removeSubtask,
   updateComments,
+  userWithAccess
 };

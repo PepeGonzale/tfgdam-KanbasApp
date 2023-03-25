@@ -6,7 +6,7 @@
   
 
     <a class="text-sm"><span class="drag-handle text-left cursor-move">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
-    <div class="text-sm" :class="task.priority === 'high' ? 'bg-red-900': 'bg-blue-900'">
+    <div class="text-sm" >
       Priority: {{ task.priority }}
     </div>
     <div class="text-sm">
@@ -56,6 +56,7 @@ const deleteTask = async(id:string) => {
   
   await store.deleteTask()
 }
+console.log(props.task)
 const editTask = (id: string, task: any) => {
   
   store.selectedTaskId = id
@@ -66,7 +67,8 @@ const editTask = (id: string, task: any) => {
     description: task.description,
     status: task.status,
     comments: task.comments,
-    priority: task.priority
+    priority: task.priority,
+    asigned: task.asigned
   }
   useLayoutStore.drawerOpen = true
   useLayoutStore.modalContent = "editTask"

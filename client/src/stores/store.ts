@@ -58,6 +58,7 @@ export interface Status {
     dialogContent: string;
     dialogOpen: boolean;
     selectedTaskId:string;
+    usersInBoard: {};
     addUser: {
       user: string,
       board: string
@@ -70,6 +71,7 @@ export interface Status {
         color:'',
         name: ''
       },
+      asigned: '',
       priority: '',
       comments: {
         title: '',
@@ -101,8 +103,10 @@ export interface Status {
 export const useStore = defineStore("store", {
     state: ():Store => ({
         boards: [],
+
         selectedTaskId: '',
         dialogContent: '',
+        usersInBoard: {},
         dialogOpen: false,
         addUser: {
           user: '',
@@ -116,6 +120,7 @@ export const useStore = defineStore("store", {
             color:'',
             name: ''
           },
+          asigned: '',
           priority: '',
           comments:  {
             _id: '',
@@ -166,7 +171,7 @@ export const useStore = defineStore("store", {
           const prevStatus = task.status;
           task.status = status;
           try {
-            console.log({task});
+            
             const token = JSON.parse(localStorage.getItem('user') || "error");
 
             
@@ -177,7 +182,7 @@ export const useStore = defineStore("store", {
             /* this.success('Task saved successfully'); */
             
           } catch (error) {
-            console.error(error);
+            
             task.status = prevStatus;
           } 
         },
@@ -233,6 +238,11 @@ export const useStore = defineStore("store", {
           const response = await api.post(`/board/${payload.board}/user/${payload.user}`)
           return response;
         },
+        async asignedTo(){
+          const listAccessUsers =await api.get(`/access/user/${this.selectedBoard?._id}`);
+          this.usersInBoard = listAccessUsers.data.usersWithAccess
+          return listAccessUsers
+        },  
         async updateComment(payload: {comment: string}) {
           const updateComment = api.post(`/task/update/comment/${this.selectedTaskId}`, payload);
 
