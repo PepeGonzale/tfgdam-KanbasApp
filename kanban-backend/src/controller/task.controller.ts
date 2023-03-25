@@ -25,9 +25,12 @@ const sendComment = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params; 
   const {_id} = req.user;
   const {comment} = req.body;
-  
+  try {
   const postComment = await updateComments(taskId, _id, comment)
   res.json(postComment)
+  } catch(err) {
+    res.send({error: "You have to type something"}).status(403)
+  }
 };
 const updateTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;

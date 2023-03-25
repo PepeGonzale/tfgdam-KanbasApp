@@ -27,7 +27,7 @@ export const authStore = defineStore('auth',  {
             axios para hacer una peticion post a la ruta /api/register
              mandandole como payload el email y la contraseña */
             const {data} = await axios.post("http://localhost:3000/api/auth/register", payload)
-            console.log(data);
+            console.log(data.user.email);
             
             this.user.email = data.user.user.email
             this.user.token = data.user.token

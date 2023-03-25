@@ -31,6 +31,10 @@ export interface Status {
     name: string;
     color: string;
   }
+  export interface AddUsers {
+    user: string,
+    board: string
+  }
   
   export interface Board {
     readonly _id: string;
@@ -54,6 +58,10 @@ export interface Status {
     dialogContent: string;
     dialogOpen: boolean;
     selectedTaskId:string;
+    addUser: {
+      user: string,
+      board: string
+    },
     taskDefault: {
       title: string,
       description:string,
@@ -96,6 +104,10 @@ export const useStore = defineStore("store", {
         selectedTaskId: '',
         dialogContent: '',
         dialogOpen: false,
+        addUser: {
+          user: '',
+          board: ''
+        },
         taskDefault: {
           title: '',
           description:'' ,
@@ -216,9 +228,15 @@ export const useStore = defineStore("store", {
           
           return editTask
         },
+        
+        async asignUserToBoard(payload: AddUsers) {
+          const response = await api.post(`/board/${payload.board}/user/${payload.user}`)
+          return response;
+        },
         async updateComment(payload: {comment: string}) {
           const updateComment = api.post(`/task/update/comment/${this.selectedTaskId}`, payload);
-          console.log(updateComment)
+
+          return updateComment
         },
         async deleteTask() {
           const token = JSON.parse(localStorage.getItem('user') || "error");

@@ -26,8 +26,8 @@ const postBoard = async (req: AuthRequest, res: Response) => {
   res.json(newBoard);
 };
 const asignUser = async (req: AuthRequest, res: Response) => {
-  const {boardId} = req.params
-  const {userId} = req.body;
+  const {boardId, userId} = req.params
+
   const asign = await boardToUser(boardId, userId)
   
   res.json(asign)

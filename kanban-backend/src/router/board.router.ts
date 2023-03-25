@@ -23,7 +23,7 @@ router.post("/subtask/:taskId", postSubstask)
 router.post("/edit/subtask/:taskId", editSubtask)
 router.post("/column/:id", createColumn);
 router.post("/", postBoard);
-router.post("/asign/:boardId", isAdmin,asignUser);
+router.post("/board/:boardId/user/:userId", asignUser);
 router.post("/task/update/comment/:taskId", sendComment);
 router.post("/task/update/:taskId", updateTask);
 router.post("/task/delete/:taskId", deleteTask);

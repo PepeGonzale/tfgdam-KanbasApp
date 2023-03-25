@@ -20,7 +20,7 @@
             />
             <div class="absolute text-red-500 h-128">
               <ul v-for="user in auth.allUsers" class="bg-blue-500">
-                <li class="cursor-pointer" @click="handleUserSelect(user)">{{ user.email }}</li>
+                <li class="cursor-pointer" @click="handleUserSelect(user._id)">{{ user.email }}</li>
               </ul>
             </div>
           </div>
@@ -33,7 +33,9 @@
 <script lang="ts" setup>
 import {ref} from "vue"
 import { authStore } from "@/stores/auth/authStore";
+import { useStore } from "@/stores/store";
 import { layoutStore } from "@/stores/LayouStore";
+const store = useStore()
 const useLayoutStore = layoutStore()
 const auth = authStore()
 const userSelect = ref(auth.selectedUser)
@@ -43,8 +45,13 @@ const search = async () => {
   }
   auth.listUsers(userSelect.value)
 }
-const handleUserSelect = (user) => {
-  console.log(user.email)
+const handleUserSelect = async (user: string) => {
+  if (store.selectedBoard !== undefined) {
+  store.addUser.user = user
+  store.addUser.board = store.selectedBoard._id
+}
+  const res = await store.asignUserToBoard(store.addUser)
+  console.log(res)
   useLayoutStore.drawerOpen = false
 }
  </script>

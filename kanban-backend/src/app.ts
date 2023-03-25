@@ -1,4 +1,5 @@
 import config from './config/config';
+import logger from './config/logger';
 import dbConnect from './config/mongo';
 
 import { errorHandler, notFound } from './utils/errorHandlers';
@@ -9,7 +10,7 @@ const app = createServer()
 try {
 
     dbConnect().then(data => {
-        console.log("db conectada con exito")
+        logger.info("Db conectada con exito")
       })
 } catch(err) {
     console.error(err);
@@ -18,5 +19,5 @@ try {
 app.use(notFound)
 app.use(errorHandler)
 app.listen(PORT, () => {
-  return console.log(`Express is listening at http://localhost:${PORT}`);
+  return logger.info(`Express is listening at http://localhost:${PORT}`);
 });

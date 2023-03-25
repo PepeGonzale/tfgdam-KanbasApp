@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-col max-h-screen bg-blue-600">
+  <Toast v-if="useLayoutStore.toast"/>
+  <div class="flex flex-col min-h-screen bg-blue-600">
     <Header />
     
     <main class="flex-1 overflow-hidden">
@@ -145,6 +146,7 @@ import { storeToRefs, type Store } from "pinia";
 import EditTask from "@/components/Modals/EditTask.vue";
 
 import EditColumn from "@/components/Modals/EditColumn.vue";
+import Toast from "@/components/buttons/Toast.vue";
 
 const auth = authStore();
 
