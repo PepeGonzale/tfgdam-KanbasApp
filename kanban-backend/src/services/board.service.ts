@@ -22,11 +22,12 @@ const getBoards = async (id:string): Promise<IBoard[]>  => {
     
     return getUserBoards
 }
-const boardToUser = async (boardId: string, userId: string) => {
+const boardToUser = async (boardId: string, userId: string, role: string) => {
     /* id del nuevo usuario, id de la board */
     const boardUser = await Board.findByIdAndUpdate(boardId, {
         $push: {
-            usersWithAccess: userId
+            usersWithAccess: userId,
+            role: role
         }
     }, {
         new: true
