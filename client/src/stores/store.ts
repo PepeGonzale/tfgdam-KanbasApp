@@ -22,6 +22,7 @@ export interface Status {
     description?: string;
     status: Status;
     subtasks: [];
+    createdBy:{};
     readonly createdAt: string;
     readonly updatedAt: string;
   }
@@ -56,9 +57,10 @@ export interface Status {
 
     boards: Board[];
     dialogContent: string;
+    selectedTask: Task;
     dialogOpen: boolean;
     selectedTaskId:string;
-    usersInBoard: {};
+    usersInBoard: [];
     addUser: {
       user: string,
       board: string
@@ -105,8 +107,9 @@ export const useStore = defineStore("store", {
         boards: [],
 
         selectedTaskId: '',
+        selectedTask: {},
         dialogContent: '',
-        usersInBoard: {},
+        usersInBoard: [],
         dialogOpen: false,
         addUser: {
           user: '',
@@ -213,10 +216,12 @@ export const useStore = defineStore("store", {
           const newTask = await axios.post(`http://localhost:3000/api/boards/task/${this.selectedBoard?._id}`, payload, {headers: {
            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
          }})
+         
          if(newTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
           this.selectedBoard.tasks = newTask.data.tasks 
+          
           } 
-
+          console.log(this.selectedBoard?.tasks)
          return newTask
         },
         async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any}, comments?: {comment: string}}}){
@@ -233,7 +238,15 @@ export const useStore = defineStore("store", {
           
           return editTask
         },
-        
+        async taskInfo(){
+          const response = await api.get(`/task/${this.selectedTaskId}/board/${this.selectedBoard?._id}`)
+          
+          if(response.data && this.selectedBoard?.tasks !== undefined) {
+            this.selectedTask = response.data 
+            } 
+            
+          return response
+        },
         async asignUserToBoard(payload: AddUsers) {
           const response = await api.post(`/board/${payload.board}/user/${payload.user}`)
           return response;

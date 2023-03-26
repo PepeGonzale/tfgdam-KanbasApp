@@ -48,6 +48,11 @@ const StatusSchema = new mongoose.Schema<Status>({
       description: {
         type: String,
       },
+      createdBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+      },
       subtasks: {
         type: [SubtaskSchema],
       },

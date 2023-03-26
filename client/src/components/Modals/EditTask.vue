@@ -23,9 +23,12 @@
           </svg>
         </div>
         <div class="px-3 py-2 md:px-12 text-sm md:text-base">
-          <form autocomplete="off" @submit.prevent="createTask">
+          <form autocomplete="off" @submit.prevent="createTask" >
             <h4 class="text-lg sm:text-2xl text-gray-800">Add a New Task</h4>
-            <h1>{{ store.selectedBoard?.createdBy.email }}</h1>
+
+         <h1>Created By: {{store.selectedTask.createdBy.email}}</h1>
+
+
             <div class="mt-6 sm:mt-12">
               <div>
                 <label class="block text-gray-500">Title: </label>
@@ -109,7 +112,7 @@
               <label class="block text-gray-500">Description: (Optional)</label>
               <textarea
                 class="border border-gray-300 w-full px-4 py-3 outline-none h-32"
-                @input="check"
+
                 v-model="description"
               ></textarea>
             </div>
@@ -151,9 +154,10 @@ import { layoutStore } from "@/stores/LayouStore";
 import Toast from "../buttons/Toast.vue"
 import ErrorToast from "../buttons/ErrorToast.vue";
 import { ref, onMounted } from "vue";
-
+import { authStore } from "@/stores/auth/authStore";
 const useLayoutStore = layoutStore();
-const store = useStore();
+const store = useStore();;
+const auth = authStore()
 var error = ""
 const commentt = ref(store.taskDefault.comments.title);
 const priority = ref(store.taskDefault.priority);
@@ -163,17 +167,9 @@ const asigned = ref(store.taskDefault.asigned)
 const column = ref(store.taskDefault.status.name);
 var users: {};
 onMounted(async ()=> {
-  await store.asignedTo()
-  console.log(store.usersInBoard)
-  
-})
-const check = async () => {
-  console.log(description.value, column.value);
-  console.log(store.taskDefault.status);
-  const res =await  store.asignedTo()
-  
-  console.log('[res]',res.data.usersWithAccess)
-};
+await store.asignedTo()
+});
+
 const createTask = () => {
   
   const payload = {

@@ -15,6 +15,7 @@ export interface IComment {
 export interface Task {
     title: string,
     taskNum: number;
+    createdBy: mongoose.Types.ObjectId,
     priority: string;
     description: string,
     comments: mongoose.Types.DocumentArray<IComment>

@@ -1,27 +1,37 @@
 import Board from "../models/board.model";
-import { boardToUser } from "./board.service";
+
 
 const createTask = async (boardId, task, userId) => {
   const checkTask = await Board.findOne({
     _id: boardId,
     usersWithAccess: userId,
   });
-  console.log(task);
-
   if (!checkTask)
     throw new Error(
       `We can not create this task because the board that you are trying to implement this task not exists`
     );
 
-  checkTask.tasks.push({
+  await checkTask.tasks.push({
     title: task.title,
     description: task.description,
+    createdBy: userId,
     status: task.status,
     taskNum: checkTask.tasks.length + 1,
     priority: task.priority,
-  });
-  checkTask.save();
+  })
+  await checkTask.populate("tasks.createdBy");
+  await checkTask.save();
   return checkTask;
+};
+const getTaskInfo = async (taskId, boardId, userId) => {
+  const taskInfo = await Board.findOne({
+    _id: boardId,
+    usersWithAccess: userId,
+    "tasks._id": taskId,
+  }).populate("tasks.createdBy");
+  if (!taskInfo) throw new Error(`Task ${taskId} not found`);
+  return taskInfo.tasks.id(taskId);
+
 };
 
 const editTask = async (taskId, taskData, userId) => {
@@ -29,6 +39,7 @@ const editTask = async (taskId, taskData, userId) => {
     "tasks._id": taskId,
     usersWithAccess: userId,
   });
+  
   if (!board) throw new Error(`Task ${taskId} not found`);
 
   const task = board.tasks.id(taskId);
@@ -128,5 +139,6 @@ export {
   updateSubtask,
   removeSubtask,
   updateComments,
-  userWithAccess
+  userWithAccess,
+  getTaskInfo,
 };

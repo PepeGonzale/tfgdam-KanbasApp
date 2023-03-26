@@ -27,7 +27,7 @@ export const authStore = defineStore('auth',  {
             axios para hacer una peticion post a la ruta /api/register
              mandandole como payload el email y la contraseña */
             const {data} = await axios.post("http://localhost:3000/api/auth/register", payload)
-            console.log(data.user.email);
+            
             
             this.user.email = data.user.user.email
             this.user.token = data.user.token
@@ -43,15 +43,17 @@ export const authStore = defineStore('auth',  {
             return getUsers
           },
         async login (payload: {email: string, password: string}) {
-            console.log(payload);
+            
             
             const { data } = await axios.post("http://localhost:3000/api/auth/login", payload)
             if (data.message === 'Network Error') {
                 console.log("Erorraco")
             }
+            console.log(data)
             this.imageUrl = data.updateuser.image
-            this.user.email = data.email
+            this.user.email = data.updateuser.email
             this.user.token = data.token
+            console.log(this.user)
             localStorage.setItem('user', JSON.stringify(this.user));
             router.push("/")
         },

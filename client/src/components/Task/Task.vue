@@ -6,9 +6,7 @@
   
 
     <a class="text-sm"><span class="drag-handle text-left cursor-move">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
-    <div class="text-sm" >
-      Priority: {{ task.priority }}
-    </div>
+   
     <div class="text-sm">
       <CommentTask :task="task"/>
     </div>
@@ -44,6 +42,7 @@
   </li>
 </template>
 <script lang="ts" setup>
+import ResetPassword from '@/pages/ResetPassword.vue';
 import { layoutStore } from '@/stores/LayouStore';
 import { useStore } from '@/stores/store';
 import CommentTask from './CommentTask.vue';
@@ -56,23 +55,23 @@ const deleteTask = async(id:string) => {
   
   await store.deleteTask()
 }
-console.log(props.task)
-const editTask = (id: string, task: any) => {
+
+const editTask = async(id: string, task: any) => {
   
   store.selectedTaskId = id
+  const res = await store.taskInfo()
   
-  
-  store.taskDefault = {
-    title: task.title,
-    description: task.description,
-    status: task.status,
-    comments: task.comments,
-    priority: task.priority,
-    asigned: task.asigned
-  }
+   store.taskDefault = {
+    title: res.data.title,
+    description: res.data.description,
+    status: res.data.status,
+    comments: res.data.comments,
+    priority: res.data.priority,
+    asigned: res.data.asigned
+  } 
   useLayoutStore.drawerOpen = true
   useLayoutStore.modalContent = "editTask"
-  console.log('[task]',store.taskDefault);
+  
   
 }
 </script>
