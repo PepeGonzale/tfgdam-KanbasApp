@@ -22,9 +22,14 @@ export interface Task {
     subtasks: mongoose.Types.DocumentArray<SubTask>,
     status: Status
 }
+export interface Role {
+    user: mongoose.Types.ObjectId,
+    role:string
+}
 
 export interface IBoard {
     title: string,
+    roles: mongoose.Types.DocumentArray<Role>
     description: string,
     createdBy: mongoose.Types.ObjectId,
     usersWithAccess: [mongoose.Types.ObjectId]

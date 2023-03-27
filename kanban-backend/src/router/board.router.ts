@@ -18,12 +18,13 @@ import {
   updateTask,
 } from "../controller/task.controller";
 import { isAdmin } from "../utils/authMiddleware";
+import { useRole } from "../utils/boardMiddleware";
 
 const router = Router({ mergeParams: true });
 router.post("/task/:id", postTask);
 router.post("/subtask/:taskId", postSubstask)
 router.post("/edit/subtask/:taskId", editSubtask)
-router.post("/column/:id", createColumn);
+router.post("/column/:boardId",useRole, createColumn);
 router.post("/", postBoard);
 router.get("/access/user/:boardId", listAccessUsers)
 router.get("/task/:taskId/board/:boardId", infoTask);

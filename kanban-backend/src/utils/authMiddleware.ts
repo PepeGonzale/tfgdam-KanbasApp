@@ -39,5 +39,7 @@ const isAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
   else {
     next()
   }
-}
+};
+
+
 export { authMiddleware, isAdmin};

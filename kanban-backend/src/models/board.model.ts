@@ -74,7 +74,20 @@ const StatusSchema = new mongoose.Schema<Status>({
     },
     { timestamps: true }
   );
-  
+  const RoleSchema = new mongoose.Schema({
+    userRole: {
+      user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
+    role: {
+      type: String,
+      enum: ['admin', 'write', 'read'],
+      required: true
+    }
+  }
+  });
   export const BoardSchema = new mongoose.Schema<IBoard>(
     {
       
@@ -96,7 +109,21 @@ const StatusSchema = new mongoose.Schema<Status>({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
       }],
-      
+      roles: {
+        type: [
+          {
+            user: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: 'User',
+              required: true
+            },
+            role: {
+              type: String,
+              enum: ['Admin', 'Write', 'Read'],
+            }
+          }
+        ],
+      },
       column: {
         type: [
           {

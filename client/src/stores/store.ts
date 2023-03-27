@@ -34,7 +34,8 @@ export interface Status {
   }
   export interface AddUsers {
     user: string,
-    board: string
+    board: string,
+    role:string
   }
   
   export interface Board {
@@ -63,7 +64,8 @@ export interface Status {
     usersInBoard: [];
     addUser: {
       user: string,
-      board: string
+      board: string,
+      role: string
     },
     taskDefault: {
       title: string,
@@ -113,7 +115,8 @@ export const useStore = defineStore("store", {
         dialogOpen: false,
         addUser: {
           user: '',
-          board: ''
+          board: '',
+          role: ''
         },
         taskDefault: {
           title: '',
@@ -203,6 +206,7 @@ export const useStore = defineStore("store", {
         },
         async createColumn(payload: {name: string, color:string}) {
           const token = JSON.parse(localStorage.getItem('user') || "error");
+          
          const newColumn = await axios.post(`http://localhost:3000/api/boards/column/${this.selectedBoard?._id}`, payload, {headers: {
           Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
           
@@ -248,7 +252,10 @@ export const useStore = defineStore("store", {
           return response
         },
         async asignUserToBoard(payload: AddUsers) {
-          const response = await api.post(`/board/${payload.board}/user/${payload.user}`)
+          console.log(payload.role)
+          const response = await api.post(`/board/${payload.board}/user/${payload.user}`, {payload: payload.role});
+          console.log(response);
+          
           return response;
         },
         async asignedTo(){

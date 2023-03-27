@@ -27,9 +27,9 @@ const postBoard = async (req: AuthRequest, res: Response) => {
 };
 const asignUser = async (req: AuthRequest, res: Response) => {
   const {boardId, userId} = req.params
-  console.log(req.body)
+  const {payload} = req.body;
 
-  const asign = await boardToUser(boardId, userId,req.body.role)
+  const asign = await boardToUser(boardId, userId,payload)
   
   res.json(asign)
 }
@@ -39,12 +39,12 @@ const removeColumn = async (req: AuthRequest, res: Response) => {
   res.json(column)
 };
 const createColumn = async (req: AuthRequest, res: Response) => {
-  const { id } = req.params;
+  const { boardId } = req.params;
   const columns = req.body;
   const { _id } = req.user;
   
   try {
-    const column = await newColumn(id, columns, _id);
+    const column = await newColumn(boardId, columns, _id);
     
     res.json(column);
   } catch (err) {
