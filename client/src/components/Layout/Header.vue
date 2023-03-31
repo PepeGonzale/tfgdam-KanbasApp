@@ -1,7 +1,7 @@
 <template>
  <header class="shrink-0 flex justify-between bg-white px-6 py-5 border-b-2 shadow-md">
       <a class="text-2xl font-black tracking-tight" href="">kanboard</a>
-      <img :src="useAuthStore.imageUrl" class="w-auto h-auto"/>
+      
       <input type="file" @change="uploadImage"/>
       <button @click="uploadImage">Upload Image</button>
       <nav class="flex items-center gap-6">
@@ -31,7 +31,7 @@ const useAuthStore = authStore()
 const router = useRouter()
 const uploadImage = async (e: any) => {
   const file = e.target.files[0];
-  const bucket = "deploy-app-1"
+  const bucket = "tfg-kanban-app"
   const formData = new FormData();
   formData.append("image", file);
    const res = await axios.post(`http://localhost:3000/api/auth/user/image/${bucket}`, formData, {

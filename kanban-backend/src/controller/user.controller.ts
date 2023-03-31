@@ -92,7 +92,7 @@ const uploadImage = async (req: CustomRequest, res: Response) => {
   console.log(req.files)
 
   const result = await uploadToBucket(bucketId,file);
-
+  console.log(result)
   res.json(result);
 }
 export {
