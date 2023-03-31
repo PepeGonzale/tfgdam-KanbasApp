@@ -9,19 +9,25 @@ import {
   updateUser,
   
 } from "../services/user.service";
+import { FileArray } from 'express-fileupload';
+
 import { AuthRequest } from "../utils/authMiddleware";
 import { createJwt } from "../utils/createJwt";
 import validateMongoDbID from "../utils/validateMongoDbId";
+import { getBuckets, uploadToBucket } from "../utils/s3";
+
 
 const register = async (req: Request, res: Response) => {
-  const { email, password, role } = req.body;
+  const { email, password, role, mobile, username } = req.body;
   if (!email || !password) {
     throw new Error("Please rewrite the fields with correct data");
   }
   const user = await registerUser({
     email: email,
     password: password,
-    role: role
+    role: role,
+    username,
+    mobile,
   });
   res.json(user);
 };
@@ -77,7 +83,18 @@ const getOneBoard = async (req: AuthRequest, res: Response) => {
   const board = await searchByBoardId(_id,boardId)
   res.json(board)
 }
+interface CustomRequest extends AuthRequest {
+  files?: FileArray;
+}
+const uploadImage = async (req: CustomRequest, res: Response) => {
+  const {bucketId} = req.params;
+  const file = req.files.image;
+  console.log(req.files)
 
+  const result = await uploadToBucket(bucketId,file);
+
+  res.json(result);
+}
 export {
   login,
   register,
@@ -86,5 +103,6 @@ export {
   updateCUsers,
   getUser,
   getOneBoard,
-  tokenAuthenticate
+  tokenAuthenticate,
+  uploadImage
 };

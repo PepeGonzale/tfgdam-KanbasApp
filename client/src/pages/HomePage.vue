@@ -29,6 +29,10 @@
               v-for="column in store.selectedBoard?.column"
             >
               <div class="flex items-center justify-between px-3 py-2">
+                <div>
+                  <span class="drag-handle text-left cursor-move">⠏ </span>
+
+                </div>
                 <h3 class="text-sm font-semibold text-gray-700">
                   {{ column.name.toUpperCase() }}
                 </h3>

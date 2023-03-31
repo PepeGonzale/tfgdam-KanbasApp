@@ -6,8 +6,11 @@ export interface Photo {
 
 
 export interface User {
+    
     _id: string,
     email: string,
+    username: string,
+    mobile: string,
     refreshToken: string,
     role: string;
     image: string,

@@ -22,15 +22,15 @@ export const authStore = defineStore('auth',  {
         isLoggedIn: (state) => !!state.user.token
     },
     actions: {
-        async register(payload: {email: string, password: string}){
+        async register(payload: {email: string, password: string, mobile: string, username: string}){
             /* Tenemos que registrar a los usuarios, utilizamos 
             axios para hacer una peticion post a la ruta /api/register
              mandandole como payload el email y la contraseña */
             const {data} = await axios.post("http://localhost:3000/api/auth/register", payload)
             
             
-            this.user.email = data.user.user.email
-            this.user.token = data.user.token
+            this.user.email = data.user.email
+            this.user.token = data.token
             localStorage.setItem('user', JSON.stringify(this.user))
             router.push("/")
         },
@@ -55,7 +55,7 @@ export const authStore = defineStore('auth',  {
             this.user.token = data.token
             console.log(this.user)
             localStorage.setItem('user', JSON.stringify(this.user));
-            router.push("/")
+            router.push("/boards")
         },
         logout() {
                 localStorage.removeItem('user');

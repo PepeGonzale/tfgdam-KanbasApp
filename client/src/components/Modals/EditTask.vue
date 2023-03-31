@@ -4,7 +4,7 @@
     <div class="flex-justify-end">
       <div>
         <div
-          class="p-1.5 hover:bg-red-200 rounded-full text-red-900"
+          class="p-1.5 rounded-full cursor-pointer"
           @click="useLayoutStore.drawerOpen = false"
         >
           <svg
@@ -26,7 +26,7 @@
           <form autocomplete="off" @submit.prevent="createTask" >
             <h4 class="text-lg sm:text-2xl text-gray-800">Add a New Task</h4>
 
-         <h1>Created By: {{store.selectedTask.createdBy.email}}</h1>
+         <h1>Created By: {{store.selectedTask.createdBy.username}}</h1>
 
 
             <div class="mt-6 sm:mt-12">

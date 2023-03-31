@@ -5,7 +5,7 @@ import { createJwt, createRefreshTOken } from "../utils/createJwt";
 import Board from "../models/board.model";
 const registerUser = async (data) => {
   try {
-    const saveUser = await UserModel.create({ email: data.email, password: data.password, role: data.role });
+    const saveUser = await UserModel.create({ email: data.email, password: data.password, role: data.role, username: data.username, mobile: data.mobile });
     const token = await createJwt(saveUser);
     return { user: { email: saveUser.email }, token };
   } catch (err) {
