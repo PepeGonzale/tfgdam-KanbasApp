@@ -22,6 +22,7 @@ export interface Status {
     description?: string;
     status: Status;
     subtasks: [];
+    asignedTo: string,
     createdBy:{};
     readonly createdAt: string;
     readonly updatedAt: string;
@@ -228,7 +229,7 @@ export const useStore = defineStore("store", {
           console.log(this.selectedBoard?.tasks)
          return newTask
         },
-        async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any}, comments?: {comment: string}}}){
+        async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any}, asignedTo?: string, comments?: {comment: string}}}){
           
           const token = JSON.parse(localStorage.getItem('user') || "error");
         

@@ -66,6 +66,10 @@ const StatusSchema = new mongoose.Schema<Status>({
         enum: ["","High", "Medium", "Low"],
         default: "",
       },
+      asignedTo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
       comments: [CommentSchema],
       status: {
         type: StatusSchema,

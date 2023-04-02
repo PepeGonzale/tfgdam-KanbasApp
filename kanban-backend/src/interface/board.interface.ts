@@ -20,7 +20,8 @@ export interface Task {
     description: string,
     comments: mongoose.Types.DocumentArray<IComment>
     subtasks: mongoose.Types.DocumentArray<SubTask>,
-    status: Status
+    status: Status,
+    asignedTo: mongoose.Types.ObjectId
 }
 export interface Role {
     user: mongoose.Types.ObjectId,

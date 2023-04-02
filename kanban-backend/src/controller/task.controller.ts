@@ -47,22 +47,29 @@ const listAccessUsers = async (req: AuthRequest, res: Response) => {
 }
 const updateTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;
-  const { title, description, status, priority } = req.body.task;
+  const { title, description, status, priority, asignedTo } = req.body.task;
   const { _id } = req.user;
   console.log(req.body);
   const taskData = {
     title,
     description,
     status,
-    priority
+    priority,
   };
 
   try {
-    const updateTask = await editTask(taskId, taskData, _id);
+    const updateTask = await editTask(taskId, taskData,asignedTo, _id);
     res.json(updateTask);
   } catch (err) {
     throw new Error(err);
   }
+};
+
+// Asignar tarea a los usuarios
+const asignTaskToUser = async (req: AuthRequest, res: Response) => {
+  const {taskId} = req.params;
+  const {userId} = req.params; 
+  
 };
 const postSubstask = async (req: AuthRequest, res: Response) => {
   /* Neceito taskId para identificar la tarea donde se va a asignar las subtareas */

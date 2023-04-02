@@ -1,4 +1,5 @@
 import Board from "../models/board.model";
+import UserModel from "../models/user.model";
 
 
 const createTask = async (boardId, task, userId) => {
@@ -18,6 +19,7 @@ const createTask = async (boardId, task, userId) => {
     status: task.status,
     taskNum: checkTask.tasks.length + 1,
     priority: task.priority,
+    
   })
   await checkTask.populate("tasks.createdBy");
   await checkTask.save();
@@ -34,21 +36,28 @@ const getTaskInfo = async (taskId, boardId, userId) => {
 
 };
 
-const editTask = async (taskId, taskData, userId) => {
+const editTask = async (taskId, taskData, asignedTo, userId) => {
   const board = await Board.findOne({
     "tasks._id": taskId,
     usersWithAccess: userId,
   });
   
+
+  
   if (!board) throw new Error(`Task ${taskId} not found`);
 
   const task = board.tasks.id(taskId);
-
+  
   task.set({
     ...taskData,
+    
     subtasks: [],
   });
-
+  console.log(board.populate({
+  path: "tasks.asignedTo",
+  select: "name email", // Select the fields you want to retrieve
+})
+)
   await board.save();
   return board;
 };

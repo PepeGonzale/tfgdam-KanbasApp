@@ -182,6 +182,7 @@ const createTask = () => {
         (t) => t._id === store.taskDefault.status._id
       )[0]._id,
     },
+    asignedTo: asigned.value
   }
   };
   const res = store.editTask(payload);

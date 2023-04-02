@@ -33,9 +33,12 @@ const asignUser = async (req: AuthRequest, res: Response) => {
   const {boardId, userId} = req.params
   const {payload} = req.body;
 
+ try {
   const asign = await boardToUser(boardId, userId,payload)
-  
   res.json(asign)
+ } catch(err) {
+  res.send(err)
+ }
 }
 const removeColumn = async (req: AuthRequest, res: Response) => {
   const {boardId, columnId} = req.params

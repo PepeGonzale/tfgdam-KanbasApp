@@ -12,12 +12,13 @@ try {
     dbConnect().then(data => {
         logger.info("Db conectada con exito")
       })
+app.use(notFound)
+app.use(errorHandler)
 } catch(err) {
     console.error(err);
     
 }
-app.use(notFound)
-app.use(errorHandler)
+
 app.listen(PORT, () => {
   return logger.info(`Express is listening at http://localhost:${PORT}`);
 });

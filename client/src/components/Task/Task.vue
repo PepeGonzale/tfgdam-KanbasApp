@@ -6,7 +6,7 @@
   
 
     <a class="text-sm"><span class="drag-handle text-left cursor-move">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
-   
+    <a class="text-sm"><span class="drag-handle text-left cursor-move">Asigned To: </span> {{ props.task.asignedTo?.email }}</a>
     <div class="text-sm">
       <CommentTask :task="task"/>
     </div>
