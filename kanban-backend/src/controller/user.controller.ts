@@ -5,7 +5,9 @@ import {
   getUsers,
   loginUser,
   registerUser,
+  saveImage,
   searchByBoardId,
+  searchUserEmail,
   updateUser,
   
 } from "../services/user.service";
@@ -45,6 +47,11 @@ const getAllUsers = async (req: Request, res: Response) => {
   const allUsers = await getUsers();
   res.json(allUsers);
 };
+const getUserByEmail = async (req: Request, res: Response) => {
+  const {userEmail} = req.params
+  const email = await searchUserEmail(userEmail)
+  res.json(email)
+}
 const updateCUsers = async (req: Request, res: Response) => {
   const { userId } = req.params;
   const data = req.body;
@@ -89,11 +96,10 @@ interface CustomRequest extends AuthRequest {
 const uploadImage = async (req: CustomRequest, res: Response) => {
   const {bucketId} = req.params;
   const file = req.files.image;
-  console.log(req.files)
-
   const result = await uploadToBucket(bucketId,file);
-  console.log(result)
-  res.json(result);
+  const location = result.Location;
+  const updateUserImage = await saveImage(req.body.id, location)
+  res.json(updateUserImage);
 }
 export {
   login,
@@ -104,5 +110,6 @@ export {
   getUser,
   getOneBoard,
   tokenAuthenticate,
-  uploadImage
+  uploadImage,
+  getUserByEmail
 };

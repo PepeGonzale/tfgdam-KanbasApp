@@ -1,4 +1,5 @@
 <template>
+  
 <Header/>
 <div class="flex items-center max-w-full">
     <div class="m-auto p-2 text-lg">

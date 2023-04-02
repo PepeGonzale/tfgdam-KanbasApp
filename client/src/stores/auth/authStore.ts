@@ -1,12 +1,20 @@
 import { defineStore } from "pinia";
 import axios from "axios"
 import router from "@/router";
+
+export interface User {
+    email: string,
+    username: string,
+    imageUrl: string,
+    _id: string
+}
+
 export interface AuthStore {
     user: {
       email: string | null;
       token: string | null;
     };
-    imageUrl: string,
+    userData:User,
     allUsers: any,
     selectedUser: string | null
   }
@@ -14,7 +22,12 @@ export interface AuthStore {
 export const authStore = defineStore('auth',  {
     state: (): AuthStore => ({
         user: JSON.parse(localStorage.getItem('user') || '{}'),
-        imageUrl: '',
+        userData: {
+            email: '',
+            username: '',
+            imageUrl: '',
+            _id: ''
+        },
         allUsers: [],
         selectedUser: ''
     }), 
@@ -31,12 +44,13 @@ export const authStore = defineStore('auth',  {
             
             this.user.email = data.user.email
             this.user.token = data.token
+            
             localStorage.setItem('user', JSON.stringify(this.user))
             router.push("/")
         },
         async listUsers(email: any) {
             const getUsers = await axios.get(`http://localhost:3000/api/auth/find/user?email=${email}`)
-            console.log(getUsers);
+            
             
             this.allUsers = getUsers.data
             console.log(this.allUsers)
@@ -50,10 +64,11 @@ export const authStore = defineStore('auth',  {
                 console.log("Erorraco")
             }
             console.log(data)
-            this.imageUrl = data.updateuser.image
+            this.userData.imageUrl = data.updateuser.image
             this.user.email = data.updateuser.email
+            this.userData._id = data.updateuser._id
             this.user.token = data.token
-            console.log(this.user)
+            
             localStorage.setItem('user', JSON.stringify(this.user));
             router.push("/boards")
         },

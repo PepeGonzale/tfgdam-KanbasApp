@@ -50,11 +50,30 @@ const updateUser = async (id: string, data: Object) => {
     throw new Error(err);
   }
 };
+const searchUserEmail = async (email) => {
+  const userEmail = await UserModel.findOne({
+    email
+  })
+  return userEmail;
+}
+
 const searchByBoardId = async (userId, boardId) => {
   const searchByBoard = await UserModel.findById(userId).then((boarde) => {
     return Board.findById(boardId)
   })
   return searchByBoard
+};
+
+const saveImage = async (id: string, location: string) => {
+  const saveImage = await UserModel.findByIdAndUpdate(id, {
+    $set: {
+      image: location
+    }
+  }, {
+    new:true
+  })
+  console.log(saveImage)
+  return saveImage
 }
 const getIUser = async (email: any) => {
   
@@ -80,5 +99,7 @@ export {
   getIUser,
   deleteUserId,
   updateUser,
-  searchByBoardId
+  searchByBoardId,
+  searchUserEmail,
+  saveImage
 };

@@ -4,7 +4,7 @@
                 <div class="relative" x-data="{ open: false }">
                     <button @click="useLayoutStore.open = !useLayoutStore.open"
                         class="flex flex-row items-center space-x-2 w-full px-4 py-2 mt-2 text-sm font-semibold text-left bg-transparent hover:bg-blue-200 md:w-auto md:inline md:mt-0 md:ml-4">
-                        <span>Jane Doe</span>
+                        <span>{{useAuthStore.userData.username}}</span>
                         <svg fill="currentColor" viewBox="0 0 20 20" :class="{'rotate-180': useLayoutStore.open, 'rotate-0': !useLayoutStore.open}"
                             class="inline w-4 h-4 transition-transform duration-200 transform">
                             <path fill-rule="evenodd"
@@ -23,7 +23,7 @@
                         >
                         <div class="py-2 bg-white text-blue-800 text-sm rounded-sm border border-main-color shadow-sm ">
                             <a class="block px-4 py-2 mt-2 text-sm bg-white md:mt-0 focus:text-gray-900 hover:bg-indigo-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-                                href="#" @click="router.push({path:'/'})">Settings</a>
+                                href="#" @click="router.push({path:'/profile'})">Settings</a>
                             <a class="block px-4 py-2 mt-2 text-sm bg-white md:mt-0 focus:text-gray-900 hover:bg-indigo-100 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
                                 href="#">Help</a>
                             <div class="border-b"></div>

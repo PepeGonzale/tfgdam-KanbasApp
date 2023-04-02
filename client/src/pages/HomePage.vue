@@ -1,8 +1,14 @@
 <template>
   <Toast v-if="useLayoutStore.toast"/>
   <div class="flex flex-col min-h-screen bg-blue-600">
-    <Header />
     
+    <Header />
+    <div class="flex flex-1">
+      <transition name="sidebar-transition" appear>
+  <div class="w-1/6 bg-gray-200 flex-col" v-if="useLayoutStore.sidebar">
+    <Sidebar/>
+  </div>
+</transition>
     <main class="flex-1 overflow-hidden">
       <div class="flex flex-col">
         <div class="shrink-0 flex justify-between items-center p-4">
@@ -98,7 +104,7 @@
       </div>
          
     </main>
- 
+ </div>
   </div>
   <div class="top-0 bottom-0 left-0 right-0 fixed modal overflow-auto z-index-40" v-if="useLayoutStore.drawerOpen">
     <div class="p-1.5 my-10 mx-auto outline-none shadow-xl w-4/6">
@@ -148,7 +154,7 @@ import TaskModal from "@/components/Modals/TaskModal.vue";
 import { watch } from "vue";
 import { storeToRefs, type Store } from "pinia";
 import EditTask from "@/components/Modals/EditTask.vue";
-
+import router from "@/router";
 import EditColumn from "@/components/Modals/EditColumn.vue";
 import Toast from "@/components/buttons/Toast.vue";
 
@@ -157,6 +163,11 @@ const auth = authStore();
 const { isLoggedIn } = storeToRefs(auth);
 const useLayoutStore = layoutStore();
 const store = useStore();
+onMounted(() => {
+  if (store.selectedBoard === undefined) {
+    router.push("/boards")
+  }
+})
 watch(isLoggedIn, () => {
   if (!isLoggedIn.value) {
     auth.logout();
@@ -165,11 +176,7 @@ watch(isLoggedIn, () => {
 
 type Column = {name: string, _id: string, color: string}
 
-const listUsers = () => {
-  useLayoutStore.drawerOpen = true
-  useLayoutStore.modalContent = 'addUsers'
-  auth.listUsers()
-}
+
 
 const editColumn = (column: Column) => {
   useLayoutStore.modalContent = 'editColumn'
@@ -200,6 +207,14 @@ const createTask = () => {
   border-radius: 5px;
   background: #f44336;
   display: inline-block;
+}
+
+  .sidebar-transition-enter-active, .sidebar-transition-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.sidebar-transition-enter, .sidebar-transition-leave-to {
+  transform: translateX(-100%);
 }
 .modal {
   background: rgba(0,0,0,.33);

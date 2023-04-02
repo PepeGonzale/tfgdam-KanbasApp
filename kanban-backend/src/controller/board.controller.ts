@@ -20,6 +20,10 @@ const postBoard = async (req: AuthRequest, res: Response) => {
     description,
     createdBy: _id,
     usersWithAccess: [_id],
+    roles: {
+      user: _id,
+      role: "Write"
+  }
   };
   const newBoard = await createBoard(payload)
   

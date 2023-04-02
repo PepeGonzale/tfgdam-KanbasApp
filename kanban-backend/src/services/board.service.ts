@@ -45,7 +45,8 @@ const newColumn = async (boardId, columns, userId) => {
     // Comprobar que exista la tabla con el usuario 
     const board = await Board.findOne({
         _id:boardId, 
-        usersWithAccess: userId
+        usersWithAccess: userId,
+         
     })
     if(!board) throw new Error(`This board not exist`)
     if (board.column.map((e) => e.name.toLowerCase()).includes(columns.name.toLowerCase())) {
