@@ -176,6 +176,11 @@ export const useStore = defineStore("store", {
         async asignTaskToUser(payload: {asginedTo: string}) {
           const asign = await api.post(`/board/${this.selectedBoard?._id}/task/${this.selectedTaskId}`, payload)
           console.log(asign)
+           if (asign.data.tasks!== undefined && this.selectedBoard?.tasks !== undefined) {
+          this.selectedBoard.tasks = asign.data.tasks
+          console.log('entro')
+          } 
+          return asign
         },
         async changeStatus(task: Task, status: Status) {
           const prevStatus = task.status;
@@ -229,8 +234,8 @@ export const useStore = defineStore("store", {
           this.selectedBoard.tasks = newTask.data.tasks 
           
           } 
-          console.log(this.selectedBoard?.tasks)
-         return newTask
+          console.log()
+         return this.selectedBoard?.tasks
         },
         async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any},  comments?: {comment: string}}}){
           

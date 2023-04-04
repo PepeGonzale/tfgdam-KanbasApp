@@ -19,7 +19,7 @@
           item-key="_id"
         >
           <template #item="{ element }">
-            <TaskVue class="drag-item" :task="element"/>
+            <TaskVue class="drag-item" :task="element" :column="column"/>
           </template>
         </Draggable>
       </div>

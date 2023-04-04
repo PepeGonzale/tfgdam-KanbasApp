@@ -95,7 +95,7 @@ task.set({
 })
 
  await asignTaskToUser.save();
- return asignTaskToUser;
+ return asignTaskToUser.populate("tasks.asignedTo");
 }
 const updateSubtask = async (taskId, userId, subtask) => {
   const checkTask = await Board.findOne({

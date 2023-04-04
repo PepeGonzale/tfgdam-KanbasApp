@@ -49,7 +49,7 @@ import CommentTask from './CommentTask.vue';
 const useLayoutStore = layoutStore()
 const store = useStore()
 const props = defineProps(['task']);
-console.log(props.task)
+
 const deleteTask = async(id:string) => {
   store.selectedTaskId = id
   console.log(id);

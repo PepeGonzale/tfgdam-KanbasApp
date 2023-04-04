@@ -192,11 +192,12 @@ const leaveComment = () => {
   useLayoutStore.commentInput = !useLayoutStore.commentInput;
 };
 const asignedToUser = async () => {
-  console.log(store.selectedTaskId, store.selectedBoard._id)
+  
   const payload = {
     asigned: asigned.value,
   };
   const res = await store.asignTaskToUser(payload)
+  console.log(res)
   }
 
 const commentUpload = async () => {
