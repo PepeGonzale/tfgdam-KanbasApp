@@ -81,10 +81,9 @@ const asignTask = async (taskId, asignedTo, boardId) => {
  });
  console.log('[asigned to]', asignedTo)
  const userId = await UserModel.findOne({
-  or: [
-    { email: asignedTo },
-    {__id: asignedTo}
-  ]
+  
+     email: asignedTo
+    
  })
  if (!userId) throw new Error(`User ${asignedTo} not found`);
  if (!asignTaskToUser) throw new Error(`Task ${taskId} not found`);
