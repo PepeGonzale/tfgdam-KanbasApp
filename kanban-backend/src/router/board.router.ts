@@ -8,6 +8,7 @@ import {
   
 } from "../controller/board.controller";
 import {
+  asignTaskToUser,
   deleteTask,
   editSubtask,
   infoTask,
@@ -23,6 +24,7 @@ import { useRole } from "../utils/boardMiddleware";
 const router = Router({ mergeParams: true });
 router.post("/task/:id", postTask);
 router.post("/subtask/:taskId", postSubstask)
+router.post("/board/:boardId/task/:taskId", asignTaskToUser)
 router.post("/edit/subtask/:taskId", editSubtask)
 router.post("/column/:boardId",useRole, createColumn);
 router.post("/", postBoard);

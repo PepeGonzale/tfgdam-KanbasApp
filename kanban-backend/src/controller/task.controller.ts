@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { createSubtask, getTaskInfo, updateComments, updateSubtask, userWithAccess } from "../services/task.service";
+import { asignTask, createSubtask, getTaskInfo, updateComments, updateSubtask, userWithAccess } from "../services/task.service";
 import { AuthRequest } from "../utils/authMiddleware";
 
 const {
@@ -49,7 +49,7 @@ const updateTask = async (req: AuthRequest, res: Response) => {
   const { taskId } = req.params;
   const { title, description, status, priority, asignedTo } = req.body.task;
   const { _id } = req.user;
-  console.log(req.body);
+  
   const taskData = {
     title,
     description,
@@ -57,20 +57,23 @@ const updateTask = async (req: AuthRequest, res: Response) => {
     priority,
   };
 
-  try {
+  
     const updateTask = await editTask(taskId, taskData,asignedTo, _id);
+    console.log(updateTask)
     res.json(updateTask);
-  } catch (err) {
-    throw new Error(err);
-  }
-};
-
-// Asignar tarea a los usuarios
-const asignTaskToUser = async (req: AuthRequest, res: Response) => {
-  const {taskId} = req.params;
-  const {userId} = req.params; 
+ 
+  
   
 };
+const asignTaskToUser = async (req: AuthRequest, res: Response) => {
+  const {taskId, boardId} = req.params;
+  const {asigned} = req.body;
+  console.log(req.body)
+  const taskUser = await asignTask(taskId, asigned, boardId)
+  res.json(taskUser);
+  
+  
+}
 const postSubstask = async (req: AuthRequest, res: Response) => {
   /* Neceito taskId para identificar la tarea donde se va a asignar las subtareas */
   const { taskId } = req.params;
@@ -95,4 +98,4 @@ const deleteTask = async (req: AuthRequest, res: Response) => {
     throw new Error(err);
   }
 };
-export { postTask, deleteTask, updateTask, postSubstask, editSubtask, sendComment,listAccessUsers, infoTask };
+export { postTask, deleteTask, updateTask, postSubstask, editSubtask, sendComment,listAccessUsers, infoTask, asignTaskToUser };

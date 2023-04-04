@@ -6,7 +6,7 @@
   
 
     <a class="text-sm"><span class="drag-handle text-left cursor-move">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
-    <a class="text-sm"><span class="drag-handle text-left cursor-move">Asigned To: </span> {{ props.task.asignedTo?.email }}</a>
+    <a class="text-sm" v-if="props.task.asignedTo !== undefined"><span class="drag-handle text-left cursor-move">Asigned To: </span> {{ props.task.asignedTo.email }}</a>
     <div class="text-sm">
       <CommentTask :task="task"/>
     </div>
@@ -49,6 +49,7 @@ import CommentTask from './CommentTask.vue';
 const useLayoutStore = layoutStore()
 const store = useStore()
 const props = defineProps(['task']);
+console.log(props.task)
 const deleteTask = async(id:string) => {
   store.selectedTaskId = id
   console.log(id);
@@ -60,15 +61,16 @@ const editTask = async(id: string, task: any) => {
   
   store.selectedTaskId = id
   const res = await store.taskInfo()
-  
+  console.log(res)
    store.taskDefault = {
     title: res.data.title,
     description: res.data.description,
     status: res.data.status,
     comments: res.data.comments,
     priority: res.data.priority,
-    asigned: res.data.asigned
+    asigned: res.data.asignedTo?.email
   } 
+  
   useLayoutStore.drawerOpen = true
   useLayoutStore.modalContent = "editTask"
   

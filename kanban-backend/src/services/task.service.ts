@@ -1,7 +1,6 @@
 import Board from "../models/board.model";
 import UserModel from "../models/user.model";
 
-
 const createTask = async (boardId, task, userId) => {
   const checkTask = await Board.findOne({
     _id: boardId,
@@ -30,7 +29,7 @@ const getTaskInfo = async (taskId, boardId, userId) => {
     _id: boardId,
     usersWithAccess: userId,
     "tasks._id": taskId,
-  }).populate("tasks.createdBy");
+  }).populate("tasks.asignedTo");
   if (!taskInfo) throw new Error(`Task ${taskId} not found`);
   return taskInfo.tasks.id(taskId);
 
@@ -41,23 +40,18 @@ const editTask = async (taskId, taskData, asignedTo, userId) => {
     "tasks._id": taskId,
     usersWithAccess: userId,
   });
-  
 
-  
   if (!board) throw new Error(`Task ${taskId} not found`);
 
   const task = board.tasks.id(taskId);
-  
+ 
+ 
   task.set({
     ...taskData,
-    
     subtasks: [],
   });
-  console.log(board.populate({
-  path: "tasks.asignedTo",
-  select: "name email", // Select the fields you want to retrieve
-})
-)
+  
+  
   await board.save();
   return board;
 };
@@ -77,7 +71,33 @@ const userWithAccess = async (boardId) => {
   listUsers.populate("usersWithAccess")
   return listUsers.populate("usersWithAccess")
 }
+const asignTask = async (taskId, asignedTo, boardId) => {
+  /* 
+    Para asignar la tarea necesito el id de la tarea, el id del usuario y el id de la board
+  */
+ const asignTaskToUser = await Board.findOne({
+    _id: boardId,
+    "tasks._id": taskId,
+ });
+ console.log('[asigned to]', asignedTo)
+ const userId = await UserModel.findOne({
+  or: [
+    { email: asignedTo },
+    {__id: asignedTo}
+  ]
+ })
+ if (!userId) throw new Error(`User ${asignedTo} not found`);
+ if (!asignTaskToUser) throw new Error(`Task ${taskId} not found`);
 
+ const task = asignTaskToUser.tasks.id(taskId);
+ if (!task) throw new Error(`Task ${taskId} not found`);
+task.set({
+  asignedTo: userId._id
+})
+
+ await asignTaskToUser.save();
+ return asignTaskToUser;
+}
 const updateSubtask = async (taskId, userId, subtask) => {
   const checkTask = await Board.findOne({
     usersWithAccess: userId,
@@ -150,4 +170,5 @@ export {
   updateComments,
   userWithAccess,
   getTaskInfo,
+  asignTask
 };

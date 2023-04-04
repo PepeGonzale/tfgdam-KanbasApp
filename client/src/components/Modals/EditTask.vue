@@ -92,6 +92,7 @@
                 >
                 <input
                     v-model="asigned"
+                    @change="asignedToUser"
                     type="text"
                     name="asign"
                     list="asigned"
@@ -182,14 +183,22 @@ const createTask = () => {
         (t) => t._id === store.taskDefault.status._id
       )[0]._id,
     },
-    asignedTo: asigned.value
   }
   };
   const res = store.editTask(payload);
+  console.log(res)
 };
 const leaveComment = () => {
   useLayoutStore.commentInput = !useLayoutStore.commentInput;
 };
+const asignedToUser = async () => {
+  console.log(store.selectedTaskId, store.selectedBoard._id)
+  const payload = {
+    asigned: asigned.value,
+  };
+  const res = await store.asignTaskToUser(payload)
+  }
+
 const commentUpload = async () => {
   const payload = {
     comment: commentt.value,

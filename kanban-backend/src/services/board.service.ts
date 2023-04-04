@@ -16,7 +16,7 @@ const getBoards = async (id:string): Promise<IBoard[]>  => {
             { createdBy: id },
             { usersWithAccess: { $in: [id] } }
           ]
-    }).populate("createdBy")
+    }).populate("tasks.asignedTo").populate("createdBy")
     
     console.log(getUserBoards);
     

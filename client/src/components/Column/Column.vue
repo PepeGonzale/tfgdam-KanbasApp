@@ -33,12 +33,13 @@ import Draggable from "vuedraggable";
 
 const props = defineProps(["column"]);
 const store = useStore();
-const handleDrag = (e:any) => {
+const handleDrag = async (e:any) => {
   if (e?.added?.element) {
     const task = e?.added.element;
-    const newStatus = store.column.find((c) => c._id === props.column._id);
     
-    store.changeStatus(task, newStatus)
+    const newStatus = store.column.find((c) => c._id === props.column._id);
+    console.log(task, newStatus)
+    await store.changeStatus(task, newStatus)
   }
 };
 

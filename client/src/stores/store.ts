@@ -173,7 +173,10 @@ export const useStore = defineStore("store", {
             this.boards.push(postBoard.data)
             return postBoard
         },
-        
+        async asignTaskToUser(payload: {asginedTo: string}) {
+          const asign = await api.post(`/board/${this.selectedBoard?._id}/task/${this.selectedTaskId}`, payload)
+          console.log(asign)
+        },
         async changeStatus(task: Task, status: Status) {
           const prevStatus = task.status;
           task.status = status;
@@ -181,13 +184,13 @@ export const useStore = defineStore("store", {
             
             const token = JSON.parse(localStorage.getItem('user') || "error");
 
-            
+            console.log(task)
             const data = await axios.post(`http://localhost:3000/api/boards/task/update/${task._id}`, { task },{headers: {
               Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
             }});
             
             /* this.success('Task saved successfully'); */
-            
+            console.log(data)
           } catch (error) {
             
             task.status = prevStatus;
@@ -200,7 +203,7 @@ export const useStore = defineStore("store", {
                 Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
               }})
               
-              
+              console.log('get boards', getBoards)
               this.boards = getBoards.data
               
             
@@ -229,7 +232,7 @@ export const useStore = defineStore("store", {
           console.log(this.selectedBoard?.tasks)
          return newTask
         },
-        async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any}, asignedTo?: string, comments?: {comment: string}}}){
+        async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any},  comments?: {comment: string}}}){
           
           const token = JSON.parse(localStorage.getItem('user') || "error");
         
