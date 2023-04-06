@@ -1,7 +1,7 @@
 <template>
 <Header/>
 
-  <Toaster richColors :duration="10000" position="top-center"/>
+<Toaster richColors :duration="10000" position="top-center"/>
 <BoardView :boards="store.boards" @selectedBoard="handleEvent"/>
 <div
     class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] max-w-xs w-11/12 sm:max-w-md"
@@ -30,13 +30,17 @@ const router = useRouter()
 const store = useStore()
 const useLayoutStore = layoutStore()
 onMounted(() => {
-  store.fetchBoards();
-});
+  store.fetchBoards()
+  .catch((err) => {
+    toast.error("Error, try again later")
+  }
+  ) 
+})
 const handleEvent = (board: any) => {
   console.log(board)
   const toastPromise = toast.promise(() => new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
     store.selectBoard(board)
-    setInterval(() => {
+    setTimeout(() => {
       router.push({path: "/"})
     }, 500)
   }), {

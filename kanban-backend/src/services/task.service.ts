@@ -53,7 +53,7 @@ const editTask = async (taskId, taskData, asignedTo, userId) => {
   
   
   await board.save();
-  return board;
+  return board.populate("tasks.asignedTo");
 };
 const createSubtask = async (taskId, userId, subtask) => {
   const createSubtask = await Board.findOne({

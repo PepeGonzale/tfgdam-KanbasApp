@@ -1,5 +1,5 @@
 <template>
-  
+  <Toaster position="top-center" richColors/>
   <div class="fixed top-20 right-0 bottom-0 w-2/3 overflow-hidden bg-white">
     <div class="flex-justify-end">
       <div>
@@ -152,7 +152,7 @@
 <script lang="ts" setup>
 import { useStore } from "@/stores/store";
 import { layoutStore } from "@/stores/LayouStore";
-import Toast from "../buttons/Toast.vue"
+import { Toaster, toast } from "vue-sonner";
 import ErrorToast from "../buttons/ErrorToast.vue";
 import { ref, onMounted } from "vue";
 import { authStore } from "@/stores/auth/authStore";
@@ -185,8 +185,16 @@ const createTask = () => {
     },
   }
   };
-  const res = store.editTask(payload);
-  console.log(res)
+  const res = store.editTask(payload)
+  .then((data) => {
+    toast.success("Task updated");
+      
+    setTimeout(() => {
+      useLayoutStore.drawerOpen = false
+    }, 1000)
+  console.log(data)
+  })
+  
 };
 const leaveComment = () => {
   useLayoutStore.commentInput = !useLayoutStore.commentInput;
