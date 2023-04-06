@@ -1,41 +1,64 @@
 <template>
-  <header
-    class="shrink-0 flex justify-between bg-white px-6 py-5 border-b-2 shadow-md"
-  >
-    <a class="text-2xl font-black tracking-tight" href="">kanboard</a>
-   <a @click="useLayoutStore.sidebar = !useLayoutStore.sidebar" class="hover:cursor-pointer">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-</svg>
+     <header class="bg-white flex px-6 py-5 border-b-2 items-center justify-between shadow-lg">
+        <!-- Left -->
+      <div class="flex my-4">
+        <a class="text-2xl font-black tracking-tight m-auto" href="/boards">kanboard</a>
+        <a @click="useLayoutStore.sidebar = !useLayoutStore.sidebar" class="hover:cursor-pointer m-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="m-auto mx-6 w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+          </svg>
+        </a>
+        <div class="relative inline-block"  ref="dropdown" @mouseover="drop" @mouseout="useLayoutStore.projectDropdown = false">
+            <button  type="button" class="inline-flex items-center justify-center w-full px-4 py-2 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true">
+              Projects
+            </button>
+          
+            <div class="absolute right-0 w-56 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg divide-y divide-gray-100 z-10" :class="useLayoutStore.projectDropdown ? 'block' : 'hidden'">
+              <div class="py-1 border-b-2" >
+                <div class="py-1" v-for="project in store.boards.slice(0,4)" @click="handleSelectedBoard(project)">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >{{project.title}}</a>
+              </div>
+              </div>
+              <div class="py-1">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" @click="router.push({path: '/boards'})">See all projects</a>
+              </div>
+              <div class="py-1">
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Add new project</a>
+              </div>
+            </div>
+          </div>     
+      </div>
+      <div @click="router.push({path: '/boards'})">My boards</div>
+      <!-- Right avatar -->
 
-   </a>
+      <div class="flex bg-blue-500 p-3 border-l-2">
+      <div class="relative m-auto inline-block text-left">
+        <div class="">
+          <button type="button" class="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu" aria-expanded="false" aria-haspopup="true" @click="useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown">
+            <span class="sr-only">Open user menu</span>
+            <img class="w-8 h-8 rounded-full" src="https://via.placeholder.com/50x50" alt="">
+            <span class="ml-3 font-medium text-white truncate">John Doe</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+              </svg>
+              
+          </button>
 
-    <nav class="flex items-center gap-6">
-      <a
-        class="text-sm font-medium px-3 py-2 rounded-md hover:bg-gray-100 hover:cursor-pointer"
-        @click="router.push({ path: '/boards' })"
-        >My boards</a
-      >
-
-      <Dropdown />
-      <a class="cursor-pointer hover:bg-gray-100" @click="useAuthStore.logout">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-6 h-6"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75"
-          />
-        </svg>
-      </a>
-    </nav>
-  </header>
+        </div>
+      
+        <div :class="useLayoutStore.profileDropdown ? 'block' : 'hidden'" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+          <div class="py-1" role="none">
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Email: johndoe@example.com</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Edit Profile</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 1</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 2</a>
+            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 3</a>
+          </div>
+        </div>
+      </div>
+      
+      </div>
+      </header>
 </template>
 <script lang="ts" setup>
 import { layoutStore } from "@/stores/LayouStore";
@@ -50,4 +73,13 @@ const useLayoutStore = layoutStore();
 const store = useStore();
 const useAuthStore = authStore();
 const router = useRouter();
+const dropdown = ref(null)
+const drop = () => {
+  useLayoutStore.projectDropdown = true
+  console.log(useLayoutStore.projectDropdown)
+};
+const handleSelectedBoard = (project: any) => {
+  store.selectBoard(project);
+  router.push({path: "/"})
+}
 </script>

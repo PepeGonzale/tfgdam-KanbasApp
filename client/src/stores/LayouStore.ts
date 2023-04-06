@@ -10,7 +10,9 @@ export const layoutStore = defineStore("layout", {
         drawerOpen: false,
         sidebar:false,
         commentInput: false,
-        role: false
+        role: false,
+        projectDropdown: false,
+        profileDropdown: false,
         
     }),
     actions: {
