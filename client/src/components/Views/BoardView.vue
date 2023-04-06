@@ -1,39 +1,41 @@
 <template>
   <div
-    v-for="board in boards"
-    class="text-black flex cursor-pointer m-8 "
+    class="text-black justify-between flex cursor-pointer m-auto bg-gray-200 mt-12 w-4/5 p-3"
     @click="handleSelectedBoard(board)"
   >
- 
-  <div class="p-8 max-h-24 bg-blue-600 rounded-lg text-white m-auto font-bold">
-    <div class="">
-    {{ board.title }}
+
+  <div class="flex">
+    <a class="text-2xl"  >My projects</a>
   </div>
+  <div>
+    <button class="text-2xl bg-cyan-300 p-2 rounded-md">New Project</button>
   </div>
+ </div>
+ <section class="flex w-4/5 m-auto bg-gray-200">
+  <div class="flex-1">
+    <ul v-for="project in store.boards" @click="handleSelectedBoard(project)">
+      <li class="bg-white hover:bg-gray-100 p-3 cursor-pointer" >{{ project.title }}</li>
+    </ul>
   </div>
-  <div class="p-8 max-h-24 bg-blue-600 rounded-lg text-white m-auto font-bold hover:cursor-pointer" @click="createBoard">
-    <div class="">
-    Create new Board
-  </div>
-  </div>
-  
+ </section>
+
+   
 </template>
 <script lang="ts" setup>
 import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
-import { useRouter } from 'vue-router'
+import { defineEmits } from "vue";
 const props = defineProps({
   boards: {
     type: Object,
     required: true,
   },
 });
+const emits = defineEmits(['selectedBoard']);
 const store = useStore();
-const router = useRouter()
 const useLayoutStore = layoutStore();
 const handleSelectedBoard = (board: any) => {
-  store.selectBoard(board);
-  router.push({path: "/"})
+  emits('selectedBoard', board)
 };
 const createBoard = () => {
   useLayoutStore.modalContent = "createBoard";
