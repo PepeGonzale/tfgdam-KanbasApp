@@ -25,11 +25,13 @@ import { layoutStore } from '@/stores/LayouStore';
 import { useStore } from '@/stores/store';
 import { onMounted } from 'vue';
 import { useRouter } from 'vue-router'
+import { authStore } from '@/stores/auth/authStore';
 const router = useRouter()
-
+const auth = authStore()
 const store = useStore()
 const useLayoutStore = layoutStore()
 onMounted(() => {
+  auth.userInfo
   store.fetchBoards()
   .catch((err) => {
     toast.error("Error, try again later")

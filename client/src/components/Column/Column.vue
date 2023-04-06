@@ -1,4 +1,5 @@
 <template>
+  
   <div class="flex items-center text-center overflow-hidden bg-gray-300 rounded-md">
     <section
       data-dragscroll
@@ -30,6 +31,7 @@
 import { useStore } from "@/stores/store";
 import TaskVue from "../Task/Task.vue";
 import Draggable from "vuedraggable";
+import { toast, Toaster } from "vue-sonner";
 
 const props = defineProps(["column"]);
 const store = useStore();
@@ -40,6 +42,12 @@ const handleDrag = async (e:any) => {
     const newStatus = store.column.find((c) => c._id === props.column._id);
     console.log(task, newStatus)
     await store.changeStatus(task, newStatus)
+    .then(() => {
+      toast.success("Task saved!")
+    })
+    .catch(() => {
+      toast.error("Error saving task, try again")
+    })
   }
 };
 

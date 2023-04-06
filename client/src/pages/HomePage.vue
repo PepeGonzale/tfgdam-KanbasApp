@@ -1,5 +1,5 @@
 <template>
-  <Toast v-if="useLayoutStore.toast"/>
+  
   <div class="flex flex-col min-h-screen bg-blue-600">
     
     <Header />
@@ -39,7 +39,7 @@
                   <span class="drag-handle text-left cursor-move">⠏ </span>
 
                 </div>
-                <h3 class="text-sm font-semibold text-gray-700">
+                <h3 class="text-md font-semibold text-gray-700">
                   {{ column.name.toUpperCase() }}
                 </h3>
                 <button

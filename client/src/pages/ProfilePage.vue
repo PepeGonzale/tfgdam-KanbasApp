@@ -107,9 +107,7 @@
 
 </template>
 <script lang="ts" setup>
-import {onMounted, ref} from "vue"
-import VueClickAway from "vue3-click-away";
-import { useRouter} from "vue-router";
+import {onMounted} from "vue"
 import Header from "@/components/Layout/Header.vue";
 import { authStore } from "@/stores/auth/authStore";
 import axios from "axios";
@@ -118,20 +116,8 @@ const useAuthStore = authStore()
 const store = useStore()
 onMounted(async () => {
     store.fetchBoards();
-    const email = useAuthStore.user.email
-    const res = await axios.get(`http://localhost:3000/api/auth/find/user/${email}`)
-    .then(res => {
-        console.log(res)
-        useAuthStore.userData.imageUrl = res.data.image
-        useAuthStore.userData.email = res.data.email
-        useAuthStore.userData.username = res.data.username
-        useAuthStore.userData._id = res.data._id
-        
-    })
-})
-const getImage = async () => {
-   
-}
+    useAuthStore.userInfo
+});
 const uploadImage = async (e: any) => {
   const file = e.target.files[0];
   const bucket = "tfg-kanban-app"
@@ -142,7 +128,7 @@ const uploadImage = async (e: any) => {
     headers: {
       "Content-Type": "multipart/form-data",
     }}).then(res => {
-      
+      console.log(res)
       useAuthStore.userData.imageUrl = res.data.image
     })
 }

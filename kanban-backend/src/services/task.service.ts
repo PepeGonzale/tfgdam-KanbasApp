@@ -154,7 +154,7 @@ const removeTask = async (userId, taskId) => {
     if (!board) {
       console.error("fail");
     }
-    return board;
+    return board.populate("tasks.asignedTo");
   } catch (err) {
     console.error(err);
   }

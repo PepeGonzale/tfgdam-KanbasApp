@@ -1,5 +1,6 @@
 <template>
-     <header class="bg-white flex px-6 py-5 border-b-2 items-center justify-between shadow-lg">
+  <Toaster position="top-center" richColors/>
+     <header class="bg-white flex px-6 py-3 border-b-2 items-center justify-between shadow-lg">
         <!-- Left -->
       <div class="flex my-4">
         <a class="text-2xl font-black tracking-tight m-auto" href="/boards">kanboard</a>
@@ -31,13 +32,13 @@
       <div @click="router.push({path: '/boards'})">My boards</div>
       <!-- Right avatar -->
 
-      <div class="flex bg-blue-500 p-3 border-l-2">
+      <div class="flex bg-blue-500 p-3 border-l-2 rounded-md">
       <div class="relative m-auto inline-block text-left">
         <div class="">
-          <button type="button" class="flex items-center text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu" aria-expanded="false" aria-haspopup="true" @click="useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown">
+          <button type="button" class="flex items-center text-sm rounded-full " id="user-menu" aria-expanded="false" aria-haspopup="true" @click="useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown">
             <span class="sr-only">Open user menu</span>
-            <img class="w-8 h-8 rounded-full" src="https://via.placeholder.com/50x50" alt="">
-            <span class="ml-3 font-medium text-white truncate">John Doe</span>
+            <img class="rounded-full w-10 object-cover" :src="useAuthStore.userData.imageUrl" alt="">
+            <span class="ml-3 font-medium text-white text-sm truncate">{{ useAuthStore.userData.username }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
               </svg>
@@ -46,16 +47,27 @@
 
         </div>
       
-        <div :class="useLayoutStore.profileDropdown ? 'block' : 'hidden'" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-          <div class="py-1" role="none">
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Email: johndoe@example.com</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Edit Profile</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 1</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 2</a>
-            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 3</a>
-          </div>
-        </div>
-      </div>
+<div :class="useLayoutStore.profileDropdown ? 'block' : 'hidden'" class="origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+ <div class="flex p-3 border-l-2 rounded-md">
+  <div class="w-32 h-32 mx-auto flex-shrink-0 rounded-full">
+    <img class="w-full h-full object-cover" :src="useAuthStore.userData.imageUrl" alt="">
+  </div>
+  <div class="flex-1 ml-3">
+    <div class="text-gray font-medium truncate">{{ useAuthStore.userData.username }}</div>
+    <div class="text-gray-400 text-xs">{{ useAuthStore.userData.email }}</div>
+    <div class="mt-2">
+      <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" @click="router.push({path: '/profile'})">Edit Profile</a>
+    </div>
+  </div>
+</div>
+
+  <div class="py-1" role="none">
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 1</a>
+    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 2</a>
+    <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:cursor-pointer" @click="logout" role="menuitem">Logout</a>
+  </div>
+</div>
+</div>
       
       </div>
       </header>
@@ -63,12 +75,10 @@
 <script lang="ts" setup>
 import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
-import PrimaryButton from "../buttons/PrimaryButton.vue";
 import { useRouter } from "vue-router";
-import axios from "axios";
 import { authStore } from "@/stores/auth/authStore";
-import Dropdown from "../buttons/Dropdown.vue";
 import { ref } from "vue";
+import { Toaster, toast } from "vue-sonner";
 const useLayoutStore = layoutStore();
 const store = useStore();
 const useAuthStore = authStore();
@@ -81,5 +91,15 @@ const drop = () => {
 const handleSelectedBoard = (project: any) => {
   store.selectBoard(project);
   router.push({path: "/"})
+}
+const logout = () => {
+  
+    toast.error('Logout Successfull');
+ 
+  setTimeout(() => {
+   useAuthStore.logout();
+}, 1000)
+  
+  
 }
 </script>

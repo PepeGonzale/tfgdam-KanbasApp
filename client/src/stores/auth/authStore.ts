@@ -32,7 +32,20 @@ export const authStore = defineStore('auth',  {
         selectedUser: ''
     }), 
     getters: {
-        isLoggedIn: (state) => !!state.user.token
+        isLoggedIn: (state) => !!state.user.token,
+        userInfo: async (state) => {
+            const email = state.user.email
+            const res = await axios.get(`http://localhost:3000/api/auth/find/user/${email}`)
+            .then(res => {
+                console.log(res)
+                state.userData.imageUrl = res.data.image
+                state.userData.email = res.data.email
+                state.userData.username = res.data.username
+                state.userData._id = res.data._id
+                
+            })
+            
+        }
     },
     actions: {
         async register(payload: {email: string, password: string, mobile: string, username: string}){
@@ -71,6 +84,9 @@ export const authStore = defineStore('auth',  {
             
             localStorage.setItem('user', JSON.stringify(this.user));
             router.push("/boards")
+        },
+        async updateUsers(payload: any) {
+            const {data} = await axios.post(`http://localhost:3000/api/auth/update/${payload._id}`, payload)
         },
         logout() {
                 localStorage.removeItem('user');
