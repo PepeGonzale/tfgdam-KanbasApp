@@ -105,7 +105,9 @@
          
     </main>
  </div>
+
   </div>
+
   <div class="top-0 bottom-0 left-0 right-0 fixed modal overflow-auto z-index-40" v-if="useLayoutStore.drawerOpen">
     <div class="p-1.5 my-10 mx-auto outline-none shadow-xl w-4/6">
   <div

@@ -32,10 +32,10 @@
       <div @click="router.push({path: '/boards'})">My boards</div>
       <!-- Right avatar -->
 
-      <div class="flex bg-blue-500 p-3 border-l-2 rounded-md">
+      <div class="flex bg-blue-500 p-3 border-l-2 rounded-md" @mouseover="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
       <div class="relative m-auto inline-block text-left">
         <div class="">
-          <button type="button" class="flex items-center text-sm rounded-full " id="user-menu" aria-expanded="false" aria-haspopup="true" @click="useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown">
+          <button type="button" class="flex items-center text-sm rounded-full " id="user-menu" aria-expanded="false" aria-haspopup="true" >
             <span class="sr-only">Open user menu</span>
             <img class="rounded-full w-10 object-cover" :src="useAuthStore.userData.imageUrl" alt="">
             <span class="ml-3 font-medium text-white text-sm truncate">{{ useAuthStore.userData.username }}</span>

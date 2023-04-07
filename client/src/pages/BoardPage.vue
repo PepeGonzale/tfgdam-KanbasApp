@@ -1,8 +1,9 @@
 <template>
 <Header/>
 
-<Toaster richColors :duration="10000" position="top-center"/>
+<Toaster richColors :duration="10000" position="top-center" />
 <BoardView :boards="store.boards" @selectedBoard="handleEvent"/>
+
 <div
     class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] max-w-xs w-11/12 sm:max-w-md"
   >

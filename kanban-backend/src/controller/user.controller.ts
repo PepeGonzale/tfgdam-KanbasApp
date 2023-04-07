@@ -17,6 +17,7 @@ import { AuthRequest } from "../utils/authMiddleware";
 import { createJwt } from "../utils/createJwt";
 import validateMongoDbID from "../utils/validateMongoDbId";
 import { getBuckets, uploadToBucket } from "../utils/s3";
+import { Auth } from "aws-sdk/clients/docdbelastic";
 
 
 const register = async (req: Request, res: Response) => {
@@ -52,11 +53,11 @@ const getUserByEmail = async (req: Request, res: Response) => {
   const email = await searchUserEmail(userEmail)
   res.json(email)
 }
-const updateCUsers = async (req: Request, res: Response) => {
-  const { userId } = req.params;
+const updateCUsers = async (req: AuthRequest, res: Response) => {
+  const { _id } = req.user;
   const data = req.body;
-  validateMongoDbID(userId);
-  const updateData = await updateUser(userId, data);
+  
+  const updateData = await updateUser(_id, data);
   res.json(updateData);
 };
 const deleteUser = async (req: Request, res: Response) => {

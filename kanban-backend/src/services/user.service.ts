@@ -38,11 +38,14 @@ const getUsers = async () => {
   return users;
 };
 
-const updateUser = async (id: string, data: Object) => {
+const updateUser = async (id: string, data: any) => {
   try {
     const update = await UserModel.findByIdAndUpdate(
-      {id},
-      { data },
+      id,
+      { 
+        username: data.username, 
+        email: data.email
+       },
       { new: true }
     );
     return update;
