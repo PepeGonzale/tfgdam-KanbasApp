@@ -30,7 +30,7 @@
 
             </button>
           <button class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="useLayoutStore.drawerOpen = false">Cancel</button>
-          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="">Edit Task</button>
+          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="() => editColumn()">Edit Column</button>
       </div>
         </div>
       </div>
@@ -45,6 +45,11 @@ const useLayoutStore = layoutStore()
 
 const deleteColumn = () => {
     store.deleteColumn(store.draftColumn._id);
+    useLayoutStore.drawerOpen = false
+}
+const editColumn = async () => {
+   await store.editColumn(store.draftColumn,);
+   
     useLayoutStore.drawerOpen = false
 }
 

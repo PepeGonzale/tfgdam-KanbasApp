@@ -5,6 +5,7 @@ import {
   getBoard,
   asignUser,
   removeColumn,
+  editColumn,
   
 } from "../controller/board.controller";
 import {
@@ -35,6 +36,7 @@ router.post("/task/update/comment/:taskId", sendComment);
 router.post("/task/update/:taskId", updateTask);
 router.post("/task/delete/:taskId", deleteTask);
 router.post("/board/:boardId/column/:columnId", removeColumn)
+router.post("/board/:boardId/column/:columnId/edit", editColumn)
 router.get("/boards",  getBoard);
 
 export default router;

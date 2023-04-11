@@ -188,6 +188,7 @@ type Column = {name: string, _id: string, color: string}
 const editColumn = (column: Column) => {
   useLayoutStore.modalContent = 'editColumn'
   store.loadDraftColumn(column)
+  console.log(store.draftColumn)
   useLayoutStore.drawerOpen = true
 }
 const createColumn = () => {

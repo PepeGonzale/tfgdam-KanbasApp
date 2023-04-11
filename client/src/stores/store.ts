@@ -289,6 +289,14 @@ export const useStore = defineStore("store", {
             }
           return deleteTask
         },
+        async editColumn(column: any) {
+          const editColumn = await api.post(`/board/${this.selectedBoard?._id}/column/${column._id}/edit`, column)
+         if (editColumn.data.column && this.selectedBoard?.column !== undefined) {
+           this.selectedBoard.column = editColumn.data.column
+           
+         }
+          
+        },
         async deleteColumn (columnId: string) {
           const token = JSON.parse(localStorage.getItem('user') || "error");
 

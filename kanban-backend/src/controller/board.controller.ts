@@ -1,5 +1,5 @@
 import { Response } from "express";
-import {  boardToUser, createBoard, deleteColumn, getBoards, newColumn } from "../services/board.service";
+import {  boardToUser, createBoard, deleteColumn, getBoards, newColumn, updateColumn } from "../services/board.service";
 import { AuthRequest } from "../utils/authMiddleware";
 import validateMongoDbID from "../utils/validateMongoDbId";
 
@@ -58,5 +58,10 @@ const createColumn = async (req: AuthRequest, res: Response) => {
     throw new Error(err)
   }
 };
+const editColumn = async (req: AuthRequest, res: Response) => {
+  const {boardId, columnId} = req.params;
+  const update = await updateColumn(boardId, columnId, req.body)
+  res.json(update)
+}
 
-export { getBoard, postBoard, createColumn, asignUser, removeColumn };
+export { getBoard, postBoard,editColumn, createColumn, asignUser, removeColumn };
