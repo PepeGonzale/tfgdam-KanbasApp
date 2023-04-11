@@ -83,9 +83,19 @@
               </div>
             </div>
             <div class="flex justify-between">
-              <div>
-                <label class="text-gray-500 block sm:inline"> Due date:</label>
-              </div>
+           
+
+
+  
+<div class="relative max-w-sm">
+  <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+    <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
+  </div>
+  <input v-model="dueDate" @change="(e) => date(e)" type="datetime-local" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
+</div>
+
+
+
               <div>
                 <label class="text-gray-500 block sm:inline">
                   Asgined to: </label
@@ -154,6 +164,7 @@ import { useStore } from "@/stores/store";
 import { layoutStore } from "@/stores/LayouStore";
 import { Toaster, toast } from "vue-sonner";
 import ErrorToast from "../buttons/ErrorToast.vue";
+
 import { ref, onMounted } from "vue";
 import { authStore } from "@/stores/auth/authStore";
 const useLayoutStore = layoutStore();
@@ -166,13 +177,24 @@ const title = ref(store.taskDefault.title);
 const description = ref(store.taskDefault.description);
 const asigned = ref(store.taskDefault.asigned)
 const column = ref(store.taskDefault.status.name);
-var users: {};
+const dueDate = ref("")
+const isDateAfterNow = ref(false);
 onMounted(async ()=> {
 await store.asignedTo()
 });
-
+// Checkear si la fecha elegida es correcta
+const date = (e) => {
+      const selectedDateObject = new Date(e.target.value);
+      const now = new Date();
+      console.log(selectedDateObject.getTime());
+      
+      if (selectedDateObject.getTime() > now.getTime()) {
+        console.log("Date is after now");
+      } else {
+        console.log(console.log("Date is before now"))
+      }   
+}
 const createTask = () => {
-  
   const payload = {
     task: {
     title: title.value,

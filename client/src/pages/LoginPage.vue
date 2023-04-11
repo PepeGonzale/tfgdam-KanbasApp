@@ -1,5 +1,9 @@
 <template>
-<div class="flex min-h-screen items-center justify-center bg-black">
+
+<div v-if="isLoading" class="h-screen">
+  Loadings
+</div>
+<div v-else class="flex min-h-screen items-center justify-center bg-black">
     <div class="box-shadow rounded-md bg-gray-800 border-4 border-gray-800 p-12 shadow-xl w-6/12 h-2.2/6">
         <h1 class="block w-full text-white text-center mb-6">Login</h1>
     <form class="p-4" @submit.prevent="checkUser">
@@ -30,15 +34,18 @@ import { authStore } from '@/stores/auth/authStore';
 import SecundaryButton from '@/components/buttons/RegisterButton.vue';
 const input = ref(false)
 const useAuthStore = authStore()
-
+const isLoading = ref(false)
 const dataUser = reactive({
   email: '',
   password: '',
 })
 const checkUser = async () => {
-  await useAuthStore.login({
+    await useAuthStore.login({
     email: dataUser.email,
     password: dataUser.password
   })
+  
+   
+
 }
 </script>
