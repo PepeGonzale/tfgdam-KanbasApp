@@ -182,6 +182,7 @@ const isDateAfterNow = ref(false);
 onMounted(async ()=> {
 await store.asignedTo()
 });
+console.log(store.selectedTask)
 // Checkear si la fecha elegida es correcta
 const date = (e) => {
       const selectedDateObject = new Date(e.target.value);

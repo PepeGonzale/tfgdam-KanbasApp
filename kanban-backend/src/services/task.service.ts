@@ -29,7 +29,7 @@ const getTaskInfo = async (taskId, boardId, userId) => {
     _id: boardId,
     usersWithAccess: userId,
     "tasks._id": taskId,
-  }).populate("tasks.asignedTo");
+  }).populate("tasks.asignedTo").populate("tasks.createdBy")
   if (!taskInfo) throw new Error(`Task ${taskId} not found`);
   return taskInfo.tasks.id(taskId);
 

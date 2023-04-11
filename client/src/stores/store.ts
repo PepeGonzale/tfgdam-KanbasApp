@@ -253,7 +253,7 @@ export const useStore = defineStore("store", {
         },
         async taskInfo(){
           const response = await api.get(`/task/${this.selectedTaskId}/board/${this.selectedBoard?._id}`)
-          
+          console.log(response.data)
           if(response.data && this.selectedBoard?.tasks !== undefined) {
             this.selectedTask = response.data 
             } 
