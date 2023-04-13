@@ -87,20 +87,42 @@
 
 
   
-<div class="relative max-w-sm">
+<!-- <div class="relative max-w-sm">
   <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
     <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
   </div>
   <input v-model="dueDate" @change="(e) => date(e)" type="datetime-local" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
-</div>
+</div> -->
 
 
 
-              <div>
-                <label class="text-gray-500 block sm:inline">
+              <div class="">
+                <label class="text-gray-500 block sm:inline ">
                   Asgined to: </label
                 >
-                <input
+                <button type="button" placeholder="Asigned to" class="hover:bg-gray-300 hover:cursor-pointer rounded-lg p-3 m-auto" @click="asignedDropdown = !asignedDropdown">
+                  <div class="ml-2" >
+                    <span class="text-gray-200 text-center">Asigned to</span>
+                  </div>
+                </button>
+                <!-- Asigned to dropdown -->
+                <div class="bg-gray-300 rounded-md p-2" :class="asignedDropdown ? 'block' : 'hidden'">
+                  <div class="">
+                  <input 
+                  v-model="asigned"
+                  @input="search"
+                  type="text"
+                  class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black "
+                  autocomplete="off"/>
+                  </div>
+                  <div v-if="asigned" class="border border-t-2 mt-3">
+                    <ul v-for="(user, i) in store.usersInBoard" 
+                      :key="user._id">
+                      <li class="cursor-pointer hover:bg-gray-400 px-2 py-2 text-center rounded-lg" @click="asignedToUser(user.email)">{{ user.email }}</li>
+                    </ul>
+                  </div>
+                </div>
+               <!--  <input
                     v-model="asigned"
                     @change="asignedToUser"
                     type="text"
@@ -116,7 +138,7 @@
                       :value="user.email"
                       :key="user._id"
                       />
-                  </datalist>
+                  </datalist> -->
               </div>
             </div>
             <div class="my-8">
@@ -168,8 +190,9 @@ import ErrorToast from "../buttons/ErrorToast.vue";
 import { ref, onMounted } from "vue";
 import { authStore } from "@/stores/auth/authStore";
 const useLayoutStore = layoutStore();
-const store = useStore();;
+const store = useStore();
 const auth = authStore()
+const asignedDropdown = ref(false)
 var error = ""
 const commentt = ref(store.taskDefault.comments.title);
 const priority = ref(store.taskDefault.priority);
@@ -182,7 +205,6 @@ const isDateAfterNow = ref(false);
 onMounted(async ()=> {
 await store.asignedTo()
 });
-console.log(store.selectedTask)
 // Checkear si la fecha elegida es correcta
 const date = (e) => {
       const selectedDateObject = new Date(e.target.value);
@@ -222,15 +244,24 @@ const createTask = () => {
 const leaveComment = () => {
   useLayoutStore.commentInput = !useLayoutStore.commentInput;
 };
-const asignedToUser = async () => {
-  
-  const payload = {
-    asigned: asigned.value,
-  };
-  const res = await store.asignTaskToUser(payload)
-  console.log(res)
-  }
+const search = async () => {
+ const res = await store.usersWithAccess(asigned.value)
+ store.usersInBoard = res.data
+}
+const asignedToUser = async (email: string) => {
 
+/*   const payload = {
+    asigned: asigned.value,
+  }; */
+  const payload =  {asigned: email}
+  console.log(email)
+   const res = await store.asignTaskToUser(payload)
+ 
+
+  }
+const handleAsignedTo = async (user) => {
+  console.log(user)
+}
 const commentUpload = async () => {
   const payload = {
     comment: commentt.value,

@@ -29,6 +29,7 @@ router.post("/board/:boardId/task/:taskId", asignTaskToUser)
 router.post("/edit/subtask/:taskId", editSubtask)
 router.post("/column/:boardId",useRole, createColumn);
 router.post("/", postBoard);
+router.get("/user/access", listAccessUsers)
 router.get("/access/user/:boardId", listAccessUsers)
 router.get("/task/:taskId/board/:boardId", infoTask);
 router.post("/board/:boardId/user/:userId", asignUser);

@@ -41,8 +41,9 @@ const sendComment = async (req: AuthRequest, res: Response) => {
   }
 };
 const listAccessUsers = async (req: AuthRequest, res: Response) => {
-  const {boardId} = req.params; 
-  const list = await userWithAccess(boardId)
+  const {email} = req.query; 
+  const {boardId} = req.params;
+  const list = await userWithAccess(boardId, email) 
   res.json(list)
 }
 const updateTask = async (req: AuthRequest, res: Response) => {

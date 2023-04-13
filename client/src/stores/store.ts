@@ -175,7 +175,7 @@ export const useStore = defineStore("store", {
         },
         async asignTaskToUser(payload: {asginedTo: string}) {
           const asign = await api.post(`/board/${this.selectedBoard?._id}/task/${this.selectedTaskId}`, payload)
-          console.log(asign)
+          
            if (asign.data.tasks!== undefined && this.selectedBoard?.tasks !== undefined) {
           this.selectedBoard.tasks = asign.data.tasks
           console.log('entro')
@@ -212,6 +212,11 @@ export const useStore = defineStore("store", {
               this.boards = getBoards.data
               
             
+        },
+        async usersWithAccess(email: string) {
+          const userEmail = await api.get(`/access/user/${this.selectedBoard?._id}?email=${email}`)
+          console.log(userEmail)
+          return userEmail;
         },
         async createColumn(payload: {name: string, color:string}) {
           const token = JSON.parse(localStorage.getItem('user') || "error");
