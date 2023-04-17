@@ -14,12 +14,12 @@
         <div class="shrink-0 flex justify-between items-center p-4">
           <h1 class="text-2xl text-white font-bold">Project Name : {{ store.selectedBoard?.title }}</h1>
           
-          <div class="relative mr-24">
+          <div class="mr-24">
             <button
               class="inline-flex items-center bg-white hover:bg.white/20 px-3 py-2 font-medium text-sm text-black rounded-md"
               @click="listUsers"
             >
-              Add Users
+              Add Users 
             </button>
             <div class="hidden absolute right-0 w-36 origin-top-right z-10 bg-white">
               <ul>

@@ -68,8 +68,9 @@ const editTask = async(id: string, task: any) => {
     status: res.data.status,
     comments: res.data.comments,
     priority: res.data.priority,
-    asigned: res.data.asignedTo?.email
+    asigned: res.data.asignedTo
   } 
+  console.log('asigned', store.taskDefault.asigned);
   
   useLayoutStore.drawerOpen = true
   useLayoutStore.modalContent = "editTask"

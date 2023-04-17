@@ -100,13 +100,16 @@
                 <label class="text-gray-500 block sm:inline ">
                   Asgined to: </label
                 >
-                <button type="button" placeholder="Asigned to" class="hover:bg-gray-300 hover:cursor-pointer rounded-lg p-3 m-auto" @click="asignedDropdown = !asignedDropdown">
-                  <div class="ml-2" >
-                    <span class="text-gray-200 text-center">Asigned to</span>
+                <button type="button" placeholder="Asigned to" class="mt-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg p-3 items-center" @click="asignedDropdown = !asignedDropdown">
+                  <div class="flex items-center space-x-2" >
+                    <img :src="asigned.image" class="w-8 h-8 rounded-full object-cover"> 
+                    <span class="text-center" v-if="asigned">   {{ asigned.email}}</span>
+                    <span class="text-gray-200" v-else>Asignar</span>
                   </div>
                 </button>
                 <!-- Asigned to dropdown -->
                 <div class="bg-gray-300 rounded-md p-2" :class="asignedDropdown ? 'block' : 'hidden'">
+                  
                   <div class="">
                   <input 
                   v-model="asigned"

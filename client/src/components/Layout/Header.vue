@@ -32,7 +32,7 @@
       <div @click="router.push({path: '/boards'})">My boards</div>
       <!-- Right avatar -->
 
-      <div class="flex bg-blue-500 p-3 border-l-2 rounded-md" @mouseover="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
+      <div class="flex bg-blue-500 p-3 border-l-2 rounded-md" @mouseover="() => useLayoutStore.profileDropdown = true" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
       <div class="relative m-auto inline-block text-left">
         <div class="">
           <button type="button" class="flex items-center text-sm rounded-full " id="user-menu" aria-expanded="false" aria-haspopup="true" >

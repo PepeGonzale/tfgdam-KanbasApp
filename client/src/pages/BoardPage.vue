@@ -35,6 +35,10 @@ onMounted(() => {
   auth.userInfo
   store.fetchBoards()
   .catch((err) => {
+    if (err.response.data.error === "Not Authorized token expired, please login again") {
+      auth.logout()
+      router.push({path: "/login"})
+    }
     toast.error("Error, try again later")
   }
   ) 

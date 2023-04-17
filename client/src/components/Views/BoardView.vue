@@ -28,7 +28,7 @@
             <div class="block">{{ project.description }}</div>
             </a>
           <button class="absolute top-1 right-1">
-a
+
           </button>
         </li>
       </ul>
