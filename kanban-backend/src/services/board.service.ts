@@ -4,7 +4,6 @@ import UserModel from "../models/user.model";
 
 const createBoard = async (data) => {
   const { createdBy } = data;
-  console.log(data);
   const board = new Board(data);
   await board.save();
   return board;
@@ -16,13 +15,12 @@ const getBoards = async (id: string): Promise<IBoard[]> => {
     .populate("tasks.asignedTo")
     .populate("createdBy");
 
-  console.log(getUserBoards);
 
   return getUserBoards;
 };
 const boardToUser = async (boardId: string, userId: string, role: string) => {
   /* id del nuevo usuario, id de la board */
-  console.log(role);
+  
   const boardUser = await Board.findByIdAndUpdate(
     boardId,
     {
@@ -61,7 +59,7 @@ const newColumn = async (boardId, columns, userId) => {
     color: columns.color,
   });
   await board.save();
-  console.log(board);
+  
 
   return board;
 };
@@ -82,7 +80,7 @@ const deleteColumn = async (boardId, columnId) => {
   return column;
 };
 const updateColumn = async (boardId, columnId, columnData) => {
-  console.log(columnData);
+  
   const edit = await Board.findOneAndUpdate(
     {
       _id: boardId,

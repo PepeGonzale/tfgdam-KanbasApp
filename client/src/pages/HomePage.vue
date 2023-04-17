@@ -28,7 +28,8 @@
             </div>
           </div>
         </div>
-        <div class="flex-1 overflow-x-auto">
+        
+          <div class="flex-1 overflow-x-auto">
           <div class="inline-flex items-start h-full px-4 pb-4 space-x-4">
             <div
               class="w-80 bg-gray-200 flex h-129 flex-col rounded-md"
@@ -71,10 +72,11 @@
                 <div class="flex-1 overflow-y-auto">
                   <Column :column="column" />
                 </div>
-                <div class="mt-3">
+                <div class="mt-3" >
+                  <input v-model="body" @keypress.enter="handleTask(column)" :class="showInput ? 'block' : 'hidden'" v-if="column === store.selectedColumn" placeholder="Title task" class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full"/>
                   <button
                     class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full"
-                    @click="createTask"
+                    @click="startEdit(column)"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -106,6 +108,7 @@
             </div>
           </div>
         </div>
+    
       </div>
          
     </main>
@@ -148,7 +151,7 @@
 </div>
 </template>
 <script lang="ts" setup>
-import { onMounted } from "vue";
+import { onMounted,ref } from "vue";
 import { authStore } from "@/stores/auth/authStore";
 import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
@@ -164,12 +167,16 @@ import EditTask from "@/components/Modals/EditTask.vue";
 import router from "@/router";
 import EditColumn from "@/components/Modals/EditColumn.vue";
 import Toast from "@/components/buttons/Toast.vue";
+import Draggable from "vuedraggable"
+import { toast } from "vue-sonner";
 
 const auth = authStore();
 
 const { isLoggedIn } = storeToRefs(auth);
 const useLayoutStore = layoutStore();
 const store = useStore();
+const showInput = ref(false)
+const body = ref('')
 onMounted(() => {
   if (store.selectedBoard === undefined) {
     router.push("/boards")
@@ -183,8 +190,31 @@ watch(isLoggedIn, () => {
 
 type Column = {name: string, _id: string, color: string}
 
+const handleTask = async (column: Column) => {
+  try {
+  const payload =  {title: body.value, status: {
+      name: column.name,
+      _id: store.selectedBoard?.column.filter((t) => t.name === column.name)[0]
+        ._id,
+    }
+  }
+  const res = await store.createTask(payload)
+} catch(err) {
+  return
+}
+finally {
+  toast.success('Task created successfully')
+  body.value = ''
+  showInput.value = false
 
-
+}
+  
+}
+const startEdit = (column) => {
+  store.selectedColumn = column
+  showInput.value = true
+  
+}
 const editColumn = (column: Column) => {
   useLayoutStore.modalContent = 'editColumn'
   store.loadDraftColumn(column)

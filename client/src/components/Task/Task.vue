@@ -1,15 +1,13 @@
 <template>
   <li
-    class="group gap-4 relative flex flex-col bg-white p-3 items-center shadow-lg transition-shadow duration-300 hover:shadow-xl rounded-md border-b border-gray-300 hover:bg-gray-50 hover:cursor-pointer"
+    class="h-[80px] group gap-4 relative flex flex-col bg-white p-3 items-center shadow-lg transition-shadow duration-300 hover:shadow-xl rounded-md border-b border-gray-300 hover:bg-gray-50 hover:cursor-pointer"
     @click="editTask(props.task._id, props.task)"
   >
   
 
     <a class="text-sm"><span class="drag-handle text-left cursor-move">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
-    <a class="text-sm" v-if="props.task.asignedTo !== undefined"><span class="drag-handle text-left cursor-move">Asigned To: </span> {{ props.task.asignedTo.email }}</a>
-    <div class="text-sm">
-      <CommentTask :task="task"/>
-    </div>
+    <img class="absolute right-0 bottom-0 object-cover rounded-full w-10 h-10 mr-2 mb-2" :src="props.task.asignedTo?.image"/>
+  
     <button
     @click="deleteTask(props.task._id)"
       class="absolute text-red-500 top-1 right-1 w-8 h-8 mt-2 bg-gray-50 place-content-center hidden group-hover:grid rounded-md hover:text-black hover:bg-red-400"
@@ -49,7 +47,7 @@ import CommentTask from './CommentTask.vue';
 const useLayoutStore = layoutStore()
 const store = useStore()
 const props = defineProps(['task']);
-
+console.log(props.task)
 const deleteTask = async(id:string) => {
   store.selectedTaskId = id
   console.log(id);

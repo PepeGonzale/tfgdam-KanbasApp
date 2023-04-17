@@ -13,11 +13,12 @@ const createTask = async (boardId, task, userId) => {
 
   await checkTask.tasks.push({
     title: task.title,
-    description: task.description,
+    taskNum: checkTask.tasks.length + 1,
+    
     createdBy: userId,
     status: task.status,
-    taskNum: checkTask.tasks.length + 1,
-    priority: task.priority,
+    
+    
   });
   await checkTask.populate("tasks.createdBy");
   await checkTask.save();
@@ -82,7 +83,6 @@ const asignTask = async (taskId, asignedTo, boardId) => {
     _id: boardId,
     "tasks._id": taskId,
   });
-  console.log("[asigned to]", asignedTo);
   const userId = await UserModel.findOne({
     email: asignedTo,
   });
