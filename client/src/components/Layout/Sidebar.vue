@@ -51,7 +51,6 @@ import { onMounted, ref } from "vue";
 import PrimaryButton from "../buttons/PrimaryButton.vue";
 import Modal from "../Modals/Modal.vue";
 import ColumnModal from "../Modals/ColumnModal.vue";
-import TaskModal from "../Modals/TaskModal.vue";
 import router from "@/router";
 import BoardView from "../Views/BoardView.vue";
 const store = useStore();

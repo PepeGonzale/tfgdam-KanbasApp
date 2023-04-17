@@ -72,30 +72,7 @@
                 <div class="flex-1 overflow-y-auto">
                   <Column :column="column" />
                 </div>
-                <div class="mt-3" >
-                  <input v-model="body" @keypress.enter="handleTask(column)" :class="showInput ? 'block' : 'hidden'" v-if="column === store.selectedColumn" placeholder="Title task" class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full"/>
-                  <button
-                    class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full"
-                    @click="startEdit(column)"
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="w-6 h-6"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M12 6v12m6-6H6"
-                      />
-                    </svg>
-
-                    <span>Add Card</span>
-                  </button>
-                </div>
+                <CreateTask :column="column"/>
               </div>
             </div>
             <div class="w-72">
@@ -127,12 +104,7 @@
         useLayoutStore.modalContent === 'createColumn'
       "
     />
-    <TaskModal
-      v-if="
-        useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'createTask'
-      "
-      id="modal"
-    />
+ 
     <EditTask
       v-if="
         useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'editTask'
@@ -160,7 +132,6 @@ import Header from "@/components/Layout/Header.vue";
 import Column from "@/components/Column/Column.vue";
 import Sidebar from "@/components/Layout/Sidebar.vue";
 import ColumnModal from "@/components/Modals/ColumnModal.vue";
-import TaskModal from "@/components/Modals/TaskModal.vue";
 import { watch } from "vue";
 import { storeToRefs, type Store } from "pinia";
 import EditTask from "@/components/Modals/EditTask.vue";
@@ -169,6 +140,7 @@ import EditColumn from "@/components/Modals/EditColumn.vue";
 import Toast from "@/components/buttons/Toast.vue";
 import Draggable from "vuedraggable"
 import { toast } from "vue-sonner";
+import CreateTask from "@/components/Modals/CreateTask.vue";
 
 const auth = authStore();
 
