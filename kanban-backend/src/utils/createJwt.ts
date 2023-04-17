@@ -11,7 +11,7 @@ const createJwt = async (user) => {
         },
         tokenSecre,
         {
-          expiresIn: 72 * 60 * 60 * 1000,
+          expiresIn: '1d',
         }
       );
 }

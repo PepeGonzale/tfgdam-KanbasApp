@@ -5,10 +5,14 @@ import validateMongoDbID from "../utils/validateMongoDbId";
 
 
 const getBoard = async (req: AuthRequest, res: Response) => {
-  const { _id } = req.user;
+  try {
+    const { _id } = req.user;
   validateMongoDbID(_id)
   const fetchBoards = await getBoards(_id);
   res.json(fetchBoards);
+  } catch (error) {
+    return error
+  }
 };
 
 const postBoard = async (req: AuthRequest, res: Response) => {

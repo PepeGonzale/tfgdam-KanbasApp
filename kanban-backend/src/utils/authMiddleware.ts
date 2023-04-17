@@ -24,11 +24,10 @@ const authMiddleware = async (
         next();
       }
     } catch (err) {
-      throw new Error("Not Authorized token expired, please login again");
+      res.status(401).send({ error: "Not Authorized token expired, please login again"})
     }
   } else {
-    throw new Error("There is no token atached to the header");
-  }
+    res.status(401).send({ error: "There is no token attached to the header" });  }
 };
 const isAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
   const {email} = req.user;

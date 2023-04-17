@@ -69,12 +69,16 @@ const deleteUser = async (req: Request, res: Response) => {
 const getUser = async (req: Request, res: Response) => {
   const email = req.query['email']
   console.log("Email", email);
+  try {
   if (typeof email !== "string") throw new Error("Not found")
   else{
     const regex = new RegExp(email, 'i'); // case-insensitive regular expression
     const usersWithEmail = await getIUser(regex);
     res.json(usersWithEmail);
   }
+} catch(err) {
+  return err
+}
 };
 
 const tokenAuthenticate = async (req:Request, res: Response) => {

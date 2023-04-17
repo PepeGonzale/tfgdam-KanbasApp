@@ -1,6 +1,10 @@
 import jwt from "jsonwebtoken"
 import config from "../config/config"
 const verifyToken = (token: string) => {
-    return jwt.verify(token, config.JWT_SECRET)
+    try {
+        return jwt.verify(token, config.JWT_SECRET)
+    } catch (error) {
+        throw new Error(error)
+    }
 }
 export default verifyToken
