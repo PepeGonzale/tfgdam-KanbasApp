@@ -1,5 +1,5 @@
 import { Response } from "express";
-import {  boardToUser, createBoard, deleteColumn, getBoards, newColumn, updateColumn } from "../services/board.service";
+import {  boardToUser, createBoard, deleteColumn, getBoards, newColumn, starProject, updateColumn } from "../services/board.service";
 import { AuthRequest } from "../utils/authMiddleware";
 import validateMongoDbID from "../utils/validateMongoDbId";
 
@@ -14,7 +14,13 @@ const getBoard = async (req: AuthRequest, res: Response) => {
     return error
   }
 };
-
+const starredProject = async (req: AuthRequest, res: Response) => {
+  const { _id } = req.user;
+  const {boardId} = req.params;
+  const {starred} = req.body
+  const star = await starProject(_id, boardId, starred);
+  res.json(star)
+};
 const postBoard = async (req: AuthRequest, res: Response) => {
   const { _id } = req.user;
   const { title, description } = req.body;
@@ -68,4 +74,4 @@ const editColumn = async (req: AuthRequest, res: Response) => {
   res.json(update)
 }
 
-export { getBoard, postBoard,editColumn, createColumn, asignUser, removeColumn };
+export { starredProject,getBoard, postBoard,editColumn, createColumn, asignUser, removeColumn };

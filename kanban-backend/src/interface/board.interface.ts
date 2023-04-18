@@ -30,6 +30,7 @@ export interface Role {
 
 export interface IBoard {
     title: string,
+    starred: boolean,
     roles: mongoose.Types.DocumentArray<Role>
     description: string,
     createdBy: mongoose.Types.ObjectId,

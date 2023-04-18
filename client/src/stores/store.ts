@@ -192,6 +192,8 @@ export const useStore = defineStore("store", {
           if(deleteTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
             this.selectedBoard.tasks = deleteTask.data.tasks 
             }
+            console.log(this.selectedBoard?.tasks);
+            
           return deleteTask
         },
         async editColumn(column: any) {

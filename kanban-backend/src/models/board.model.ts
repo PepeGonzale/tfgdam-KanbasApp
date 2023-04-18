@@ -113,6 +113,10 @@ const StatusSchema = new mongoose.Schema<Status>({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
       }],
+      starred: {
+        type: Boolean,
+        default: false
+      },
       roles: {
         type: [
           {

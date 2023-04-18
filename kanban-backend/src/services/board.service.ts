@@ -18,6 +18,21 @@ const getBoards = async (id: string): Promise<IBoard[]> => {
 
   return getUserBoards;
 };
+const starProject = async (_id, boardId, starred) => {
+  const star = await Board.findOneAndUpdate(
+    {
+      _id: boardId,
+      createdBy: _id
+    },
+    {
+      $set: {
+        starred,
+      }
+    },
+    {new: true}
+  )
+  return star;
+}
 const boardToUser = async (boardId: string, userId: string, role: string) => {
   /* id del nuevo usuario, id de la board */
   
@@ -104,6 +119,7 @@ export {
   createBoard,
   getBoards,
   newColumn,
+  starProject,
   boardToUser,
   deleteColumn,
 };

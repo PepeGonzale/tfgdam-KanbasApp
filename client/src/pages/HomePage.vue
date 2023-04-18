@@ -143,12 +143,10 @@ import { toast } from "vue-sonner";
 import CreateTask from "@/components/Modals/CreateTask.vue";
 
 const auth = authStore();
-
 const { isLoggedIn } = storeToRefs(auth);
 const useLayoutStore = layoutStore();
 const store = useStore();
-const showInput = ref(false)
-const body = ref('')
+
 onMounted(() => {
   if (store.selectedBoard === undefined) {
     router.push("/boards")
@@ -160,47 +158,6 @@ watch(isLoggedIn, () => {
   }
 });
 
-type Column = {name: string, _id: string, color: string}
-
-const handleTask = async (column: Column) => {
-  try {
-  const payload =  {title: body.value, status: {
-      name: column.name,
-      _id: store.selectedBoard?.column.filter((t) => t.name === column.name)[0]
-        ._id,
-    }
-  }
-  const res = await store.createTask(payload)
-} catch(err) {
-  return
-}
-finally {
-  toast.success('Task created successfully')
-  body.value = ''
-  showInput.value = false
-
-}
-  
-}
-const startEdit = (column) => {
-  store.selectedColumn = column
-  showInput.value = true
-  
-}
-const editColumn = (column: Column) => {
-  useLayoutStore.modalContent = 'editColumn'
-  store.loadDraftColumn(column)
-  console.log(store.draftColumn)
-  useLayoutStore.drawerOpen = true
-}
-const createColumn = () => {
-  useLayoutStore.modalContent = "createColumn";
-  useLayoutStore.drawerOpen = true;
-};
-const createTask = () => {
-  useLayoutStore.modalContent = "createTask";
-  useLayoutStore.drawerOpen = true;
-};
 </script>
 <style scoped>
 .draggable-list {

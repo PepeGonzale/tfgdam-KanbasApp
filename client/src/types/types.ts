@@ -46,6 +46,7 @@ export interface Status {
       readonly _id: string;
     }[];
     tasks: Task[];
+    starred:Boolean;
     readonly createdAt: string;
     readonly updatedAt: string;
     readonly __v: number;

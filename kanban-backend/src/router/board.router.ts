@@ -6,6 +6,7 @@ import {
   asignUser,
   removeColumn,
   editColumn,
+  starredProject,
   
 } from "../controller/board.controller";
 import {
@@ -33,6 +34,7 @@ router.get("/user/access", listAccessUsers)
 router.get("/access/user/:boardId", listAccessUsers)
 router.get("/task/:taskId/board/:boardId", infoTask);
 router.post("/board/:boardId/user/:userId", asignUser);
+router.post("/starred/:boardId", starredProject)
 router.post("/task/update/comment/:taskId", sendComment);
 router.post("/task/update/:taskId", updateTask);
 router.post("/task/delete/:taskId", deleteTask);

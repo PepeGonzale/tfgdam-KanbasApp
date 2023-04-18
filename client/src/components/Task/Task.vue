@@ -1,7 +1,7 @@
 <template>
   <li
     class="h-[80px] group gap-4 relative flex flex-col bg-white p-3 items-center shadow-lg transition-shadow duration-300 hover:shadow-xl rounded-md border-b border-gray-300 hover:bg-gray-50 hover:cursor-pointer"
-    @click="editTask(props.task._id, props.task)"
+    
   >
   
 
@@ -40,26 +40,21 @@
   </li>
 </template>
 <script lang="ts" setup>
-import ResetPassword from '@/pages/ResetPassword.vue';
 import { layoutStore } from '@/stores/LayouStore';
 import { useStore } from '@/stores/store';
-import CommentTask from './CommentTask.vue';
 const useLayoutStore = layoutStore()
 const store = useStore()
 const props = defineProps(['task']);
-console.log(props.task)
+
 const deleteTask = async(id:string) => {
   store.selectedTaskId = id
-  console.log(id);
-  
   await store.deleteTask()
 }
 
 const editTask = async(id: string, task: any) => {
-  
   store.selectedTaskId = id
   const res = await store.taskInfo()
-  console.log(res)
+
    store.taskDefault = {
     title: res.data.title,
     description: res.data.description,
@@ -72,7 +67,6 @@ const editTask = async(id: string, task: any) => {
   
   useLayoutStore.drawerOpen = true
   useLayoutStore.modalContent = "editTask"
-  
   
 }
 </script>
