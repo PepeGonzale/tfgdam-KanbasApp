@@ -13,7 +13,11 @@
       <div class="flex flex-col">
         <div class="shrink-0 flex justify-between items-center p-4">
           <h1 class="text-2xl text-white font-bold">Project Name : {{ store.selectedBoard?.title }}</h1>
-          
+          <div class="flex items-center">
+  <div v-for="a in store.selectedBoard?.usersWithAccess" class="avatar w-12 h-12 rounded-full object-cover">
+    <img :src="a.image" class="rounded-full"/>
+  </div>
+</div>
           <div class="mr-24">
             <button
               class="inline-flex items-center bg-white hover:bg.white/20 px-3 py-2 font-medium text-sm text-black rounded-md"

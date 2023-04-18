@@ -13,7 +13,8 @@ const getBoards = async (id: string): Promise<IBoard[]> => {
     $or: [{ createdBy: id }, { usersWithAccess: { $in: [id] } }],
   })
     .populate("tasks.asignedTo")
-    .populate("createdBy");
+    .populate("createdBy")
+    .populate("usersWithAccess")
 
 
   return getUserBoards;

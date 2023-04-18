@@ -7,7 +7,7 @@
     <div class="flex">
       <a class="text-2xl">My projects</a>
     </div>
-    <div class="mx-auto items-center cursor-pointer rounded-md p-3 text-center bg-gray-200 w-1/3 hover:bg-gray-200">
+    <div class="mx-auto items-center cursor-pointer rounded-md p-3 text-center bg-gray-200 w-1/3 ">
       <ul
             className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
             
@@ -16,7 +16,7 @@
               <a
               @click="showStarred"
                class="text-gray-500 hover:text-gray-800 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-                :class="starred ? 'text-gray-900' : 'text-gray-500'"
+                :class="starred ? 'text-gray-900 bg-white' : 'text-gray-500'"
                 
               >
                 Starred
@@ -27,7 +27,7 @@
               <a
               @click="hideStarred"
                 class="text-gray-500 hover:text-gray-800 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
-                :class="!starred ? 'text-gray-900' : 'text-gray-500'"
+                :class="!starred ? 'text-gray-900 bg-white' : 'text-gray-500'"
                 
               >
                  All
@@ -100,6 +100,7 @@ import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
 import axios from "axios";
 import { defineEmits, ref } from "vue";
+import { toast } from "vue-sonner";
 const props = defineProps({
   boards: {
     type: Object,
@@ -121,7 +122,7 @@ const hideStarred = () => {
   starred.value = false
 }
 const handleStarred = async (project) => {
-  
+  try {
   const res = await api.post(`/starred/${project._id}`, {
     starred: !project.starred
   }).then(data => {
@@ -132,6 +133,11 @@ const handleStarred = async (project) => {
       project.starred = false
     }
   })
+} catch(err) {
+  toast
+} finally {
+  toast.success("Project starred succesfully")
+}
   
   
 }

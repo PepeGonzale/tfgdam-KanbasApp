@@ -34,7 +34,18 @@ export interface Status {
     board: string,
     role:string
   }
-  
+
+  export interface User {
+    _id: string,
+    email: string,
+    username: string,
+    mobile: string,
+    refreshToken: string,
+    role: string;
+    image: string,
+    password: string, 
+    dateSignUp: Date
+}
   export interface Board {
     readonly _id: string;
     title: string;
@@ -47,6 +58,7 @@ export interface Status {
     }[];
     tasks: Task[];
     starred:Boolean;
+    usersWithAccess: User[];
     readonly createdAt: string;
     readonly updatedAt: string;
     readonly __v: number;

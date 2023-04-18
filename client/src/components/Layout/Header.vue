@@ -32,7 +32,7 @@
       <div @click="router.push({path: '/boards'})">My boards</div>
       <!-- Right avatar -->
 
-      <div class="flex bg-blue-500 p-3 border-l-2 rounded-md" @mouseover="() => useLayoutStore.profileDropdown = true" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
+      <div class="block relative bg-blue-500 p-3 border-l-2 z-10 rounded-md" @mouseover="() => useLayoutStore.profileDropdown = true" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
       <div class="relative m-auto inline-block text-left">
         <div class="">
           <button type="button" class="flex items-center text-sm rounded-full " id="user-menu" aria-expanded="false" aria-haspopup="true" >
@@ -61,7 +61,7 @@
   </div>
 </div>
 
-  <div class="py-1" role="none">
+  <div class="py-1 " role="none">
     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 1</a>
     <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900" role="menuitem">Option 2</a>
     <a class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 hover:cursor-pointer" @click="logout" role="menuitem">Logout</a>
