@@ -2,12 +2,39 @@
 
   <div
     class="items-center text-black justify-between flex cursor-pointer m-auto bg-gray-200 mt-12 w-4/5 p-3"
-    @click="handleSelectedBoard(board)"
+    
   >
     <div class="flex">
       <a class="text-2xl">My projects</a>
     </div>
-   
+    <div class="mx-auto items-center cursor-pointer rounded-md p-3 text-center bg-gray-200 w-1/3 hover:bg-gray-200">
+      <ul
+            className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+            
+          >
+            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+              <a
+              @click="showStarred"
+               class="text-gray-500 hover:text-gray-800 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                :class="starred ? 'text-gray-900' : 'text-gray-500'"
+                
+              >
+                Starred
+              </a>
+            </li>
+           
+            <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+              <a
+              @click="hideStarred"
+                class="text-gray-500 hover:text-gray-800 text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal"
+                :class="!starred ? 'text-gray-900' : 'text-gray-500'"
+                
+              >
+                 All
+              </a>
+            </li> </ul>
+          
+    </div>
     <div>
       <button
         class="text-2xl bg-cyan-300 p-2 rounded-md"
@@ -78,19 +105,21 @@ const props = defineProps({
     type: Object,
     required: true,
   },
-  starred: {
-    type: Boolean,
-    required: true,
   
-  }
 });
-
+const starred = ref(false)
 const emits = defineEmits(["selectedBoard"]);
 const store = useStore();
 const useLayoutStore = layoutStore();
 const handleSelectedBoard = (board: any) => {
   emits("selectedBoard", board);
 };
+const showStarred = () => {
+  starred.value = true
+}
+const hideStarred = () => {
+  starred.value = false
+}
 const handleStarred = async (project) => {
   
   const res = await api.post(`/starred/${project._id}`, {

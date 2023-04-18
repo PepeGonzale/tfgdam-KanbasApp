@@ -2,10 +2,8 @@
 <Header/>
 
 <Toaster richColors :duration="10000" position="top-center" />
-<BoardView :starred="starred" :boards="store.boards" @selectedBoard="handleEvent"/>
-<div class="mx-auto items-center cursor-pointer rounded-md p-3 text-center bg-gray-200 w-2/3 hover:bg-gray-200" @click="starred = !starred" >
-   Starred
-    </div>
+<BoardView :boards="store.boards" @selectedBoard="handleEvent"/>
+
 <div
     class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] max-w-xs w-11/12 sm:max-w-md"
   >
@@ -33,7 +31,7 @@ const router = useRouter()
 const auth = authStore()
 const store = useStore()
 const useLayoutStore = layoutStore()
-const starred = ref(false)
+
 onMounted(() => {
   auth.userInfo
   store.fetchBoards()
