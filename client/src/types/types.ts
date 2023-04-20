@@ -86,7 +86,7 @@ export interface Status {
         color:'',
         name: ''
       },
-      asigned: '',
+      asigned: User,
       priority: '',
       comments: {
         title: '',

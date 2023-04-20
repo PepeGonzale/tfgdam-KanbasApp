@@ -105,7 +105,7 @@
                 <button type="button" placeholder="Asigned to" class="mt-2 hover:bg-gray-300 hover:cursor-pointer rounded-lg p-3 items-center" @click="asignedDropdown = !asignedDropdown">
                   <div class="flex items-center space-x-2" >
                     <img :src="asigned?.image" class="w-8 h-8 rounded-full object-cover"> 
-                    <span class="text-center" v-if="asigned">   {{ asigned.email}}</span>
+                    <span class="text-center" v-if="asigned?.email !== undefined">   {{ asigned.email}}</span>
                     <span class="text-gray-200" v-else>Asignar</span>
                   </div>
                 </button>
@@ -250,7 +250,7 @@ const leaveComment = () => {
   useLayoutStore.commentInput = !useLayoutStore.commentInput;
 };
 const search = async () => {
- const res = await store.usersWithAccess(asigned.value)
+ const res = await store.usersWithAccess(asigned?.email.value)
  store.usersInBoard = res.data
 }
 const asignedToUser = async (email: string) => {

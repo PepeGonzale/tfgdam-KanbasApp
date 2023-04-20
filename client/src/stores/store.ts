@@ -27,7 +27,7 @@ export const useStore = defineStore("store", {
             color:'',
             name: ''
           },
-          asigned: '',
+          asigned: {},
           priority: '',
           comments:  {
             _id: '',
