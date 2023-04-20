@@ -1,17 +1,23 @@
 <template>
   <div class="mt-3">
+    <div @focusout="showInput = false">
     <input
       v-model="body"
-      @focusout="showInput = false"
+      
       @keypress.enter="handleTask(props.column)"
       :class="showInput ? 'block' : 'hidden'"
       v-if="props.column === store.selectedColumn"
       placeholder="Title task"
       class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full"
     />
+    <button @click="handleTask(props.column)" class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full" v-if="showInput">
+        Add Task
+    </button>
+  </div>
     <button
       class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full"
       @click="startEdit(props.column)"
+      v-if="!showInput"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

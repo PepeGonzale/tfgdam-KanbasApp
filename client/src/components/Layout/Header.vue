@@ -4,12 +4,12 @@
         <!-- Left -->
       <div class="flex my-4">
         <a class="text-2xl font-black tracking-tight m-auto" href="/boards">kanboard</a>
-        <a @click="useLayoutStore.sidebar = !useLayoutStore.sidebar" class="hover:cursor-pointer m-auto">
+        <a @click="useLayoutStore.sidebar = !useLayoutStore.sidebar" class="hover:cursor-pointer m-auto hidden md:block">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="m-auto mx-6 w-6 h-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </a>
-        <div class="relative inline-block"  ref="dropdown" @mouseover="drop" @mouseout="useLayoutStore.projectDropdown = false">
+        <div class="relative md:inline-block hidden"  ref="dropdown" @mouseover="drop" @mouseout="useLayoutStore.projectDropdown = false">
             <button  type="button" class="inline-flex items-center justify-center w-full px-4 py-2 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true">
               Projects
             </button>
@@ -27,7 +27,8 @@
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Add new project</a>
               </div>
             </div>
-          </div>     
+          </div> 
+             
       </div>
       <div @click="router.push({path: '/boards'})">My boards</div>
       <!-- Right avatar -->

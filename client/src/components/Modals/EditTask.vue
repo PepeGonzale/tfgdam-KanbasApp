@@ -30,13 +30,15 @@
 
 
             <div class="mt-6 sm:mt-12">
-              <div>
+              <div class="justify-between">
                 <label class="block text-gray-500">Title: </label>
                 <input
                   type="text"
+                  
                   v-model="title"
                   class="bg-transparent border-b border-gray-400 w-3/4 text-lg md:text-2xl outline-none"
                 />
+                
               </div>
               <div class="sm:flex my-8">
                 <!-- // priority select -->
@@ -112,7 +114,7 @@
                   
                   <div class="">
                   <input 
-                  v-model="asigned"
+                  v-model="asigned.email"
                   @input="search"
                   type="text"
                   class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black "

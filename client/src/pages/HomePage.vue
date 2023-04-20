@@ -10,38 +10,26 @@
   </div>
 </transition>
     <main class="flex-1 overflow-hidden">
-      <div class="flex flex-col">
-        <div class="shrink-0 flex justify-between items-center p-4">
+      <div class="flex flex-row lg:flex-col">
+        <div class="shrink-0 hidden lg:flex justify-between items-center p-4">
           <h1 class="text-2xl text-white font-bold">Project Name : {{ store.selectedBoard?.title }}</h1>
           <div class="flex items-center">
   <div v-for="a in store.selectedBoard?.usersWithAccess" class="avatar w-12 h-12 rounded-full object-cover">
     <img :src="a.image" class="rounded-full"/>
   </div>
 </div>
-          <div class="mr-24">
-            <button
-              class="inline-flex items-center bg-white hover:bg.white/20 px-3 py-2 font-medium text-sm text-black rounded-md"
-              @click="listUsers"
-            >
-              Add Users 
-            </button>
-            <div class="hidden absolute right-0 w-36 origin-top-right z-10 bg-white">
-              <ul>
-                <li>hola</li>
-              </ul>
-            </div>
-          </div>
+         <div>
+
+         </div>
         </div>
         
-          <div class="flex-1 overflow-x-auto">
-          <div class="inline-flex items-start h-full px-4 pb-4 space-x-4">
+          <div class="flex-1 lg:col-auto md:overflow-x-auto flex-col md:flex-col">
+          <div class="inline-flex items-start h-auto md:h-full flex-col mx-auto md:flex-row md:px-4 md:pb-4 md:space-x-4 bg-gray-200 w-screen" 
+         
+>
             <div
-              class="w-80 bg-gray-200 flex h-129 flex-col rounded-md"
-              :class="
-                store.selectedBoard?.column?.length || 0 >= 6
-                  ? 'h-128'
-                  : 'h-129'
-              "
+              class="items-center m-auto md:flex-1 md:w-80 bg-gray-300 flex h-auto md:h-129 flex-col rounded-md"
+             
               v-for="column in store.selectedBoard?.column"
             >
               <div class="flex items-center justify-between px-3 py-2">
@@ -161,7 +149,11 @@ watch(isLoggedIn, () => {
     auth.logout();
   }
 });
+const createColumn = () => {
+  useLayoutStore.modalContent = "createColumn"
+  useLayoutStore.drawerOpen = true
 
+}
 </script>
 <style scoped>
 .draggable-list {
