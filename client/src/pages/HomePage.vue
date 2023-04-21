@@ -28,11 +28,11 @@
          
 >
             <div
-              class="items-center m-auto md:m-2 md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-129 bg-gray-200 flex-col rounded-md"
+              class="md:m-2 items-center md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-129 bg-gray-200 flex-col w-screen rounded-md"
              
               v-for="column in store.selectedBoard?.column"
             >
-              <div class="flex items-center mt-4 justify-between px-3 py-2">
+              <div class="flex mt-4 justify-between items-center w-full px-3 py-2 ">
                 <div>
                   <span class="drag-handle text-left cursor-move">⠏ </span>
 

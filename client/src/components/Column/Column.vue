@@ -1,9 +1,9 @@
 <template>
   
-  <div class="flex items-center text-center overflow-hidden bg-gray-300 rounded-md">
+  <div class="flex items-center text-center overflow-hidden bg-gray-300 mx-auto md:w-auto rounded-md">
     <section
       data-dragscroll
-      class="min-w-[260px] last:pr-6 box-content"
+      class="min-w-[260px] last:pr-6 box-content m-auto"
     >
       <div class="m-1 text-center">
         Tasks: {{ store.taskByColumn(column._id)?.length }}

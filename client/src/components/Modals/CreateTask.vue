@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-3">
+  <div class="mt-3 items-center">
     <div @focusout="showInput = false">
     <input
       v-model="body"
@@ -15,7 +15,7 @@
     </button>
   </div>
     <button
-      class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-full"
+      class="flex items-center p-2 text-sm font-medium text-gray-600 bg-gray-100 gover:text-black hover:bg-gray-300 rounded-md w-96 md:w-72"
       @click="startEdit(props.column)"
       v-if="!showInput"
     >
