@@ -20,7 +20,7 @@
           item-key="_id"
         >
           <template #item="{ element }">
-            <TaskVue class="drag-item" :task="element" :column="column"/>
+            <TaskVue class="bg-gray-500 m-2" :task="element" :column="column"/>
           </template>
         </Draggable>
       </div>
@@ -55,8 +55,7 @@ const handleDrag = async (e:any) => {
 </script>
 <style scoped>
 .drag-item {
-  background: #01BAEF;
-  margin: 10px;
+ 
   
 }
 </style>

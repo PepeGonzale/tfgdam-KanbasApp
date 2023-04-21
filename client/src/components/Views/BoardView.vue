@@ -1,13 +1,13 @@
 <template>
 
   <div
-    class="items-center text-black justify-between flex cursor-pointer m-auto bg-gray-200 mt-12 w-4/5 p-3"
+    class="items-center justify-between flex cursor-pointer m-auto bg-gray-800 mt-12 w-4/5 p-3"
     
   >
     <div class="flex">
       <a class="text-2xl">My projects</a>
     </div>
-    <div class="mx-auto items-center cursor-pointer rounded-md p-3 text-center bg-gray-200 w-1/3 ">
+    <div class="mx-auto items-center cursor-pointer rounded-md p-3 text-center bg-gray-800 w-1/3 ">
       <ul
             className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
             
@@ -45,15 +45,15 @@
     </div>
   </div>
   
-  <section class="flex w-4/5 m-auto bg-gray-200" >
+  <section class="flex w-4/5 m-auto bg-gray-800" >
     <div class="flex-1 m-auto">
       <ul
         v-for="project in store.boards"
         :key="project._id"
-        class="relative"
+        class="relative "
         
       >
-        <li v-show ="!starred" class="relative bg-white hover:bg-gray-100 p-3 cursor-pointer text-center">
+        <li v-show ="!starred" class="relative bg-gray-800 hover:bg-gray-500 hover:text-black p-3 cursor-pointer text-white text-center">
           <a class=""  @click="handleSelectedBoard(project)">
             <div class="block">{{ project.title }}</div>
             <div class="block">{{ project.description }}</div>

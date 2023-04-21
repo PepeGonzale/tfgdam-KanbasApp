@@ -1,6 +1,6 @@
 <template>
   
-  <div class="flex flex-col min-h-screen bg-blue-600">
+  <div class="flex flex-col min-h-screen bg-gray-800 text-white">
     
     <Header />
     <div class="flex flex-1">
@@ -28,7 +28,7 @@
          
 >
             <div
-              class="md:m-2 items-center md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-129 bg-gray-200 flex-col w-screen rounded-md"
+              class="md:m-2 items-center md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-129 bg-black flex-col w-screen rounded-md"
              
               v-for="column in store.selectedBoard?.column"
             >
@@ -37,7 +37,7 @@
                   <span class="drag-handle text-left cursor-move">⠏ </span>
 
                 </div>
-                <h3 class="text-md font-semibold text-gray-700">
+                <h3 class="text-md font-semibold">
                   {{ column.name.toUpperCase() }}
                 </h3>
                 <button
