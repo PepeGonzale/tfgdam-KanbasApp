@@ -14,6 +14,10 @@
         <div class="shrink-0 hidden lg:flex justify-between items-center p-4">
           <h1 class="text-2x font-bold">Project Name : {{ store.selectedBoard?.title }}</h1>
           <div class="flex items-center">
+            <button @click="handleView">
+              <span v-if="boardView === 'board'">Table View</span>
+              <span v-else>Board View</span>
+            </button>
   <!-- <div v-for="a in store.selectedBoard?.usersWithAccess" class="avatar w-12 h-12 rounded-full object-cover">
     <img :src="a.image" class="rounded-full"/>
   </div> -->
@@ -23,50 +27,21 @@
          </div>
         </div>
         
-          <div class="flex-1 lg:col-auto md:overflow-x-auto flex-col md:flex-col">
+          <div class="flex-1 lg:col-auto md:overflow-x-auto flex-col md:flex-col" v-if="boardView==='board'">
           <div class="inline-flex items-start md:h-full flex-col mx-auto md:flex-row md:px-4 md:pb-4 md:space-x-4 w-screen" 
          
 >
             <div
               class="md:m-2 items-center md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-129  flex-col w-screen rounded-md"
-             
               v-for="column in store.selectedBoard?.column"
+              
             >
-              <div class="flex mt-4 justify-between items-center w-full px-3 py-2 bg-gray-300">
-                <div>
-                  <span class="drag-handle text-left cursor-move">⠏ </span>
-
-                </div>
-                <h3 class="text-md font-semibold">
-                  {{ column.name.toUpperCase() }}
-                </h3>
-                <button
-                  class="hover:bg-gray-300 w-auto p-2 rounded-md grid place-content-center"
-                  @click="editColumn(column)"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="w-6 h-6"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="M12 6.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 12.75a.75.75 0 110-1.5.75.75 0 010 1.5zM12 18.75a.75.75 0 110-1.5.75.75 0 010 1.5z"
-                    />
-                  </svg>
-                </button>
-              </div>
-              <div class="px-3 pb-3 flex flex-col overflow-hidden bg-gray-100">
-                <div class="flex-1 overflow-y-auto">
-                  <Column :column="column" />
-                </div>
-                <CreateTask :column="column"/>
-              </div>
+             <KanbanView :column="column" />
+             
             </div>
+              
+              
+           
             <div class="w-72">
               <button
                 class="flex items-center bg-white/10 w-full hover:bg-white/20 text-white p-2 text-sm font-medium rounded-md"
@@ -77,7 +52,9 @@
             </div>
           </div>
         </div>
-    
+        <div class="">
+          <TableViewVue v-if="boardView==='table'"/>
+        </div>
       </div>
          
     </main>
@@ -121,7 +98,6 @@ import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
 import AddUsers from "@/components/Modals/AddUsers.vue"
 import Header from "@/components/Layout/Header.vue";
-import Column from "@/components/Column/Column.vue";
 import Sidebar from "@/components/Layout/Sidebar.vue";
 import ColumnModal from "@/components/Modals/ColumnModal.vue";
 import { watch } from "vue";
@@ -129,16 +105,14 @@ import { storeToRefs, type Store } from "pinia";
 import EditTask from "@/components/Modals/EditTask.vue";
 import router from "@/router";
 import EditColumn from "@/components/Modals/EditColumn.vue";
-import Toast from "@/components/buttons/Toast.vue";
-import Draggable from "vuedraggable"
-import { toast } from "vue-sonner";
-import CreateTask from "@/components/Modals/CreateTask.vue";
+import KanbanView from "@/components/Views/KanbanView.vue";
+import TableViewVue from "@/components/Views/TableView.vue";
 
 const auth = authStore();
 const { isLoggedIn } = storeToRefs(auth);
 const useLayoutStore = layoutStore();
 const store = useStore();
-
+const boardView = ref('board')
 onMounted(() => {
   if (store.selectedBoard === undefined) {
     router.push("/boards")
@@ -149,6 +123,13 @@ watch(isLoggedIn, () => {
     auth.logout();
   }
 });
+const handleView = () => {
+  if (boardView.value === 'board') {
+    boardView.value = 'table'
+  } else {
+    boardView.value = 'board'
+  }
+}
 const createColumn = () => {
   useLayoutStore.modalContent = "createColumn"
   useLayoutStore.drawerOpen = true

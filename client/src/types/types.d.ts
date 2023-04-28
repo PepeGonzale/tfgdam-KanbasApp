@@ -27,7 +27,7 @@ export interface Status {
   export type Column = { 
     readonly _id: string;
     name: string;
-    color: string;
+    color: string | null;
   }
   export interface AddUsers {
     user: string,

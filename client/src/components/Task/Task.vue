@@ -5,7 +5,7 @@
   >
   
 
-    <a class="text-sm"><span class="drag-handle text-left cursor-move">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
+    <a class="text-sm"><span class="drag-handle text-left cursor-move text-blue-500">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
     <img class="absolute right-0 bottom-0 object-cover rounded-full w-10 h-10 mr-2 mb-2" :src="props.task.asignedTo?.image"/>
   
     <button

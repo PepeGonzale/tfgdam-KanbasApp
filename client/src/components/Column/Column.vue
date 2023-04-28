@@ -5,9 +5,9 @@
       data-dragscroll
       class="min-w-[260px] last:pr-6 box-content m-auto"
     >
-      <div class="m-1 text-center">
-        Tasks: {{ store.taskByColumn(column._id)?.length }}
-      </div>
+      <!-- <div class="m-1 text-center">
+        Tasks: 
+      </div> -->
       <div>
         <Draggable
           class="draggable-list"
