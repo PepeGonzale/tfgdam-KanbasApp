@@ -5,6 +5,9 @@
         <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
             <tr>
                 <th scope="col" class="px-6 py-3">
+                    
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Title
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -17,7 +20,10 @@
             </tr>
         </thead>
         <tbody >
-            <tr class="bg-white border-b " v-for="tasks in store.selectedBoard?.tasks">
+            <tr class="bg-white border-b " :key="tasks._id" v-for="(tasks, index) in store.selectedBoard?.tasks">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
+                    {{ index }}
+                </th>
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                     {{tasks.title}}
                 </th>
