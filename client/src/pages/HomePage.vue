@@ -1,6 +1,6 @@
 <template>
   
-  <div class="flex flex-col min-h-screen bg-gray-800 text-white">
+  <div class="flex flex-col min-h-screen bg-white">
     
     <Header />
     <div class="flex flex-1">
@@ -12,11 +12,11 @@
     <main class="flex-1 overflow-hidden">
       <div class="flex flex-row lg:flex-col">
         <div class="shrink-0 hidden lg:flex justify-between items-center p-4">
-          <h1 class="text-2xl text-white font-bold">Project Name : {{ store.selectedBoard?.title }}</h1>
+          <h1 class="text-2x font-bold">Project Name : {{ store.selectedBoard?.title }}</h1>
           <div class="flex items-center">
-  <div v-for="a in store.selectedBoard?.usersWithAccess" class="avatar w-12 h-12 rounded-full object-cover">
+  <!-- <div v-for="a in store.selectedBoard?.usersWithAccess" class="avatar w-12 h-12 rounded-full object-cover">
     <img :src="a.image" class="rounded-full"/>
-  </div>
+  </div> -->
 </div>
          <div>
 
@@ -28,11 +28,11 @@
          
 >
             <div
-              class="md:m-2 items-center md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-129 bg-black flex-col w-screen rounded-md"
+              class="md:m-2 items-center md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-129  flex-col w-screen rounded-md"
              
               v-for="column in store.selectedBoard?.column"
             >
-              <div class="flex mt-4 justify-between items-center w-full px-3 py-2 ">
+              <div class="flex mt-4 justify-between items-center w-full px-3 py-2 bg-gray-300">
                 <div>
                   <span class="drag-handle text-left cursor-move">⠏ </span>
 
@@ -60,7 +60,7 @@
                   </svg>
                 </button>
               </div>
-              <div class="px-3 pb-3 flex flex-col overflow-hidden">
+              <div class="px-3 pb-3 flex flex-col overflow-hidden bg-gray-100">
                 <div class="flex-1 overflow-y-auto">
                   <Column :column="column" />
                 </div>

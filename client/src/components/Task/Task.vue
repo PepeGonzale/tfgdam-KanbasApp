@@ -1,6 +1,6 @@
 <template>
   <li
-    class="h-[80px] w-screen md:w-auto group gap-4 relative flex flex-col bg-white p-3 m-3 items-center shadow-lg transition-shadow duration-300 hover:shadow-xl rounded-md border-b border-gray-300 hover:bg-gray-50 hover:cursor-pointer"
+    class="h-[80px] w-screen md:w-auto group gap-4 relative flex flex-col bg-white text-black p-3 m-3 items-center shadow-lg transition-shadow duration-300 hover:shadow-xl rounded-md border-b border-gray-300 hover:cursor-pointer"
     
   >
   

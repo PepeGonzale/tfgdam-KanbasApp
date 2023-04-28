@@ -1,6 +1,6 @@
 <template>
   <Toaster position="top-center" richColors/>
-     <header class="bg-gray-800 text-white flex px-6 py-3 border-b-2 items-center justify-between shadow-lg">
+     <header class="bg-gray-300 text-black flex px-6 py-3 border-b-2 items-center justify-between shadow-lg">
         <!-- Left -->
       <div class="flex my-4">
         <a class="text-2xl font-black tracking-tight m-auto" href="/boards">kanboard</a>
