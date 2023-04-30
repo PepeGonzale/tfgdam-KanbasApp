@@ -113,7 +113,7 @@
                   
                   <div class="">
                   <input 
-                  v-model="asigned.email"
+                  v-model="asigned"
                   @input="search"
                   type="text"
                   class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black "
@@ -202,7 +202,7 @@ const commentt = ref(store.taskDefault.comments.title);
 const priority = ref(store.taskDefault.priority);
 const title = ref(store.taskDefault.title);
 const description = ref(store.taskDefault.description);
-const asigned = ref(store.taskDefault.asigned)
+const asigned = ref(store.taskDefault.asigned?.email)
 const column = ref(store.taskDefault.status.name);
 const dueDate = ref("")
 const isDateAfterNow = ref(false);
@@ -249,7 +249,7 @@ const leaveComment = () => {
   useLayoutStore.commentInput = !useLayoutStore.commentInput;
 };
 const search = async () => {
- const res = await store.usersWithAccess(asigned?.email.value)
+ const res = await store.usersWithAccess(asigned?.value)
  store.usersInBoard = res.data
 }
 const asignedToUser = async (email: string) => {
