@@ -1,8 +1,6 @@
 <template>
   
-  <div class="flex flex-col min-h-screen bg-white">
-    
-    <Header />
+  <div class="flex flex-col min-h-full bg-white">
     <div class="flex flex-1">
       <transition name="sidebar-transition" appear>
   <div class="w-1/6 bg-gray-200 flex-col" v-if="useLayoutStore.sidebar">
@@ -39,17 +37,10 @@
              <KanbanView :column="column" />
              
             </div>
-              
+            <CreateColumnVue/>
               
            
-            <div class="w-72">
-              <button
-                class="flex items-center bg-white/10 w-full hover:bg-white/20 text-white p-2 text-sm font-medium rounded-md"
-                @click="createColumn"
-              >
-                <span>Create new list</span>
-              </button>
-            </div>
+           
           </div>
         </div>
         <div class="">
@@ -107,6 +98,7 @@ import router from "@/router";
 import EditColumn from "@/components/Modals/EditColumn.vue";
 import KanbanView from "@/components/Views/KanbanView.vue";
 import TableViewVue from "@/components/Views/TableView.vue";
+import CreateColumnVue from "@/components/Column/CreateColumn.vue";
 
 const auth = authStore();
 const { isLoggedIn } = storeToRefs(auth);
@@ -130,11 +122,7 @@ const handleView = () => {
     boardView.value = 'board'
   }
 }
-const createColumn = () => {
-  useLayoutStore.modalContent = "createColumn"
-  useLayoutStore.drawerOpen = true
 
-}
 </script>
 <style scoped>
 .draggable-list {

@@ -1,5 +1,4 @@
 <template>
-  <Toaster position="top-center" richColors/>
   <div class="fixed top-20 right-0 bottom-0 w-2/3 overflow-hidden bg-white">
     <div class="flex-justify-end">
       <div>

@@ -1,10 +1,16 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
+import Footer from './components/Layout/Footer.vue';
+import Header from './components/Layout/Header.vue';
+import { Toaster } from 'vue-sonner';
 
 </script>
 
 <template>
+      <Toaster position="top-center" richColors/>
+  <Header/>
   <RouterView />
+  <Footer/>
 </template>
 
 <style scoped>

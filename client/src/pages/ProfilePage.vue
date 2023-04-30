@@ -1,6 +1,5 @@
 <template>
-    <Toaster richColors/>
-<Header/>
+
 <section class="p-6 xl:max-w-6xl xl:mx-auto">
 <section class="mb-6 flex items-center justify-between">
 <div class="flex items-center justify-start">

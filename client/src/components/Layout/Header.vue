@@ -1,5 +1,4 @@
 <template>
-  <Toaster position="top-center" richColors/>
      <header class="bg-gray-300 text-black flex px-6 py-3 border-b-2 items-center justify-between shadow-lg">
         <!-- Left -->
       <div class="flex my-4">
