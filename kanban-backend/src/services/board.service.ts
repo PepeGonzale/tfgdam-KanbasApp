@@ -102,7 +102,7 @@ const deleteColumn = async (boardId, columnId) => {
   return column;
 };
 const updateColumn = async (boardId, columnId, columnData) => {
-  
+  console.log('columnData', columnData)
   const edit = await Board.findOneAndUpdate(
     {
       _id: boardId,

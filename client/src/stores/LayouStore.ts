@@ -1,7 +1,4 @@
 import { defineStore } from "pinia";
-import axios from "axios"
-import config from "@/config/config";
-
 export const layoutStore = defineStore("layout", {
     state: () => ({
         open: false,
@@ -9,6 +6,11 @@ export const layoutStore = defineStore("layout", {
         modalContent: '',
         drawerOpen: false,
         sidebar:false,
+        columnData: {
+            _id: '',
+            name: '',
+            color: '',
+        },
         commentInput: false,
         role: false,
         projectDropdown: false,

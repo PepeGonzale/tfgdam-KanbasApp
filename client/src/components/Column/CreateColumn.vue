@@ -16,6 +16,6 @@ const useLayoutStore = layoutStore();
 const createColumn = () => {
   useLayoutStore.modalContent = "createColumn"
   useLayoutStore.drawerOpen = true
-
+  useLayoutStore.columnData.name = ''
 }
 </script>

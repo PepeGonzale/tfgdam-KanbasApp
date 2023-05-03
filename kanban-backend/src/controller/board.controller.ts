@@ -76,6 +76,7 @@ const createColumn = async (req: AuthRequest, res: Response) => {
 const editColumn = async (req: AuthRequest, res: Response) => {
   const {boardId, columnId} = req.params;
   const update = await updateColumn(boardId, columnId, req.body)
+  
   res.json(update)
 }
 

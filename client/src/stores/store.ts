@@ -207,6 +207,7 @@ export const useStore = defineStore("store", {
            this.selectedBoard.column = editColumn.data.column
            
          }
+         console.log(editColumn)
           
         },
         async deleteColumn (columnId: string) {

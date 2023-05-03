@@ -23,8 +23,9 @@
             />
           </div>
           <div class="flex">
-          <button class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="useLayoutStore.drawerOpen = false">Cancel</button>
-          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="createColumn">Create Column</button>
+          <button class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="closeColumn">Cancel</button>
+          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" v-if="useLayoutStore.columnData.name === ''" @click="createColumn">Create Column</button>
+          <button type="submit" class="bg-red-500 p-2 rounded m-4 hover:bg-red-400 focus:outline" @click="editColumn" v-else>Edit Column</button>
       </div>
         </div>
       </div>
@@ -36,22 +37,36 @@
 import { ref } from 'vue';
 import { layoutStore } from '@/stores/LayouStore';
 import { useStore } from '@/stores/store';
+import { toast } from 'vue-sonner';
+
 const store = useStore()
 const useLayoutStore = layoutStore()
-const columnName = ref('')
+const columnName = ref(useLayoutStore.columnData.name || '')
 const columnColor = ref('')
+const closeColumn = () => {
+  useLayoutStore.drawerOpen = false
+  
+}
 const createColumn = async () => {
   const payload = {
     name: columnName.value,
     color: columnColor.value
   }
   const result = await store.createColumn(payload)
-  console.log(result);
-  
   const save = result.data.column
   const last = save[save.length-1]
   store.selectedBoard?.column.push(last)
+  useLayoutStore.columnData.name = ''
   useLayoutStore.drawerOpen = false
 
+}
+const editColumn = async () => {
+  useLayoutStore.columnData.name = columnName.value
+  const res = await store.editColumn(useLayoutStore.columnData)
+  .then(() => {
+    useLayoutStore.columnData.name = ''
+    useLayoutStore.drawerOpen = false
+    toast.success('Column edited successfully')
+  })
 }
 </script>
