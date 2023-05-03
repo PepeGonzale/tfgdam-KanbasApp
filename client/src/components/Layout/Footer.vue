@@ -1,6 +1,6 @@
 <template>
    
-<footer class="bg-gray-300 rounded-lg shadow m-4 w-full overflow-hidden text-black">
+<footer class="bg-gray-300 rounded-lg shadow m-2 w-full overflow-hidden text-black">
     <div class="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
       <span class="text-sm sm:text-center ">© 2023 <a href="https://flowbite.com/" class="hover:underline">Flowbite™</a>. All Rights Reserved.
     </span>

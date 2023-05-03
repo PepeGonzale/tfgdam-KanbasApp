@@ -1,6 +1,6 @@
 <template>
   
-  <div class="flex flex-col min-h-screen bg-white">
+  
     <div class="flex flex-1">
       <transition name="sidebar-transition" appear>
   <div class="w-1/6 bg-gray-200 flex-col" v-if="useLayoutStore.sidebar">
@@ -21,25 +21,24 @@
   </div> -->
 </div>
          <div>
-
+ <CreateColumnVue/>
          </div>
+        
         </div>
         
-          <div class="flex-1 lg:col-auto md:overflow-x-auto flex-col md:flex-col" v-if="boardView==='board'">
-          <div class="inline-flex items-start md:h-full flex-col mx-auto md:flex-row md:px-4 md:pb-4 md:space-x-4 w-screen" 
+          <div class="flex-1 lg:col-auto md:overflow-x-auto flex-col md:flex-col m-auto md:w-[2040px]" v-if="boardView==='board'">
+          <div class="inline-flex items-start flex-col mx-auto md:flex-row md:px-4 md:pb-4 md:space-x-4 w-screen" 
          
 >
             <div
-              class="md:m-2 items-center md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-screen flex-col w-full rounded-md"
+              class="md:m-2 items-center md:items-start md:w-80 md:bg-none flex space-y-4 flex-col w-full rounded-md"
               v-for="column in store.selectedBoard?.column"
               
             >
              <KanbanView :column="column" />
              
             </div>
-            <CreateColumnVue/>
-              
-           
+
            
           </div>
         </div>
@@ -51,7 +50,6 @@
     </main>
  </div>
 
-  </div>
 
   <div class="top-0 bottom-0 left-0 right-0 fixed modal overflow-auto z-index-40" v-if="useLayoutStore.drawerOpen">
     <div class="p-1.5 my-10 mx-auto outline-none shadow-xl w-4/6">
@@ -128,21 +126,8 @@ const handleView = () => {
 
 </script>
 <style scoped>
-.draggable-list {
-  background: #3f51b5;
-  color: #fff;
-  border: 1px solid;
-  height: 50vh;
-}
-.list-item {
-  margin: 10px;
-  padding: 40px;
-  cursor: pointer;
-  font-size: 18px;
-  border-radius: 5px;
-  background: #f44336;
-  display: inline-block;
-}
+
+
 
   .sidebar-transition-enter-active, .sidebar-transition-leave-active {
   transition: transform 0.3s ease;

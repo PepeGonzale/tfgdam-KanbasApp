@@ -35,8 +35,8 @@
                 </div>
               </div>
               </div>
-              <div class="px-3 pb-3 flex flex-col overflow-hidden bg-gray-100" >
-                <div class="flex-1 overflow-y-auto">
+              <div class="w-full flex flex-col h-[680px] bg-gray-200" >
+                <div class="flex-1">
                   <Column :column="props.column" />
                 </div>
                 <CreateTask :column="props.column"/>

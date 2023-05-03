@@ -1,16 +1,16 @@
 <template>
   
-  <div class="flex items-center text-center overflow-hidden mx-auto md:w-auto rounded-md">
+  <div class="flex items-center text-center overflow-hidden mx-auto md:w-auto rounded-md bg-gray-100">
     <section
       data-dragscroll
-      class="min-w-[260px] last:pr-6 box-content m-auto"
+      class="min-w-[260px] md:min-w-[320px] md:m-auto"
     >
       <!-- <div class="m-1 text-center">
         Tasks: 
       </div> -->
       <div>
         <Draggable
-          class="draggable-list"
+          class="draggable-list m-auto md:h-[50vh]"
           tag="ul"
           :model-value="
             store.taskByColumn(column._id)
@@ -54,8 +54,12 @@ const handleDrag = async (e:any) => {
 
 </script>
 <style scoped>
-.drag-item {
- 
+.draggable-list {
   
+  color: #fff;
+  border: 1px solid;
+ 
+  overflow: auto;
 }
+
 </style>

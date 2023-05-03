@@ -1,6 +1,6 @@
 <template>
     
-<div class="md:m-2 items-center md:items-start h-auto md:bg-none flex space-y-4 h-auto md:h-129  flex-col w-full rounded-md overflow-auto">
+<div class="md:m-2 items-center md:items-start h-auto md:bg-none flex space-y-4 flex-col w-full rounded-md overflow-auto">
     <table class="w-full text-sm text-left  text-gray-500 ">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
             <tr>
