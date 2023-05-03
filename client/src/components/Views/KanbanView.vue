@@ -8,9 +8,12 @@
                   {{ props.column.name.toUpperCase() }}
                   <span>({{ store.taskByColumn(props.column._id)?.length }})</span>
                 </h3>
+                <div @mouseover="isEdit = true"
+                  @mouseleave="isEdit = false" class="relative">
                 <button
                   class="hover:bg-gray-300 w-auto p-2 rounded-md grid place-content-center"
                   @click="editColumn(props.column)"
+                  
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -27,6 +30,10 @@
                     />
                   </svg>
                 </button>
+                <div class="absolute w-24 origin-top-left bg-gray-200 rounded-md" :class="isEdit ? 'block': 'hidden'">
+                  asdasd
+                </div>
+              </div>
               </div>
               <div class="px-3 pb-3 flex flex-col overflow-hidden bg-gray-100" >
                 <div class="flex-1 overflow-y-auto">
@@ -38,10 +45,12 @@
 <script lang="ts" setup>
 import { useStore } from '@/stores/store';
 import Column from "@/components/Column/Column.vue";
+import {ref} from "vue"
 import CreateTask from "@/components/Modals/CreateTask.vue";
 
 const store = useStore();
 
+const isEdit = ref(false)
 const props = defineProps({
     column: {
         type: Object,

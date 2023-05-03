@@ -73,6 +73,11 @@ export const useStore = defineStore("store", {
             this.boards.push(postBoard.data)
             return postBoard
         },
+        async getBoard(id: string) {
+          const getBoard = await api.get(`/board/${id}`)
+          
+            this.selectedBoard = getBoard.data
+        },
         async asignTaskToUser(payload: {asginedTo: string}) {
           const asign = await api.post(`/board/${this.selectedBoard?._id}/task/${this.selectedTaskId}`, payload)
           
@@ -217,7 +222,9 @@ export const useStore = defineStore("store", {
           
           
         }, 
-        selectBoard(board: Board) {
+        async selectBoard(board: Board) {
+          
+
             this.newTask = {
               title: '',
               description: '',
@@ -235,7 +242,7 @@ export const useStore = defineStore("store", {
               },
               subtasks: [],
             };
-            this.selectedBoard = board;
+            /* this.selectedBoard = board; */
           },
           loadDraftColumn(column: Column) {
             this.draftColumn = {

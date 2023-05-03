@@ -20,7 +20,7 @@
               </div>
               </div>
               <div class="py-1">
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" @click="router.push({path: '/boards'})">See all projects</a>
+                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" @click="router.push({path: '/'})">See all projects</a>
               </div>
               <div class="py-1">
                 <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Add new project</a>
@@ -29,7 +29,7 @@
           </div> 
              
       </div>
-      <div @click="router.push({path: '/boards'})">My boards</div>
+      <div @click="router.push({path: '/'})">My boards</div>
       <!-- Right avatar -->
 
       <div class="block relative bg-blue-500 p-3 border-l-2 z-10 rounded-md" @mouseover="() => useLayoutStore.profileDropdown = true" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
@@ -86,11 +86,12 @@ const router = useRouter();
 const dropdown = ref(null)
 const drop = () => {
   useLayoutStore.projectDropdown = true
-  console.log(useLayoutStore.projectDropdown)
+  
 };
 const handleSelectedBoard = (project: any) => {
+
   store.selectBoard(project);
-  router.push({path: "/"})
+  router.push({path: "/board/" + project._id})
 }
 const logout = () => {
   

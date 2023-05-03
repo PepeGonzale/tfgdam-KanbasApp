@@ -30,12 +30,13 @@ const router = createRouter({
       component: ResetPasswordVue
     },
     {
-      path: '/',
+      path: '/board/:id',
       name: 'Home',
       component: HomePageVue
     },
+   
     {
-      path: '/boards',
+      path: '/',
       name: 'Boards',
       component: BoardPage
     },
@@ -54,7 +55,7 @@ router.beforeEach((to) => {
     return '/login';
   }
   if (!authRequired && auth.user.token) {
-    return '/boards';
+    return '/';
   }
 });
 

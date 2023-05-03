@@ -1,6 +1,6 @@
 <template>
   
-  <div class="flex flex-col min-h-full bg-white">
+  <div class="flex flex-col min-h-screen bg-white">
     <div class="flex flex-1">
       <transition name="sidebar-transition" appear>
   <div class="w-1/6 bg-gray-200 flex-col" v-if="useLayoutStore.sidebar">
@@ -30,7 +30,7 @@
          
 >
             <div
-              class="md:m-2 items-center md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-129  flex-col w-screen rounded-md"
+              class="md:m-2 items-center md:items-start md:w-80 h-auto md:bg-none flex space-y-4 h-auto md:h-screen flex-col w-full rounded-md"
               v-for="column in store.selectedBoard?.column"
               
             >
@@ -94,21 +94,24 @@ import ColumnModal from "@/components/Modals/ColumnModal.vue";
 import { watch } from "vue";
 import { storeToRefs, type Store } from "pinia";
 import EditTask from "@/components/Modals/EditTask.vue";
-import router from "@/router";
+
 import EditColumn from "@/components/Modals/EditColumn.vue";
 import KanbanView from "@/components/Views/KanbanView.vue";
 import TableViewVue from "@/components/Views/TableView.vue";
 import CreateColumnVue from "@/components/Column/CreateColumn.vue";
+import { useRouter } from "vue-router";
 
 const auth = authStore();
 const { isLoggedIn } = storeToRefs(auth);
 const useLayoutStore = layoutStore();
 const store = useStore();
+const router = useRouter()
+
 const boardView = ref('board')
 onMounted(() => {
-  if (store.selectedBoard === undefined) {
-    router.push("/boards")
-  }
+  
+  store.getBoard(router.currentRoute.value.params.id)
+  
 })
 watch(isLoggedIn, () => {
   if (!isLoggedIn.value) {

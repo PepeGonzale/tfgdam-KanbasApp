@@ -19,6 +19,12 @@ const getBoards = async (id: string): Promise<IBoard[]> => {
 
   return getUserBoards;
 };
+const findBoard = async (board: string) => {
+  const find = await Board.findById(board)
+  if (!find) throw new Error("Board not found")
+  console.log('find', find)
+  return (await find.populate("tasks.asignedTo")).populate("createdBy")
+}
 const starProject = async (_id, boardId, starred) => {
   const star = await Board.findOneAndUpdate(
     {
@@ -123,4 +129,5 @@ export {
   starProject,
   boardToUser,
   deleteColumn,
+  findBoard
 };

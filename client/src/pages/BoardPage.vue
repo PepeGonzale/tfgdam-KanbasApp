@@ -39,12 +39,11 @@ onMounted(() => {
   }
   ) 
 })
-const handleEvent = (board: any) => {
-  console.log(board)
+const handleEvent = (board: any) => { 
+  
   const toastPromise = toast.promise(() => new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
-    store.selectBoard(board)
     setTimeout(() => {
-      router.push({path: "/"})
+      router.push({path: "/board/" + board._id})
     }, 500)
   }), {
   loading: 'Loading',
