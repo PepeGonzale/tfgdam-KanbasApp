@@ -21,8 +21,8 @@
         
       >
       <div class="grid relative">
-        <span @click="createColumn(props.column)">Edit</span>
-        <span @click="deleteColumn(props.column)">Delete</span>
+        <span @click="createColumn(props.column)" class="p-2">Edit</span>
+        <span @click="deleteColumn(props.column)" class="p-2 hover:bg-red-200 cursor-pointer">Delete</span>
       </div>
       </div>
       <button
@@ -74,12 +74,15 @@ const props = defineProps({
     }
 })
 const createColumn = (e) => {
-  console.log(e);
+  
   useLayoutStore.modalContent = "createColumn"
   useLayoutStore.drawerOpen = true
   useLayoutStore.columnData = e
 }
-const deleteColumn = () => {
-  store.deleteColumn(props.column._id)
+const deleteColumn = (e) => {
+  useLayoutStore.modalContent = "delete"
+  useLayoutStore.drawerOpen = true
+  useLayoutStore.columnData = e
+  
 }
 </script>

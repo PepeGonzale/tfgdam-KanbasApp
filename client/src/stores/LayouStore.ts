@@ -21,6 +21,10 @@ export const layoutStore = defineStore("layout", {
         openSidebar(state: any) {
             state.open = !state.open
         },
+        closeModal() {
+            this.modalContent = ''
+            this.drawerOpen = false
+        }
       
         
     }

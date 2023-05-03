@@ -62,15 +62,10 @@
         useLayoutStore.modalContent === 'createColumn'
       "
     />
- 
+      
     <EditTask
       v-if="
         useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'editTask'
-      "
-    />
-    <EditColumn
-      v-if="
-        useLayoutStore.drawerOpen && useLayoutStore.modalContent == 'editColumn'
       "
     />
     <AddUsers v-if="
@@ -92,7 +87,7 @@ import ColumnModal from "@/components/Modals/ColumnModal.vue";
 import { watch } from "vue";
 import { storeToRefs, type Store } from "pinia";
 import EditTask from "@/components/Modals/EditTask.vue";
-
+import Delete from "@/components/Modals/Delete.vue"
 import EditColumn from "@/components/Modals/EditColumn.vue";
 import KanbanView from "@/components/Views/KanbanView.vue";
 import TableViewVue from "@/components/Views/TableView.vue";
