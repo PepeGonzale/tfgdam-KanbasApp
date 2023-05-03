@@ -15,6 +15,16 @@
       @mouseleave="isEdit = false"
       class="relative"
     >
+    <div
+        class="absolute w-24 origin-bottom bg-gray-200 rounded-md"
+        :class="isEdit ? 'block' : 'hidden'"
+        
+      >
+      <div class="grid relative">
+        <span @click="createColumn(props.column)">Edit</span>
+        <span @click="deleteColumn(props.column)">Delete</span>
+      </div>
+      </div>
       <button
         class="hover:bg-gray-300 w-auto p-2 rounded-md grid place-content-center"
         @click="editColumn(props.column)"
@@ -34,13 +44,10 @@
           />
         </svg>
       </button>
-      <div
-        class="absolute w-24 origin-top-left bg-gray-200 rounded-md"
-        :class="isEdit ? 'block' : 'hidden'"
-        @click="createColumn(props.column)"
-      >
-        Edit
-      </div>
+      
+      
+        
+      
     </div>
   </div>
   <div class="w-full flex flex-col h-[680px] bg-gray-200">
@@ -71,5 +78,8 @@ const createColumn = (e) => {
   useLayoutStore.modalContent = "createColumn"
   useLayoutStore.drawerOpen = true
   useLayoutStore.columnData = e
+}
+const deleteColumn = () => {
+  store.deleteColumn(props.column._id)
 }
 </script>
