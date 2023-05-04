@@ -12,6 +12,20 @@
         <Draggable
           class="draggable-list m-auto md:h-[50vh]"
           tag="ul"
+          :model-value="store.searchedTasks"
+          v-if="store.searchedTasks "
+          @change="handleDrag"
+          group="my-group"
+          item-key="_id"
+        >
+          <template #item="{ element }">
+            <TaskVue class="m-2" :task="element" :column="column"/>
+          </template>
+        </Draggable>
+        <Draggable
+        v-else
+          class="draggable-list m-auto md:h-[50vh]"
+          tag="ul"
           :model-value="
             store.taskByColumn(column._id)
           "

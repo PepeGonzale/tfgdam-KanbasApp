@@ -14,35 +14,34 @@ const getBoards = async (id: string): Promise<IBoard[]> => {
   })
     .populate("tasks.asignedTo")
     .populate("createdBy")
-    .populate("usersWithAccess")
-
+    .populate("usersWithAccess");
 
   return getUserBoards;
 };
 const findBoard = async (board: string) => {
-  const find = await Board.findById(board)
-  if (!find) throw new Error("Board not found")
-  console.log('find', find)
-  return (await find.populate("tasks.asignedTo")).populate("createdBy")
-}
+  const find = await Board.findById(board);
+  if (!find) throw new Error("Board not found");
+  console.log("find", find);
+  return (await find.populate("tasks.asignedTo")).populate("createdBy");
+};
 const starProject = async (_id, boardId, starred) => {
   const star = await Board.findOneAndUpdate(
     {
       _id: boardId,
-      createdBy: _id
+      createdBy: _id,
     },
     {
       $set: {
         starred,
-      }
+      },
     },
-    {new: true}
-  )
+    { new: true }
+  );
   return star;
-}
+};
 const boardToUser = async (boardId: string, userId: string, role: string) => {
   /* id del nuevo usuario, id de la board */
-  
+
   const boardUser = await Board.findByIdAndUpdate(
     boardId,
     {
@@ -81,7 +80,6 @@ const newColumn = async (boardId, columns, userId) => {
     color: columns.color,
   });
   await board.save();
-  
 
   return board;
 };
@@ -101,8 +99,16 @@ const deleteColumn = async (boardId, columnId) => {
 
   return column;
 };
+const inputSearch = async (boardId: string, query: any) => {
+  const realSearchTime = await Board.find({
+    _id: boardId,
+    "tasks.title": { $regex: new RegExp(query, "i") },
+  });
+  const result = await realSearchTime[0].tasks.filter((t) => t.title.includes(query))
+  return result;
+};
 const updateColumn = async (boardId, columnId, columnData) => {
-  console.log('columnData', columnData)
+  console.log("columnData", columnData);
   const edit = await Board.findOneAndUpdate(
     {
       _id: boardId,
@@ -112,7 +118,7 @@ const updateColumn = async (boardId, columnId, columnData) => {
       $set: {
         "column.$.name": columnData.name,
         "column.$.color": columnData.color,
-      }
+      },
     },
     {
       new: true,
@@ -123,11 +129,12 @@ const updateColumn = async (boardId, columnId, columnData) => {
 
 export {
   updateColumn,
+  inputSearch,
   createBoard,
   getBoards,
   newColumn,
   starProject,
   boardToUser,
   deleteColumn,
-  findBoard
+  findBoard,
 };

@@ -121,6 +121,11 @@ onMounted(async () => {
 });
 const handlePassword = async () => {
     await useAuthStore.changeUserPassword(credentials)
+    .then(() => {
+        toast.success(`Password updated successfully`)
+    }).catch((err) => {
+        toast.error(err.response.data.message)
+    })
 }
 const uploadImage = async (file: any) => {
     console.log(file)

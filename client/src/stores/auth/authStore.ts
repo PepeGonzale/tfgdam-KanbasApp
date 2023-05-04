@@ -84,7 +84,7 @@ export const authStore = defineStore('auth',  {
             this.user.token = data.token
             
             localStorage.setItem('user', JSON.stringify(this.user));
-            router.push("/boards")
+            router.push("/")
         },
         async changeUserPassword(payload: ChangePassword) {
             const token = JSON.parse(localStorage.getItem('user') || "error");

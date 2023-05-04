@@ -78,6 +78,8 @@ export interface Status {
     dialogOpen: boolean;
     selectedTaskId:string;
     usersInBoard: [];
+    searchingTasks: boolean
+    searchedTasks: Task[]
     addUser: {
       user: string,
       board: string,

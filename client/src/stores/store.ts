@@ -50,6 +50,7 @@ export const useStore = defineStore("store", {
           name: '',
           color: '',
         },
+        searchingTasks: false,
         drawerOpen: false,
         newTask: { title: '', description: '', status: '', subtasks: [] },
         selectedBoard: undefined,
@@ -57,6 +58,12 @@ export const useStore = defineStore("store", {
       getters: {
         taskByColumn: (state) => (column: string) => {
           return state.selectedBoard?.tasks.filter((task) => task.status._id === column);
+        },
+        searchedTask: (state) => (query: []) => {
+            return state.searchedTasks =  query.filter(t => {
+              console.log(t)
+              return t
+            })
         },
         column: (state) =>
         state.selectedBoard?.column.map((c) => {
@@ -83,7 +90,7 @@ export const useStore = defineStore("store", {
           
            if (asign.data.tasks!== undefined && this.selectedBoard?.tasks !== undefined) {
           this.selectedBoard.tasks = asign.data.tasks
-          console.log('entro')
+         
           } 
           return asign
         },
@@ -94,13 +101,13 @@ export const useStore = defineStore("store", {
             
             const token = JSON.parse(localStorage.getItem('user') || "error");
 
-            console.log(task)
+            
             const data = await axios.post(`http://localhost:3000/api/boards/task/update/${task._id}`, { task },{headers: {
               Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
             }});
             
             /* this.success('Task saved successfully'); */
-            console.log(data)
+            
           } catch (error) {
             
             task.status = prevStatus;
@@ -112,8 +119,6 @@ export const useStore = defineStore("store", {
             const getBoards = await axios.get(`http://localhost:3000/api/boards/boards`, {headers: {
                 Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
               }})
-              
-              console.log('get boards', getBoards)
               this.boards = getBoards.data
               
             

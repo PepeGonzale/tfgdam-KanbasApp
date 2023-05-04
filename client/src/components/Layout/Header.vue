@@ -16,7 +16,7 @@
             <div class="absolute right-0 w-56 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg divide-y divide-gray-100 z-10" :class="useLayoutStore.projectDropdown ? 'block' : 'hidden'">
               <div class="py-1 border-b-2" >
                 <div class="py-1" v-for="project in store.boards.slice(0,4)" @click="handleSelectedBoard(project)">
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >{{project.title}}</a>
+                <a :href="`/board/${project._id}`" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" >{{project.title}}</a>
               </div>
               </div>
               <div class="py-1">

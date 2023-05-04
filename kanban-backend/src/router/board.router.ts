@@ -8,6 +8,7 @@ import {
   editColumn,
   starredProject,
   getBoardById,
+  search,
   
 } from "../controller/board.controller";
 import {
@@ -31,6 +32,7 @@ router.post("/board/:boardId/task/:taskId", asignTaskToUser)
 router.post("/edit/subtask/:taskId", editSubtask)
 router.post("/column/:boardId",useRole, createColumn);
 router.post("/", postBoard);
+router.get("/board/:boardId/search", search)
 router.get("/board/:boardId", getBoardById)
 router.get("/user/access", listAccessUsers)
 router.get("/access/user/:boardId", listAccessUsers)

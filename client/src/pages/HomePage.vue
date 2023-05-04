@@ -10,6 +10,7 @@
       <div class="flex flex-row lg:flex-col">
         <div class="shrink-0 hidden lg:flex justify-between items-center p-4">
           <h1 class="text-2x font-bold">Project Name : {{ store.selectedBoard?.title }}</h1>
+          
           <div class="flex items-center">
             <button @click="handleView">
               <span v-if="boardView === 'board'">Table View</span>
@@ -24,7 +25,7 @@
          </div>
         
         </div>
-        
+     <Search @search="handleSearch"/>
           <div class="flex-1 lg:col-auto md:overflow-x-auto flex-col md:flex-col m-auto md:w-[2040px]" v-if="boardView==='board'">
           <div class="inline-flex items-start flex-col mx-auto md:flex-row md:px-4 md:pb-4 md:space-x-4 w-screen" 
          
@@ -76,36 +77,33 @@
 </Default>  
 </template>
 <script lang="ts" setup>
-import { onMounted,ref } from "vue";
+import { computed, onBeforeMount, onMounted,ref } from "vue";
 import { authStore } from "@/stores/auth/authStore";
 import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
 import AddUsers from "@/components/Modals/AddUsers.vue"
-import Header from "@/components/Layout/Header.vue";
 import Sidebar from "@/components/Layout/Sidebar.vue";
 import ColumnModal from "@/components/Modals/ColumnModal.vue";
 import { watch } from "vue";
-import { storeToRefs, type Store } from "pinia";
+import { storeToRefs} from "pinia";
 import EditTask from "@/components/Modals/EditTask.vue";
-import Delete from "@/components/Modals/Delete.vue"
-import EditColumn from "@/components/Modals/EditColumn.vue";
 import KanbanView from "@/components/Views/KanbanView.vue";
 import TableViewVue from "@/components/Views/TableView.vue";
 import CreateColumnVue from "@/components/Column/CreateColumn.vue";
 import { useRouter } from "vue-router";
-import Default from "@/layouts/Default.vue";
 
+import Default from "@/layouts/Default.vue";
+import Search from "@/components/Search.vue";
 
 const auth = authStore();
 const { isLoggedIn } = storeToRefs(auth);
 const useLayoutStore = layoutStore();
 const store = useStore();
 const router = useRouter()
-
 const boardView = ref('board')
-onMounted(() => {
-  
-  store.getBoard(router.currentRoute.value.params.id)
+onBeforeMount(() => {
+  store.fetchBoards()
+ store.getBoard(router.currentRoute.value.params.id)
   
 })
 watch(isLoggedIn, () => {
@@ -113,6 +111,11 @@ watch(isLoggedIn, () => {
     auth.logout();
   }
 });
+const handleSearch = (e) => {
+  // getter para filtrar unicamente las tareas que den match con el search
+ store.searchedTask(e)
+  
+}
 const handleView = () => {
   if (boardView.value === 'board') {
     boardView.value = 'table'

@@ -1,5 +1,5 @@
 <template>
-
+<div class="space-y-10">
   <div
     class="items-center justify-between flex cursor-pointer m-auto bg-gray-300 mt-12 w-4/5 p-3"
     
@@ -46,7 +46,7 @@
   </div>
   
   <section class="flex w-4/5 m-auto bg-gray-800" >
-    <div class="flex-1 m-auto">
+    <div class="flex-1">
       <ul
         v-for="project in store.boards"
         :key="project._id"
@@ -92,13 +92,12 @@
       </ul>
     </div>
   </section>
-  
+</div>
 </template>
 <script lang="ts" setup>
 import { api } from "@/helpers/axios";
 import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
-import axios from "axios";
 import { defineEmits, ref } from "vue";
 import { toast } from "vue-sonner";
 const props = defineProps({
