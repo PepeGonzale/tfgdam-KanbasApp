@@ -12,6 +12,11 @@ export interface Status {
     readonly updatedAt: string;
   }
   
+  interface ChangePassword {
+    curr_password: string,
+    new_password: string,
+    confirm_password: string
+  }
   export interface Task {
     readonly _id: string;
     title: string;

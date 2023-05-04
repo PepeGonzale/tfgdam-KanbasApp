@@ -119,8 +119,8 @@ onMounted(async () => {
     store.fetchBoards();
     useAuthStore.userInfo
 });
-const handlePassword = () => {
-    console.log(credentials)
+const handlePassword = async () => {
+    await useAuthStore.changeUserPassword(credentials)
 }
 const uploadImage = async (file: any) => {
     console.log(file)

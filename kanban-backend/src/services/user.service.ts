@@ -15,10 +15,10 @@ const registerUser = async (data) => {
 
 const loginUser = async (email, password) => {
   const user = await UserModel.findOne({ email });
-
+console.log(password, user.password)
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
-
+    console.log(auth)
     if (auth) {
       const refreshToken = await createRefreshTOken(user);
       const updateuser = await UserModel.findByIdAndUpdate(
@@ -37,7 +37,36 @@ const getUsers = async () => {
   const users = UserModel.find({});
   return users;
 };
+const changeUserPassword = async (data, userId: string) => {
+  console.log(data);
+  
+  const user = await UserModel.findById({
+    _id: userId
+  })
+  if(!user) throw new Error("User not found")
+  const password = await bcrypt.compare(data.curr_password, user.password)
+  if (!password) throw new Error("Incorrect password")
+  if (data.new_password === data.confirm_password) {
+    
+    console.log('c',user.password)
+    const salt = await bcrypt.genSalt(10);
+    const newHash = await bcrypt.hash(data.new_password, salt)
+    const updatePassword = await UserModel.findByIdAndUpdate(userId, {
+      $set: {
+        password: newHash
+      }
+    }, {
+      new: true
+    }
+      )
+    
+    return updatePassword
+  } else{
+    throw new Error("Passwords do not match")
+  }
 
+  
+}
 const updateUser = async (id: string, data: any) => {
   try {
     const update = await UserModel.findByIdAndUpdate(
@@ -99,6 +128,7 @@ export {
   loginUser,
   registerUser,
   getUsers,
+  changeUserPassword,
   getIUser,
   deleteUserId,
   updateUser,

@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import {
+  changeUserPassword,
   deleteUserId,
   getIUser,
   getUsers,
@@ -106,8 +107,16 @@ const uploadImage = async (req: CustomRequest, res: Response) => {
   const updateUserImage = await saveImage(req.body.id, location)
   res.json(updateUserImage);
 }
+
+const updatePassword = async (req: AuthRequest, res: Response) => {
+  const {userId} = req.params;
+  const data = req.body
+  const password = await changeUserPassword(data, userId)
+  res.json(password)
+}
 export {
   login,
+  updatePassword,
   register,
   getAllUsers,
   deleteUser,

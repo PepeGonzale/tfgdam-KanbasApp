@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios"
 import router from "@/router";
+import type { ChangePassword } from "@/types/types";
 
 export interface User {
     email: string,
@@ -84,6 +85,14 @@ export const authStore = defineStore('auth',  {
             
             localStorage.setItem('user', JSON.stringify(this.user));
             router.push("/boards")
+        },
+        async changeUserPassword(payload: ChangePassword) {
+            const token = JSON.parse(localStorage.getItem('user') || "error");
+            const {data} = await axios.post(`http://localhost:3000/api/auth/user/password/${this.userData._id}`, payload, {headers: {
+                Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
+              }})
+            console.log(data);
+            
         },
         async updateUsers(payload: any) {
             const {data} = await axios.post(`http://localhost:3000/api/auth/update/${payload._id}`, payload)
