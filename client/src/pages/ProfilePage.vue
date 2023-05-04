@@ -1,5 +1,5 @@
 <template>
-
+<Default>
 <section class="p-6 xl:max-w-6xl xl:mx-auto">
 <section class="mb-6 flex items-center justify-between">
 <div class="flex items-center justify-start">
@@ -49,7 +49,7 @@
     </form>
 </div>
 </section>
-
+</Default>
 </template>
 <script lang="ts" setup>
 import {onMounted} from "vue"
@@ -59,6 +59,7 @@ import UserForm from "@/components/Profile/UserForm.vue";
 import axios from "axios";
 import { useStore } from "@/stores/store";
 import { toast, type Toaster } from "vue-sonner";
+import Default from "@/layouts/Default.vue";
 const useAuthStore = authStore();
 const store = useStore();
 onMounted(async () => {

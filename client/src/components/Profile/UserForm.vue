@@ -18,34 +18,17 @@
                     </div>
                 </div>
             </div>
-            <div class="mb-6 last:mb-0">
-    <label class="block font-bold mb-2">Name</label>
-    <div class="relative">
-        <input type="text" @change="(e) => handleName(e)" class="px-3 py-2 max-w-full focus:ring focus:outline-none border-gray-700 rounded w-full dark:placeholder-gray-400 h-12 border bg-white pl-10"/>
-        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke-width="1.5" stroke="currentColor" class="inline-block">
+ <ProfileInputVue label="Name" v-model="credentials.username">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke-width="1.5" stroke="currentColor" class="inline-block">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
             </svg>
-        </span>
-    </div>
-    <div class="text-xs text-gray-500 dark:text-slate-400 mt-1">Required your name</div>
-</div>
+ </ProfileInputVue>
 
-            <div class="mb-6 last:mb-0">
-                <label class="block font-bold mb-2">E-mail</label>
-                <div>
-                    <div class="relative">
-                        <input type="text" @change="(e) => handleEmail(e)" class="px-3 py-2 max-w-full focus:ring focus:outline-none border-gray-700 rounded w-full dark:placeholder-gray-400 h-12 border bg-white  pl-10"/>
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline-block">
+            <ProfileInputVue label="E-mail" v-model="credentials.email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline-block">
   <path stroke-linecap="round" d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
 </svg>
-
-                        </span>
-                    </div>
-                </div>
-                <div class="text-xs text-gray-500 dark:text-slate-400 mt-1">Required your email</div>
-            </div>
+            </ProfileInputVue>
         </div>
         <footer class="p-6">
             <div class="flex items-center justify-start flex-wrap -mb-3">
@@ -62,24 +45,20 @@
 
 <script lang="ts" setup>
 
-import { ref, defineEmits } from 'vue';
-var email = ref('');
-var username = ref('')
+import { reactive, defineEmits } from 'vue';
+import ProfileInputVue from './ProfileInput.vue';
+var credentials = reactive({
+    email: "",
+    username: ""
+});
+
 const emits = defineEmits(['uploadImage', 'userData'])
 const handleImage = (e: any) => {
     emits("uploadImage",e.target.files[0])
 };
-const handleEmail = (e) => {
-    console.log(e.target.value)
-    email = e.target.value
-}
-const handleName = (e) => {
-    console.log(e.target.value)
-    username = e.target.value
-}
 const sendData = () => {
-    emits('userData', {email, username})
-    email.value = ""
-    username.value = ""
+     emits('userData', {email: credentials.email, username: credentials.username}) 
+    credentials.email = ""
+    credentials.username = "" 
 }
 </script>

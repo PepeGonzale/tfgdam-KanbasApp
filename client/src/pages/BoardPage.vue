@@ -1,4 +1,5 @@
 <template>
+  <DefaultVue>
 <BoardView :boards="store.boards" @selectedBoard="handleEvent"/>
 <div
     class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] max-w-xs w-11/12 sm:max-w-md"
@@ -10,7 +11,7 @@
       "
     />
 </div>
-
+</DefaultVue>
 </template>
 <script lang="ts" setup>
 import Header from '../components/Layout/Header.vue';
@@ -22,6 +23,7 @@ import { useStore } from '@/stores/store';
 import { onMounted,ref } from 'vue';
 import { useRouter } from 'vue-router'
 import { authStore } from '@/stores/auth/authStore';
+import DefaultVue from '@/layouts/Default.vue';
 const router = useRouter()
 const auth = authStore()
 const store = useStore()

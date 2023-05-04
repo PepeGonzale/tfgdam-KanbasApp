@@ -1,6 +1,5 @@
 <template>
-  
-  
+  <Default>
     <div class="flex flex-1">
       <transition name="sidebar-transition" appear>
   <div class="w-1/6 bg-gray-200 flex-col" v-if="useLayoutStore.sidebar">
@@ -74,6 +73,7 @@
   </div>
 </div>
 </div>
+</Default>  
 </template>
 <script lang="ts" setup>
 import { onMounted,ref } from "vue";
@@ -93,6 +93,8 @@ import KanbanView from "@/components/Views/KanbanView.vue";
 import TableViewVue from "@/components/Views/TableView.vue";
 import CreateColumnVue from "@/components/Column/CreateColumn.vue";
 import { useRouter } from "vue-router";
+import Default from "@/layouts/Default.vue";
+
 
 const auth = authStore();
 const { isLoggedIn } = storeToRefs(auth);
