@@ -113,6 +113,8 @@ watch(isLoggedIn, () => {
 });
 const handleSearch = (e) => {
   // getter para filtrar unicamente las tareas que den match con el search
+  console.log(e)
+  store.searchedTasks = e
  store.searchedTask(e)
   
 }

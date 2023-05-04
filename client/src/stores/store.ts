@@ -59,10 +59,11 @@ export const useStore = defineStore("store", {
         taskByColumn: (state) => (column: string) => {
           return state.selectedBoard?.tasks.filter((task) => task.status._id === column);
         },
-        searchedTask: (state) => (query: []) => {
-            return state.searchedTasks =  query.filter(t => {
+        searchedTask: (state) => (column: string) => {
+          console.log(state.searchedTasks)
+            return state.searchedTasks.filter(t => {
               console.log(t)
-              return t
+              return t.status._id === column
             })
         },
         column: (state) =>

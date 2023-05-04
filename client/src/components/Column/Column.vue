@@ -12,8 +12,8 @@
         <Draggable
           class="draggable-list m-auto md:h-[50vh]"
           tag="ul"
-          :model-value="store.searchedTasks"
-          v-if="store.searchedTasks "
+          :model-value="store.searchedTask(column._id)"
+          v-if="store.searchedTasks"
           @change="handleDrag"
           group="my-group"
           item-key="_id"
