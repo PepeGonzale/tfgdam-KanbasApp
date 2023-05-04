@@ -43,29 +43,85 @@
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-    <UserForm @uploadImage = "uploadImage" @userData="updateUser"/>
-    <form class="rounded-2xl flex-col bg-gray-200   flex">
+    <UserForm @uploadImage = "uploadImage" @submit="updateUser">
+        <div class="mb-6 last:mb-0">
+                <label class="block font-bold mb-2">Avatar</label>
+                <div>
+                    <div class="flex items-stretch justify-start relative">
+                        <label class="inline-flex">
+                            <a class="inline-flex justify-center items-center whitespace-nowrap focus:outline-none transition-colors focus:ring duration-150 border cursor-pointer rounded border-blue-600 dark:border-blue-500 ring-blue-300 dark:ring-blue-700 bg-blue-600 dark:bg-blue-500 text-white hover:bg-blue-700 hover:border-blue-700 hover:dark:bg-blue-600 hover:dark:border-blue-600 py-2 px-3">
+                                <span class="inline-flex justify-center items-center w-6 h-6"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+</svg>
+</span>
+                                <span class="px-2">Upload</span>
+                            </a>
+                            <input type="file" @change="(e) => uploadImage(e.target.files[0])" class="absolute top-0 left-0 w-full h-full opacity-0 outline-none cursor-pointer -z-1"/>
+                        </label>
+                    </div>
+                </div>
+            </div>
 
-    </form>
+           
+ <ProfileInput label="Name" v-model="userCredentials.username">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="16" height="16" stroke-width="1.5" stroke="currentColor" class="inline-block">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+            </svg>
+ </ProfileInput>
+
+            <ProfileInput label="E-mail" v-model="userCredentials.email">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="inline-block">
+  <path stroke-linecap="round" d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
+</svg>
+            </ProfileInput>
+    </UserForm>
+    <UserForm @submit="handlePassword">
+        <div class="flex-1 p-6">
+            <ProfileInput type="password" label="Current Password" v-model="credentials.curr_password">
+                <svg viewBox="0 0 24 24" width="16" height="16" class="inline-block"><path fill="currentColor" d="M21 13H14.4L19.1 17.7L17.7 19.1L13 14.4V21H11V14.3L6.3 19L4.9 17.6L9.4 13H3V11H9.6L4.9 6.3L6.3 4.9L11 9.6V3H13V9.4L17.6 4.8L19 6.3L14.3 11H21V13Z"></path></svg>
+            </ProfileInput>
+            <ProfileInput type="password" label="New Password" v-model="credentials.new_password">
+                <svg viewBox="0 0 24 24" width="16" height="16" class="inline-block"><path fill="currentColor" d="M17,7H22V17H17V19A1,1 0 0,0 18,20H20V22H17.5C16.95,22 16,21.55 16,21C16,21.55 15.05,22 14.5,22H12V20H14A1,1 0 0,0 15,19V5A1,1 0 0,0 14,4H12V2H14.5C15.05,2 16,2.45 16,3C16,2.45 16.95,2 17.5,2H20V4H18A1,1 0 0,0 17,5V7M2,7H13V9H4V15H13V17H2V7M20,15V9H17V15H20M8.5,12A1.5,1.5 0 0,0 7,10.5A1.5,1.5 0 0,0 5.5,12A1.5,1.5 0 0,0 7,13.5A1.5,1.5 0 0,0 8.5,12M13,10.89C12.39,10.33 11.44,10.38 10.88,11C10.32,11.6 10.37,12.55 11,13.11C11.55,13.63 12.43,13.63 13,13.11V10.89Z"></path></svg>
+            </ProfileInput>
+            <ProfileInput type="password" label="Confirm Password" v-model="credentials.confirm_password">
+                <svg viewBox="0 0 24 24" width="16" height="16" class="inline-block"><path fill="currentColor" d="M17,7H22V17H17V19A1,1 0 0,0 18,20H20V22H17.5C16.95,22 16,21.55 16,21C16,21.55 15.05,22 14.5,22H12V20H14A1,1 0 0,0 15,19V5A1,1 0 0,0 14,4H12V2H14.5C15.05,2 16,2.45 16,3C16,2.45 16.95,2 17.5,2H20V4H18A1,1 0 0,0 17,5V7M2,7H13V9H4V15H13V17H2V7M20,15V9H17V15H20M8.5,12A1.5,1.5 0 0,0 7,10.5A1.5,1.5 0 0,0 5.5,12A1.5,1.5 0 0,0 7,13.5A1.5,1.5 0 0,0 8.5,12M13,10.89C12.39,10.33 11.44,10.38 10.88,11C10.32,11.6 10.37,12.55 11,13.11C11.55,13.63 12.43,13.63 13,13.11V10.89Z"></path></svg>
+            </ProfileInput>
+        </div>
+            
+    </UserForm>
 </div>
 </section>
 </Default>
 </template>
 <script lang="ts" setup>
-import {onMounted} from "vue"
-import Header from "@/components/Layout/Header.vue";
+import {onMounted, reactive} from "vue"
 import { authStore } from "@/stores/auth/authStore";
 import UserForm from "@/components/Profile/UserForm.vue";
 import axios from "axios";
 import { useStore } from "@/stores/store";
-import { toast, type Toaster } from "vue-sonner";
+import { toast } from "vue-sonner";
 import Default from "@/layouts/Default.vue";
+import FormControl from "@/components/Profile/FormControl.vue";
+import FormFooter from "@/components/Profile/FormFooter.vue"
+import ProfileInput from "@/components/Profile/ProfileInput.vue";
 const useAuthStore = authStore();
 const store = useStore();
+const credentials = reactive({
+    curr_password: '',
+    new_password: '',
+    confirm_password: ''
+})
+var userCredentials = reactive({
+    email: "",
+    username: ""
+});
 onMounted(async () => {
     store.fetchBoards();
     useAuthStore.userInfo
 });
+const handlePassword = () => {
+    console.log(credentials)
+}
 const uploadImage = async (file: any) => {
     console.log(file)
   const bucket = "tfg-kanban-app"
@@ -80,7 +136,11 @@ const uploadImage = async (file: any) => {
       useAuthStore.userData.imageUrl = res.data.image
     })
 };
-const updateUser = async (data) => {
+const updateUser = async () => {
+    const data = {
+        email: userCredentials.email,
+        username: userCredentials.username
+    }
     const token = JSON.parse(localStorage.getItem('user') || "error");
     const res = await axios.post(`http://localhost:3000/api/auth/update`, data, {headers: {
             Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
