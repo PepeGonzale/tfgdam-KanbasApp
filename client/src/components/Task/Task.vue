@@ -54,16 +54,16 @@ const deleteTask = async(id:string) => {
 const editTask = async(id: string, task: any) => {
   store.selectedTaskId = id
   const res = await store.taskInfo()
-
+  console.log(res)
    store.taskDefault = {
     title: res.data.title,
     description: res.data.description,
     status: res.data.status,
     comments: res.data.comments,
     priority: res.data.priority,
-    asigned: res.data.asignedTo
+    asigned: res.data.createdBy
   } 
-  console.log('asigned', store.taskDefault.asigned);
+  
   
   useLayoutStore.drawerOpen = true
   useLayoutStore.modalContent = "editTask"
