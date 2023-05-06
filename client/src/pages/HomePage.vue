@@ -102,7 +102,7 @@ const store = useStore();
 const router = useRouter()
 const boardView = ref('board')
 onBeforeMount(() => {
-  store.fetchBoards()
+ store.fetchBoards()
  store.getBoard(router.currentRoute.value.params.id)
  auth.userInfo
   

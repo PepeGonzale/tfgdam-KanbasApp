@@ -77,7 +77,7 @@ import { useStore } from "@/stores/store";
 import { useRouter } from "vue-router";
 import { authStore } from "@/stores/auth/authStore";
 import { ref } from "vue";
-import { Toaster, toast } from "vue-sonner";
+import {  toast } from "vue-sonner";
 const useLayoutStore = layoutStore();
 const store = useStore();
 const useAuthStore = authStore();
@@ -90,7 +90,16 @@ const drop = () => {
 const handleSelectedBoard = (project: any) => {
 
   store.selectBoard(project);
-  router.push({path: "/board/" + project._id})
+  const toastPromise = toast.promise(() => new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
+    setTimeout(() => {
+      router.push({path: "/board/" + project._id})
+    }, 500)
+  }), {
+  loading: 'Loading',
+  success: (data: any) => 'Success' ,
+  error: (data: any) => 'Error'
+    
+})
 }
 const logout = () => {
   

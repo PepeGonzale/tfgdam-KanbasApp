@@ -14,9 +14,31 @@ const useLayoutStore = layoutStore()
       v-if="useLayoutStore.drawerOpen && useLayoutStore.modalContent === 'delete'"
       :show="true"
       />
+      <Transition name="page">
       <RouterView />
+    </Transition>
 
     
 </template>
 
 
+<style>
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
+.slide-from-right-enter-active,
+.slide-from-right-leave-active {
+  transition: all 0.4s;
+}
+.slide-from-right-enter-from,
+.slide-from-right-leave-to {
+  transform: translateX(100%);
+}
+
+</style>

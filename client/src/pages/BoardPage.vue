@@ -14,7 +14,7 @@
 </DefaultVue>
 </template>
 <script lang="ts" setup>
-import Header from '../components/Layout/Header.vue';
+
 import Modal from '@/components/Modals/Modal.vue';
 import BoardView from '@/components/Views/BoardView.vue';
 import { Toaster, toast } from 'vue-sonner'

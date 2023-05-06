@@ -7,6 +7,7 @@ import BoardPage from "@/pages/BoardPage.vue"
 import { authStore } from '@/stores/auth/authStore'
 import ProfilePageVue from '@/pages/ProfilePage.vue'
 const router = createRouter({
+  
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
@@ -42,6 +43,7 @@ const router = createRouter({
     },
   
   ],
+
 })
 router.beforeEach((to) => {
   const publicPages = ['/login', '/register'];
