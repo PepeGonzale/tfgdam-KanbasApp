@@ -13,19 +13,9 @@
     <div
       @mouseover="isEdit = true"
       @mouseleave="isEdit = false"
-      class="relative"
+      class="relative md:inline-block hidden"
     >
-    <div
-        class="absolute w-24 origin-bottom bg-gray-200 rounded-md"
-        :class="isEdit ? 'block' : 'hidden'"
-        
-      >
-      <div class="grid relative">
-        <span @click="createColumn(props.column)" class="p-2">Edit</span>
-        <span @click="deleteColumn(props.column)" class="p-2 hover:bg-red-200 cursor-pointer">Delete</span>
-      </div>
-      </div>
-      <button
+    <button
         class="hover:bg-gray-300 w-auto p-2 rounded-md grid place-content-center"
         @click="editColumn(props.column)"
       >
@@ -44,6 +34,17 @@
           />
         </svg>
       </button>
+    <div
+        class="absolute right-0 w-36 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg divide-y divide-gray-100 z-10"
+        :class="isEdit ? 'block' : 'hidden'"
+        
+      >
+      <div class="grid relative">
+        <span @click="createColumn(props.column)" class="p-2 hover:bg-green-400 cursor-pointer rounded-md">Edit</span>
+        <span @click="deleteColumn(props.column)" class="p-2 hover:bg-red-200 cursor-pointer rounded-md">Delete</span>
+      </div>
+      </div>
+    
       
       
         
