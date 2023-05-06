@@ -104,6 +104,7 @@ const boardView = ref('board')
 onBeforeMount(() => {
   store.fetchBoards()
  store.getBoard(router.currentRoute.value.params.id)
+ auth.userInfo
   
 })
 watch(isLoggedIn, () => {

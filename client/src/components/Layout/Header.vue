@@ -32,11 +32,10 @@
       <div @click="router.push({path: '/'})">My boards</div>
       <!-- Right avatar -->
 
-      <div class="block relative bg-blue-500 p-3 border-l-2 z-10 rounded-md" @mouseover="() => useLayoutStore.profileDropdown = true" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
-      <div class="relative m-auto inline-block text-left">
-        <div class="">
-          <button type="button" class="flex items-center text-sm rounded-full " id="user-menu" aria-expanded="false" aria-haspopup="true" >
-            <span class="sr-only">Open user menu</span>
+      <div class="relative md:inline-block hidden" @mouseover="() => useLayoutStore.profileDropdown = true" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
+     
+       
+          <button type="button" class="flex items-center bg-blue-500 text-sm rounded-lg px-4 py-3" id="user-menu" aria-expanded="false" aria-haspopup="true" >
             <img class="rounded-full w-10 object-cover" :src="useAuthStore.userData.imageUrl" alt="">
             <span class="ml-3 font-medium text-white text-sm truncate">{{ useAuthStore.userData.username }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">
@@ -45,9 +44,9 @@
               
           </button>
 
-        </div>
+     
       
-<div :class="useLayoutStore.profileDropdown ? 'block' : 'hidden'" class="origin-top-right absolute right-0 mt-2 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+<div :class="useLayoutStore.profileDropdown ? 'block' : 'hidden'" class="origin-top-right absolute right-0 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
  <div class="flex p-3 border-l-2 rounded-md">
   <div class="w-32 h-32 mx-auto flex-shrink-0 rounded-full">
     <img class="w-full h-full object-cover" :src="useAuthStore.userData.imageUrl" alt="">
@@ -69,7 +68,7 @@
 </div>
 </div>
       
-      </div>
+     
       </header>
 </template>
 <script lang="ts" setup>
