@@ -44,8 +44,12 @@
       </button>
     </div>
   </div>
-  
-  <section class="flex w-4/5 m-auto bg-gray-800" >
+  <!-- <section class="w-4/5 flex m-auto">
+    <ul>
+      <li class="bg-red-200 w-40  pt-1 pl-1 pb-6">Proyecto 1</li>
+    </ul>
+  </section> -->
+   <section class="flex w-4/5 m-auto bg-gray-800" >
     <div class="flex-1">
       <ul
         v-for="project in store.boards"
@@ -91,7 +95,7 @@
         </li>
       </ul>
     </div>
-  </section>
+  </section> 
 </div>
 </template>
 <script lang="ts" setup>

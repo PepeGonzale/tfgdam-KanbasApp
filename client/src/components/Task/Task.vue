@@ -1,24 +1,50 @@
 <template>
   <li
-    class="h-[80px] w-screen md:w-auto group gap-4 relative flex flex-col bg-white text-black p-3 m-3 items-center shadow-lg transition-shadow duration-300 hover:shadow-xl rounded-md border-b border-gray-300 hover:cursor-pointer"
+    class="h-[100px] grid w-screen md:w-auto group gap-4 relative bg-white text-black p-3 m-3 items-center shadow-lg transition-shadow duration-300 hover:shadow-xl rounded-md border-b border-gray-300 hover:cursor-pointer"
     
   >
   
-
-    <a class="text-sm"><span class="drag-handle text-left cursor-move text-blue-500">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
-    <img class="absolute right-0 bottom-0 object-cover rounded-full w-10 h-10 mr-2 mb-2" :src="props.task.asignedTo?.image"/>
   
-    <button
-    @click="deleteTask(props.task._id)"
-      class="absolute text-red-500 top-1 right-1 w-8 h-8 mt-2 bg-gray-50 place-content-center hidden group-hover:grid rounded-md hover:text-black hover:bg-red-400"
-     
+  <Transition name="fade">
+    <div class="absolute right-1 top-1">
+  <div
+      @click="optionsTask = !optionsTask"
+      class="relative hidden md:inline-block"
+      ref="dropdownRef"
     >
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-</svg>
-    </button>
     <button
-    @click="editTask(props.task._id, props.task)"
+        class="hover:bg-gray-300 w-auto p-1 rounded-md grid place-content-center"
+       
+      >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+</svg>
+
+      </button>
+    <div
+        class="absolute right-0 w-36 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg divide-y divide-gray-100 z-10"
+        :class="optionsTask ? 'block' : 'hidden'"
+        
+      >
+      <div class="grid relative">
+    
+          <span @click="handleArchive" class="p-2 hover:bg-green-400 cursor-pointer rounded-md">Archive</span>
+        
+        <span @click="deleteTask(props.task._id)" class="p-2 hover:bg-red-200 cursor-pointer rounded-md">Delete from project</span>
+      </div>
+    
+      </div>
+        
+      
+    </div>
+  </div>
+  </Transition>
+  <a class="text-sm md:text-md p-1 hover:underline text-center" @click="editTask(props.task._id, props.task)"><span class="drag-handle text-left cursor-move text-blue-500">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
+  <img class="absolute right-0 bottom-0 object-cover rounded-full w-10 h-10 mr-2 mb-2" :src="props.task.asignedTo?.image"/>
+
+    
+    <!-- <button
+    
       class="absolute top-1 right-10 m-auto w-8 h-8 mt-2 bg-gray-50 place-content-center hidden group-hover:grid rounded-md text-green-600 hover:text-black hover:bg-green-200"
     >
    
@@ -36,21 +62,40 @@
           d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10"
         />
       </svg>
-    </button>
+    </button> -->
   </li>
 </template>
 <script lang="ts" setup>
 import { layoutStore } from '@/stores/LayouStore';
 import { useStore } from '@/stores/store';
+import { ref,onMounted,onBeforeUnmount } from 'vue';
 const useLayoutStore = layoutStore()
 const store = useStore()
 const props = defineProps(['task']);
+const optionsTask = ref(false)
+const dropdownRef = ref(null);
 
+
+const handleClickOutside = (event: MouseEvent) => {
+  if (!dropdownRef.value?.contains(event.target as Node)) {
+    optionsTask.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('click', handleClickOutside);
+});
 const deleteTask = async(id:string) => {
   store.selectedTaskId = id
   await store.deleteTask()
 }
-
+const handleArchive = () => {
+  console.log('archivado')
+}
 const editTask = async(id: string, task: any) => {
   store.selectedTaskId = id
   const res = await store.taskInfo()
@@ -70,5 +115,14 @@ const editTask = async(id: string, task: any) => {
   
 }
 </script>
-<style scoped>
+<style>
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.4s;
+}
+.page-enter-from,
+.page-leave-to {
+  opacity: 0;
+  filter: blur(1rem);
+}
 </style>

@@ -17,7 +17,7 @@
     >
     <button
         class="hover:bg-gray-300 w-auto p-2 rounded-md grid place-content-center"
-        @click="editColumn(props.column)"
+       
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -35,7 +35,7 @@
         </svg>
       </button>
     <div
-        class="absolute right-0 w-36 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg divide-y divide-gray-100 z-10"
+        class="absolute right-0 w-36 origin-center bg-white border border-gray-200 rounded-md shadow-lg divide-y divide-gray-100 z-10"
         :class="isEdit ? 'block' : 'hidden'"
         
       >
