@@ -136,8 +136,15 @@ const archiveTask = async (boardId: string, taskId: string) => {
   const checkIfAlreadyAdded = board.archivedTasks.filter(t => t._id.toString() === taskId)
   if (checkIfAlreadyAdded.length > 0) throw new Error('La tarea ya esta en el archivo')
   else {
-  board.archivedTasks.push(board.tasks.id(taskId)._id)
-  await board.save()
+  /*  */
+  await board.archivedTasks.push(board.tasks.id(taskId))
+  await board.save().then(async () => {
+    const taskIndex = board.tasks.findIndex(t => t._id.toString() === taskId)
+    board.tasks.splice(taskIndex, 1) 
+    await board.save()
+  })
+  
+  
   return board;
   }
 
@@ -146,12 +153,8 @@ const listArchivedTasks = async (boardId) => {
   const tasks = await Board.findOne({
     _id: boardId
   })
- const arr = []
- for (const t in tasks.archivedTasks) {
-  console.log(t)
-  arr.push(tasks.tasks.id(tasks.archivedTasks[t]))
- }
-  return arr
+  
+  return tasks.archivedTasks
 }
 export {
   updateColumn,

@@ -94,7 +94,7 @@ const deleteTask = async(id:string) => {
   await store.deleteTask()
 }
 const handleArchive = async (taskId: string) => {
-  
+  console.log(taskId)
   await store.archiveTask(taskId)
 }
 const editTask = async(id: string, task: any) => {

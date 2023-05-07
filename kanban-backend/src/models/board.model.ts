@@ -150,7 +150,7 @@ const StatusSchema = new mongoose.Schema<Status>({
         type: [TaskSchema],
       },
       archivedTasks: [{
-        type: mongoose.Schema.Types.ObjectId,
+        type: TaskSchema,
         ref: 'Task'
       }]
     },

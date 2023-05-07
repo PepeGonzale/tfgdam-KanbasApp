@@ -38,5 +38,5 @@ export interface IBoard {
     usersWithAccess: [mongoose.Types.ObjectId]
     column: mongoose.Types.DocumentArray<Status>,
     tasks: mongoose.Types.DocumentArray<Task>,
-    archivedTasks: [mongoose.Types.ObjectId]
+    archivedTasks: mongoose.Types.DocumentArray<Task>
 }

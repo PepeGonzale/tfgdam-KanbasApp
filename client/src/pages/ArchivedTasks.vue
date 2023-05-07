@@ -22,12 +22,12 @@
     <div class="flex-1 w-3/5 mx-auto mt-12">
       <ul
         v-for="project in store.archiveTask"
-        :key="project._id"
+        :key="project?._id"
         class=" "
         
       >
         <li class="bg-gray-200 hover:bg-gray-300 p-3 cursor-pointer text-black text-center">
-        {{ project.title }}
+        {{ project?.title }}
         </li> 
         
       </ul>
@@ -49,7 +49,8 @@ let tasks  = []
 onMounted(async () => {
 await store.getBoard(router.currentRoute.value.params.id)
 const res = await api.get(`/board/archived/${store.selectedBoard?._id}`).then((res) => {
-    store.archiveTask = res.data
+  console.log(res)
+store.archiveTask = res.data
     
 })
 })

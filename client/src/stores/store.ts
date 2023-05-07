@@ -254,7 +254,10 @@ export const useStore = defineStore("store", {
           },
         async archiveTask(taskId: string) {
           const data = await api.post(`/board/${this.selectedBoard?._id}/archived/${taskId}`)
-          console.log(data)
+          if(data.data.tasks && this.selectedBoard?.tasks !== undefined) {
+            this.selectedBoard.tasks = data.data.tasks 
+            }
+          
         },
           loadDraftColumn(column: Column) {
             this.draftColumn = {
