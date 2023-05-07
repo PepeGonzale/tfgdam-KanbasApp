@@ -54,6 +54,7 @@ export const useStore = defineStore("store", {
         drawerOpen: false,
         newTask: { title: '', description: '', status: '', subtasks: [] },
         selectedBoard: undefined,
+        archivedTasks: []
       }),  
       getters: {
         taskByColumn: (state) => (column: string) => {

@@ -1,6 +1,6 @@
 <template>
 <Default>
-    <h1>archived tasks</h1>
+    <h1 v-for="t in store.archiveTask">{{t.title}}</h1>
 </Default>
 </template>
 
@@ -12,11 +12,14 @@ import { onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 const store = useStore()
 const router = useRouter()
+let tasks  = []
 onMounted(async () => {
-console.log(store.selectedBoard)
-const res = await api.get(`/board/archived/${store.selectedBoard?._id}`)
-console.log(res)
+await store.getBoard(router.currentRoute.value.params.id)
+const res = await api.get(`/board/archived/${store.selectedBoard?._id}`).then((res) => {
+    store.archiveTask = res.data
     
 })
+})
+
 
 </script>

@@ -80,6 +80,7 @@ export interface Status {
     usersInBoard: [];
     searchingTasks: boolean
     searchedTasks: Task[]
+    archiveTask: []
     addUser: {
       user: string,
       board: string,

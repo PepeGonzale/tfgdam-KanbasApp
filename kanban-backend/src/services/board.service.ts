@@ -133,17 +133,25 @@ const archiveTask = async (boardId: string, taskId: string) => {
     "tasks._id": taskId
   })
   if (!board) throw new Error('No existe la tarea en el proyecto')
+  const checkIfAlreadyAdded = board.archivedTasks.filter(t => t._id.toString() === taskId)
+  if (checkIfAlreadyAdded.length > 0) throw new Error('La tarea ya esta en el archivo')
+  else {
   board.archivedTasks.push(board.tasks.id(taskId)._id)
   await board.save()
   return board;
+  }
 
 }
 const listArchivedTasks = async (boardId) => {
   const tasks = await Board.findOne({
     _id: boardId
   })
-  
-  return tasks.populate("archivedTasks")
+ const arr = []
+ for (const t in tasks.archivedTasks) {
+  console.log(t)
+  arr.push(tasks.tasks.id(tasks.archivedTasks[t]))
+ }
+  return arr
 }
 export {
   updateColumn,
