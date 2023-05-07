@@ -127,8 +127,28 @@ const updateColumn = async (boardId, columnId, columnData) => {
   return edit;
 };
 
+const archiveTask = async (boardId: string, taskId: string) => {
+  const board = await Board.findOne({
+    _id: boardId,
+    "tasks._id": taskId
+  })
+  if (!board) throw new Error('No existe la tarea en el proyecto')
+  board.archivedTasks.push(board.tasks.id(taskId)._id)
+  await board.save()
+  return board;
+
+}
+const listArchivedTasks = async (boardId) => {
+  const tasks = await Board.findOne({
+    _id: boardId
+  })
+  
+  return tasks.populate("archivedTasks")
+}
 export {
   updateColumn,
+  listArchivedTasks,
+  archiveTask,
   inputSearch,
   createBoard,
   getBoards,

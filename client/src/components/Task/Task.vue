@@ -28,7 +28,7 @@
       >
       <div class="grid relative">
     
-          <span @click="handleArchive" class="p-2 hover:bg-green-400 cursor-pointer rounded-md">Archive</span>
+          <span @click="handleArchive(props.task._id)" class="p-2 hover:bg-green-400 cursor-pointer rounded-md">Archive</span>
         
         <span @click="deleteTask(props.task._id)" class="p-2 hover:bg-red-200 cursor-pointer rounded-md">Delete from project</span>
       </div>
@@ -93,8 +93,9 @@ const deleteTask = async(id:string) => {
   store.selectedTaskId = id
   await store.deleteTask()
 }
-const handleArchive = () => {
-  console.log('archivado')
+const handleArchive = async (taskId: string) => {
+  
+  await store.archiveTask(taskId)
 }
 const editTask = async(id: string, task: any) => {
   store.selectedTaskId = id

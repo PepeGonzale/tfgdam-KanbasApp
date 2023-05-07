@@ -21,7 +21,8 @@ export interface Task {
     comments: mongoose.Types.DocumentArray<IComment>
     subtasks: mongoose.Types.DocumentArray<SubTask>,
     status: Status,
-    asignedTo: mongoose.Types.ObjectId
+    asignedTo: mongoose.Types.ObjectId,
+    
 }
 export interface Role {
     user: mongoose.Types.ObjectId,
@@ -36,5 +37,6 @@ export interface IBoard {
     createdBy: mongoose.Types.ObjectId,
     usersWithAccess: [mongoose.Types.ObjectId]
     column: mongoose.Types.DocumentArray<Status>,
-    tasks: mongoose.Types.DocumentArray<Task>
+    tasks: mongoose.Types.DocumentArray<Task>,
+    archivedTasks: [mongoose.Types.ObjectId]
 }

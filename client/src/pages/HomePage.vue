@@ -20,6 +20,9 @@
     <img :src="a.image" class="rounded-full"/>
   </div> -->
 </div>
+<div class="cursor-pointer" @click="sendToArchive">
+  Archived items
+</div>
          <div>
  <CreateColumnVue/>
          </div>
@@ -112,6 +115,9 @@ watch(isLoggedIn, () => {
     auth.logout();
   }
 });
+const sendToArchive = () => {
+  router.push({path: `/board/${router.currentRoute.value.params.id}/archive`})
+}
 const handleSearch = (e) => {
   // getter para filtrar unicamente las tareas que den match con el search
   console.log(e)

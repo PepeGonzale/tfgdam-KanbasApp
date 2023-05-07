@@ -9,6 +9,8 @@ import {
   starredProject,
   getBoardById,
   search,
+  archiveTasks,
+  listArchived,
   
 } from "../controller/board.controller";
 import {
@@ -37,7 +39,9 @@ router.get("/board/:boardId", getBoardById)
 router.get("/user/access", listAccessUsers)
 router.get("/access/user/:boardId", listAccessUsers)
 router.get("/task/:taskId/board/:boardId", infoTask);
+router.get("/board/archived/:boardId", listArchived)
 router.post("/board/:boardId/user/:userId", asignUser);
+router.post("/board/:boardId/archived/:taskId", archiveTasks)
 router.post("/starred/:boardId", starredProject)
 router.post("/task/update/comment/:taskId", sendComment);
 router.post("/task/update/:taskId", updateTask);

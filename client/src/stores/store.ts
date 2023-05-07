@@ -251,6 +251,10 @@ export const useStore = defineStore("store", {
             };
             /* this.selectedBoard = board; */
           },
+        async archiveTask(taskId: string) {
+          const data = await api.post(`/board/${this.selectedBoard?._id}/archived/${taskId}`)
+          console.log(data)
+        },
           loadDraftColumn(column: Column) {
             this.draftColumn = {
               _id: column._id,

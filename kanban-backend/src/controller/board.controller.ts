@@ -1,5 +1,5 @@
 import { Response } from "express";
-import {  boardToUser, createBoard, deleteColumn, findBoard, getBoards, inputSearch, newColumn, starProject, updateColumn } from "../services/board.service";
+import {  archiveTask, boardToUser, createBoard, deleteColumn, findBoard, getBoards, inputSearch, listArchivedTasks, newColumn, starProject, updateColumn } from "../services/board.service";
 import { AuthRequest } from "../utils/authMiddleware";
 import validateMongoDbID from "../utils/validateMongoDbId";
 
@@ -86,8 +86,16 @@ const search = async (req: AuthRequest, res: Response) => {
   
   const result = await inputSearch(boardId, search) 
   res.json(result)
-  
-  
 }
 
-export { starredProject,getBoard, postBoard,editColumn, createColumn, asignUser, removeColumn, getBoardById, search };
+const archiveTasks = async (req: AuthRequest, res: Response) => {
+  const {boardId, taskId} = req.params;
+  const task = await archiveTask(boardId, taskId)
+  res.json(task)
+}
+const listArchived = async (req: AuthRequest, res: Response) => {
+  const {boardId} = req.params;
+  const data = await listArchivedTasks(boardId)
+  res.json(data)
+}
+export { starredProject,getBoard, postBoard,editColumn, createColumn, asignUser, removeColumn, getBoardById, search, archiveTasks , listArchived};

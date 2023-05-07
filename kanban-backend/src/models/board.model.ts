@@ -92,6 +92,8 @@ const StatusSchema = new mongoose.Schema<Status>({
     }
   }
   });
+  const Task = mongoose.model('Task', TaskSchema);
+
   export const BoardSchema = new mongoose.Schema<IBoard>(
     {
       
@@ -147,6 +149,10 @@ const StatusSchema = new mongoose.Schema<Status>({
       tasks: {
         type: [TaskSchema],
       },
+      archivedTasks: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Task'
+      }]
     },
     { timestamps: true }
   );
