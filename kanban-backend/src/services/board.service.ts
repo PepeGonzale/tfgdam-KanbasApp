@@ -156,6 +156,32 @@ const listArchivedTasks = async (boardId) => {
   
   return tasks.archivedTasks
 }
+
+const restoreTask = async (boardId, taskId) => {
+  const board = await Board.findOne({
+    _id: boardId,
+    "archivedTasks._id": taskId
+  })
+  if (!board) throw new Error('No existe la tarea en el proyecto')
+  const addToTasks = board.tasks.push(board.archivedTasks.id(taskId))
+  await board.save().then(async (res) => {
+    const taskIndex = board.archivedTasks.findIndex(t => t._id.toString() === taskId)
+    board.archivedTasks.splice(taskIndex, 1) 
+    await board.save()
+  }
+  )
+}
+const deleteArchive = async (boardId, taskId) => {
+  const board = await Board.findOne({
+    _id: boardId,
+    "archivedTasks._id": taskId
+  })
+  if (!board) throw new Error('No existe la tarea en el proyecto')
+  const taskIndex = board.archivedTasks.findIndex(t => t._id.toString() === taskId)
+  board.archivedTasks.splice(taskIndex, 1)
+  await board.save()
+  return board;
+}
 export {
   updateColumn,
   listArchivedTasks,
@@ -164,8 +190,10 @@ export {
   createBoard,
   getBoards,
   newColumn,
+  restoreTask,
   starProject,
   boardToUser,
   deleteColumn,
   findBoard,
+  deleteArchive
 };

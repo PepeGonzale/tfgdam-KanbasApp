@@ -54,7 +54,7 @@ export const useStore = defineStore("store", {
         drawerOpen: false,
         newTask: { title: '', description: '', status: '', subtasks: [] },
         selectedBoard: undefined,
-        archivedTasks: []
+        archivedTask: []
       }),  
       getters: {
         taskByColumn: (state) => (column: string) => {
@@ -207,6 +207,13 @@ export const useStore = defineStore("store", {
             console.log(this.selectedBoard?.tasks);
             
           return deleteTask
+        },
+        async deleteArchiveTask() {
+          const data = await api.post(`/board/${this.selectedBoard?._id}/delete/archived/${this.selectedTaskId}`)
+          if(data.data.tasks && this.selectedBoard?.tasks !== undefined) {
+            this.archivedTask = data.data.archivedTasks 
+            }
+            console.log(data)
         },
         async editColumn(column: any) {
           const editColumn = await api.post(`/board/${this.selectedBoard?._id}/column/${column._id}/edit`, column)

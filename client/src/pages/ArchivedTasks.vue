@@ -21,13 +21,48 @@
 
     <div class="flex-1 w-3/5 mx-auto mt-12">
       <ul
-        v-for="project in store.archiveTask"
+        v-for="project in store.archivedTask"
         :key="project?._id"
-        class=" "
+        class="relative"
         
       >
-        <li class="bg-gray-200 hover:bg-gray-300 p-3 cursor-pointer text-black text-center">
-        {{ project?.title }}
+        <li class="justify-between border-b-2 items-center border-gray-500 border-2 flex rounded-md bg-gray-200 p-3 text-black text-center">
+        <div class="items-center space-x-2 hover:cursor-pointer">
+          <input type="checkbox" class="rounded-md bg-gray-200 hover:cursor-pointer" />
+          <span>{{ project?.title }}</span>
+        </div>
+        <div class="absolute right-1 top-1">
+  <div
+      @click=""
+      class="relative hidden md:inline-block"
+      ref="dropdownRef"
+    >
+    <button
+        class="hover:bg-gray-300 w-auto p-1 rounded-md grid place-content-center"
+        @click="project.dropdown = !project.dropdown"   
+      >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+</svg>
+
+      </button>
+    <div
+        class="absolute right-0 w-36 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg divide-y divide-gray-100 z-10"
+        :class="project.dropdown ? 'block': 'hidden'"
+        
+      >
+      <div class="grid relative">
+    
+          <span @click="restoreTask(project._id)" class="p-2 hover:bg-green-400 cursor-pointer rounded-md">Restore</span>
+        
+        <span @click="deleteTask(project._id)" class="p-2 hover:bg-red-200 cursor-pointer rounded-md">Delete from project</span>
+      </div>
+    
+      </div>
+        
+      
+    </div>
+  </div>
         </li> 
         
       </ul>
@@ -41,19 +76,28 @@ import Search from '@/components/Search.vue';
 import { api } from '@/helpers/axios';
 import Default from '@/layouts/Default.vue';
 import { useStore } from '@/stores/store';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 const store = useStore()
 const router = useRouter()
+const dropdown = ref(false)
 let tasks  = []
 onMounted(async () => {
 await store.getBoard(router.currentRoute.value.params.id)
 const res = await api.get(`/board/archived/${store.selectedBoard?._id}`).then((res) => {
-  console.log(res)
-store.archiveTask = res.data
-    
-})
-})
 
+store.archivedTask = res.data
+  store.archivedTask.forEach((task) => {
+    task.dropdown = false
+  })
+})
+})
+const deleteTask = async (taskId:string) => {
+  store.selectedTaskId = taskId;
+  await store.deleteArchiveTask()
+}
+const restoreTask = (taskId: string) => {
+  console.log(taskId)
+}
 
 </script>

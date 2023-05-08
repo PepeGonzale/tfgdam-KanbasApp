@@ -98,7 +98,7 @@ const deleteTask = async (req: AuthRequest, res: Response) => {
     throw new Error(err);
   }
 };
-export {
+const taskController = {
   postTask,
   deleteTask,
   updateTask,
@@ -109,3 +109,4 @@ export {
   infoTask,
   asignTaskToUser,
 };
+export default taskController;

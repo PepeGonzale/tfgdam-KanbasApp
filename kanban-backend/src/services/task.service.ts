@@ -14,11 +14,8 @@ const createTask = async (boardId, task, userId) => {
   await checkTask.tasks.push({
     title: task.title,
     taskNum: checkTask.tasks.length + 1,
-    
     createdBy: userId,
     status: task.status,
-    
-    
   });
   await checkTask.populate("tasks.createdBy");
   await checkTask.save();
