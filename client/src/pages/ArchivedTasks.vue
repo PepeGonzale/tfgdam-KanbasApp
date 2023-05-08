@@ -10,11 +10,11 @@
     <div
     class="items-center justify-between flex cursor-pointer m-auto bg-gray-500 mt-12 w-3/5 p-3"
     
-  >    <form @input="handleSearch" class="mx-auto hidden lg:flex bg-white border-4 -space-x-px rounded-md flex-1 shadow-sm items-center relative">
+  >    <form class="mx-auto hidden lg:flex bg-white border-4 -space-x-px rounded-md flex-1 shadow-sm items-center relative">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20" class="icon opacity-50 left-2 z-10 absolute pointer-events-none">
   <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
 </svg>
-<input v-model="search" placeholder="Search Tasks..." type="text" class="bg-white rounded-md font-medium border-gray-300 text-sm w-full p-2 pl-10 text-gray-500 z-0 inline-flex items-center"/>
+<input placeholder="Search Tasks..." type="text" class="bg-white rounded-md font-medium border-gray-300 text-sm w-full p-2 pl-10 text-gray-500 z-0 inline-flex items-center"/>
     </form>
 </div>
 
@@ -28,7 +28,7 @@
       >
         <li class="justify-between border-b-2 items-center border-gray-500 border-2 flex rounded-md bg-gray-200 p-3 text-black text-center">
         <div class="items-center space-x-2 hover:cursor-pointer">
-          <input type="checkbox" class="rounded-md bg-gray-200 hover:cursor-pointer" />
+          <input type="checkbox" class="rounded-md bg-gray-200 hover:cursor-pointer" @change="handleCheckbox(project)" v-model="project.checked"/>
           <span>{{ project?.title }}</span>
         </div>
         <div class="absolute right-1 top-1">
@@ -81,7 +81,7 @@ import { useRouter } from 'vue-router';
 const store = useStore()
 const router = useRouter()
 const dropdown = ref(false)
-let tasks  = []
+let tasksSelected = []
 onMounted(async () => {
 await store.getBoard(router.currentRoute.value.params.id)
 const res = await api.get(`/board/archived/${store.selectedBoard?._id}`).then((res) => {
@@ -89,6 +89,7 @@ const res = await api.get(`/board/archived/${store.selectedBoard?._id}`).then((r
 store.archivedTask = res.data
   store.archivedTask.forEach((task) => {
     task.dropdown = false
+    task.checked = false
   })
 })
 })
@@ -96,8 +97,12 @@ const deleteTask = async (taskId:string) => {
   store.selectedTaskId = taskId;
   await store.deleteArchiveTask()
 }
-const restoreTask = (taskId: string) => {
-  console.log(taskId)
+const restoreTask = async (taskId: string) => {
+  const res = await api.post(`board/${store.selectedBoard?._id}/restore/${taskId}`)
+  store.archivedTask = res.data.archivedTasks
+  store.selectedBoard.tasks = res.data.tasks
 }
-
+const handleCheckbox = (e) => {
+  tasksSelected.push(e)
+}
 </script>

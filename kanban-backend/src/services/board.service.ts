@@ -170,6 +170,7 @@ const restoreTask = async (boardId, taskId) => {
     await board.save()
   }
   )
+  return board;
 }
 const deleteArchive = async (boardId, taskId) => {
   const board = await Board.findOne({
