@@ -46,7 +46,6 @@ const handleView = () => {
   }
 }
 const drop = (icon) => {
-    console.log(icon)
     additionalInfo.value = icon
 };
 const listUsers = () => {

@@ -29,7 +29,7 @@
           </div> 
              
       </div>
-      <div @click="router.push({path: '/'})">My boards</div>
+      <div @click="router.push({path: '/'})" class="cursor-pointer">My boards</div>
       <!-- Right avatar -->
 
       <div class="relative md:inline-block hidden" @mouseover="() => useLayoutStore.profileDropdown = true" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
@@ -46,7 +46,7 @@
 
      
       
-<div :class="useLayoutStore.profileDropdown ? 'block' : 'hidden'" class="origin-top-right absolute right-0 w-80 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
+<div :class="useLayoutStore.profileDropdown ? 'block' : 'hidden'"  class="absolute right-0 w-80 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg divide-y divide-gray-100 z-10">
  <div class="flex p-3 border-l-2 rounded-md">
   <div class="w-32 h-32 mx-auto flex-shrink-0 rounded-full">
     <img class="w-full h-full object-cover" :src="useAuthStore.userData.imageUrl" alt="">
