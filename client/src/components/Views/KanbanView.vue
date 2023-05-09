@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex mt-4 justify-between items-center w-full px-3 py-2 bg-gray-300"
+    class="flex mt-4 justify-between items-center w-full px-3 py-2"
   >
     <div>
       <span class="drag-handle text-left cursor-move">⠏ </span>
@@ -51,7 +51,7 @@
       
     </div>
   </div>
-  <div class="w-full flex flex-col h-[680px] bg-gray-200">
+  <div class="w-full flex flex-col h-[680px]">
     <div class="flex-1">
       <Column :column="props.column" />
     </div>

@@ -1,16 +1,16 @@
 <template>
   
-  <div class="flex items-center text-center overflow-hidden mx-auto md:w-auto rounded-md bg-gray-100">
+  <div class="flex items-center text-center overflow-hidden mx-auto md:w-auto rounded-md">
     <section
       data-dragscroll
-      class="min-w-[260px] md:min-w-[320px] md:m-auto"
+      class="min-w-[260px] md:min-w-[320px]"
     >
       <!-- <div class="m-1 text-center">
         Tasks: 
       </div> -->
       <div>
         <Draggable
-          class="draggable-list m-auto md:h-[50vh] "
+          class="draggable-list md:h-[50vh] "
           tag="ul"
           :model-value="store.searchedTask(column._id)"
           v-if="store.searchedTasks"
@@ -24,7 +24,7 @@
         </Draggable>
         <Draggable
         v-else
-          class="draggable-list m-auto md:h-[50vh]"
+          class="draggable-list md:h-[50vh]"
           tag="ul"
           :model-value="
             store.taskByColumn(column._id)
@@ -54,7 +54,6 @@ const handleDrag = async (e:any) => {
     const task = e?.added.element;
     
     const newStatus = store.column.find((c) => c._id === props.column._id);
-    console.log(task, newStatus)
     await store.changeStatus(task, newStatus)
     .then(() => {
       toast.success("Task saved!")
@@ -68,12 +67,6 @@ const handleDrag = async (e:any) => {
 
 </script>
 <style scoped>
-.draggable-list {
-  
-  color: #fff;
-  border: 1px solid;
- 
-  overflow: auto;
-}
+
 
 </style>

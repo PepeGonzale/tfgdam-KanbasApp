@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed top-24 rounded-md right-0 bottom-0 w-2/3 overflow-hidden bg-white "
+    class="bg-white fixed top-24 rounded-md right-0 bottom-0 w-2/3 overflow-hidden"
   >
     <div class="flex-justify-end transition-transform duration-300">
       <div>
@@ -225,3 +225,6 @@ const commentUpload = async () => {
   }
 };
 </script>
+<style>
+
+</style>

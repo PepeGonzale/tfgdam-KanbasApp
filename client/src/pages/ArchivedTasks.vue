@@ -1,6 +1,7 @@
 <template>
 <Default>
-    <div class="mt-8 ml-8 flex gap-2 cursor-pointer" @click="router.go(-1)">
+  <div class="bg-blue-primary h-screen">
+    <div class="mt-8 ml-8 flex gap-2 cursor-pointer " @click="router.go(-1)">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
   <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
 </svg>
@@ -8,7 +9,7 @@
         <span class="font-semibold text-xl">Archive</span>
     </div>
     <div
-    class="items-center justify-between flex cursor-pointer m-auto bg-gray-500 mt-12 w-3/5 p-3"
+    class="items-center justify-between flex cursor-pointer m-auto mt-12 w-3/5 p-3"
     
   >    <form class="mx-auto hidden lg:flex bg-white border-4 -space-x-px rounded-md flex-1 shadow-sm items-center relative">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" width="20" height="20" class="icon opacity-50 left-2 z-10 absolute pointer-events-none">
@@ -67,7 +68,7 @@
         
       </ul>
     </div>
-  
+  </div>
 </Default>
 </template>
 
@@ -99,6 +100,7 @@ const deleteTask = async (taskId:string) => {
 }
 const restoreTask = async (taskId: string) => {
   const res = await api.post(`board/${store.selectedBoard?._id}/restore/${taskId}`)
+  console.log(res)
   store.archivedTask = res.data.archivedTasks
   store.selectedBoard.tasks = res.data.tasks
 }

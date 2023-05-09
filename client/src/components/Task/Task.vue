@@ -39,8 +39,8 @@
     </div>
   </div>
   </Transition>
-  <a class="text-sm md:text-md p-1 hover:underline text-center" @click="editTask(props.task._id, props.task)"><span class="drag-handle text-left cursor-move text-blue-500">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
-  <img class="absolute right-0 bottom-0 object-cover rounded-full w-10 h-10 mr-2 mb-2" :src="props.task.asignedTo?.image"/>
+  <a class="text-sm md:text-md p-1 hover:underline text-center" @click="editTask(props.task._id, props.task)"><span class="drag-handle text-left cursor-move text-blue-primary">#{{ props.task.taskNum }}</span> {{ props.task.title }}</a>
+  <img class="absolute right-0 bottom-0 object-cover rounded-full w-10 h-10 mr-2 mb-2" v-if="props.task.asignedTo?.image" :src="props.task.asignedTo?.image"/>
 
     
     <!-- <button

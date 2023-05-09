@@ -8,7 +8,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
         </a>
-        <div class="relative md:inline-block hidden"  ref="dropdown" @mouseover="drop" @mouseout="useLayoutStore.projectDropdown = false">
+        <div class="relative md:inline-block hidden" ref="dropdown" @mouseover="drop" @mouseout="useLayoutStore.projectDropdown = false">
             <button  type="button" class="inline-flex items-center justify-center w-full px-4 py-2 text-base font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" id="options-menu" aria-expanded="true" aria-haspopup="true">
               Projects
             </button>
@@ -35,7 +35,7 @@
       <div class="relative md:inline-block hidden" @mouseover="() => useLayoutStore.profileDropdown = true" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
      
        
-          <button type="button" class="flex items-center bg-blue-500 text-sm rounded-lg px-4 py-3" id="user-menu" aria-expanded="false" aria-haspopup="true" >
+          <button type="button" class="flex items-center bg-blue-primary text-sm rounded-lg px-4 py-3" id="user-menu" aria-expanded="false" aria-haspopup="true" >
             <img class="rounded-full w-10 object-cover" :src="useAuthStore.userData.imageUrl" alt="">
             <span class="ml-3 font-medium text-white text-sm truncate">{{ useAuthStore.userData.username }}</span>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-4 h-4">

@@ -3,7 +3,7 @@
     
     <Header />
     <slot></slot>
-    <Footer />
+    
   </div>
 </template>
 <script lang="ts" setup>
