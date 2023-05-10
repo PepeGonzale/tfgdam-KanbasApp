@@ -60,6 +60,9 @@ export const useStore = defineStore("store", {
         taskByColumn: (state) => (column: string) => {
           return state.selectedBoard?.tasks.filter((task) => task.status._id === column);
         },
+        columnByColumn: (state) => (column: string) => {
+          return state.selectedBoard?.column.filter((c) => c._id === column);
+        },
         searchedTask: (state) => (column: string) => {
           console.log(state.searchedTasks)
             return state.searchedTasks.filter(t => {

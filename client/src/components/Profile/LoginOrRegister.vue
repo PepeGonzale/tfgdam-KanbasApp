@@ -1,8 +1,8 @@
 <template>
-  <div v-if="isLoading" class="h-screen">Loadings</div>
-  <div v-else class="flex min-h-screen items-center justify-center bg-black">
+  
+  <div class="flex min-h-screen items-center justify-center bg-white">
     <div
-      class="box-shadow rounded-md bg-gray-800 border-4 border-gray-800 p-12 shadow-xl w-6/12 h-2.2/6"
+      class="box-shadow rounded-md bg-gray-600 border-4 border-gray-800 p-12 shadow-xl w-6/12 h-2.2/6"
     >
       <h1 class="block w-full text-white text-center mb-6">
         <span v-if="formView === 'login'">Login</span>
@@ -78,13 +78,8 @@
             >Password</label
           >
         </div>
-        <p class="text-sm p-1 font-light text-gray-500 dark:text-gray-400">
-          <a
-            href="/forgot"
-            class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-            >Forgot password?</a
-          >
-        </p>
+        <div v-if="errorMessage" class="my-4 text-sm text-red-500" v-html="errorMessage"></div>
+
         <SecundaryButton text="Login" v-if="formView === 'login'" />
         <SecundaryButton
           text="Create an account"
@@ -127,30 +122,40 @@ const useAuthStore = authStore();
 const isLoading = ref(false);
 const formView = ref("login");
 const router = useRouter();
+const errorMessage = ref("");
 const dataUser = reactive({
   email: "",
   password: "",
   username: "",
   mobile: "",
 });
-const loginOrRegister = () => {
+const loginOrRegister = async () => {
   isLoading.value = true;
   if (formView.value === "register") {
     userRegister().then(() => {
       isLoading.value = false;
     });
   } else {
-    checkUser().then(() => {
-      isLoading.value = false;
-    });
-    toast.success("Login Success");
+    const {success, error} = await checkUser()
+    
+    if (success) {
+      toast.success("Login success");
+    }
+    else{
+      console.log('error', error)
+      errorMessage.value = error
+    }
+  
+    
   }
 };
 const checkUser = async () => {
-  await useAuthStore.login({
+  const res = await useAuthStore.login({
     email: dataUser.email,
     password: dataUser.password,
   });
+  console.log(res)
+  return res
 };
 const userRegister = async () => {
   try {

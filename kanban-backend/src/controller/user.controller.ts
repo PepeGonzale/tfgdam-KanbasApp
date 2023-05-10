@@ -37,12 +37,13 @@ const register = async (req: Request, res: Response) => {
 };
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
+  try {
   const user = await loginUser(email, password);
-  if (user) {
-    res.send(user);
-  } else {
-    throw new Error("Invalid Credentials");
+  res.json({success: true, error: null});
+  } catch(err) {
+    res.json({success: false, error: err.message});
   }
+ 
 };
 
 const getAllUsers = async (req: Request, res: Response) => {

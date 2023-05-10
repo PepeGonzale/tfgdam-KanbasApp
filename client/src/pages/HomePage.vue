@@ -40,12 +40,17 @@
             <div
               class="inline-flex items-start flex-col mx-auto md:flex-row md:px-4 md:pb-4 md:space-x-4 w-screen"
             >
+         
               <div
                 class="md:m-2 bg-gray-300 items-center md:items-start md:w-80 md:bg-none flex flex-col w-full rounded-[3px]"
                 v-for="column in store.selectedBoard?.column"
+                :key="column._id"
               >
-                <KanbanView :column="column" />
+         
+    <KanbanView :column="column" />
+
               </div>
+             
             </div>
           </div>
           <div class="">
@@ -91,7 +96,7 @@ import { authStore } from "@/stores/auth/authStore";
 import { layoutStore } from "@/stores/LayouStore";
 import { useStore } from "@/stores/store";
 import AddUsers from "@/components/Modals/AddUsers.vue";
-import Sidebar from "@/components/Layout/Sidebar.vue";
+import draggable from "vuedraggable";
 import ColumnModal from "@/components/Modals/ColumnModal.vue";
 import { watch } from "vue";
 import { storeToRefs } from "pinia";
@@ -110,12 +115,19 @@ const useLayoutStore = layoutStore();
 const store = useStore();
 const router = useRouter();
 const boardView = ref("board");
-
+let columns = []
 onBeforeMount(() => {
   store.fetchBoards();
   store.getBoard(router.currentRoute.value.params.id);
   auth.userInfo;
+  
+  /* columns = store.selectedBoard.column.map(c => ({...c}))   */
+  
+  
 });
+
+ columns = store.selectedBoard?.column.map(c => ({...c})) 
+ 
 watch(isLoggedIn, () => {
   if (!isLoggedIn.value) {
     auth.logout();
@@ -127,6 +139,16 @@ const handleSearch = (e) => {
   console.log(e);
   store.searchedTasks = e;
   store.searchedTask(e);
+};
+const handleDrag = async (e:any) => {
+  if (e?.added?.element) {
+    const column = e?.added.element;
+    console.log(column)
+    
+    
+    
+   
+  }
 };
 </script>
 <style scoped>

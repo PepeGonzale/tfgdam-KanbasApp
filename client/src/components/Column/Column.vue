@@ -49,6 +49,7 @@ import { toast, Toaster } from "vue-sonner";
 
 const props = defineProps(["column"]);
 const store = useStore();
+
 const handleDrag = async (e:any) => {
   if (e?.added?.element) {
     const task = e?.added.element;

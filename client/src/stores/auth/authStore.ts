@@ -74,10 +74,8 @@ export const authStore = defineStore('auth',  {
             
             
             const { data } = await axios.post("http://localhost:3000/api/auth/login", payload)
-            if (data.message === 'Network Error') {
-                console.log("Erorraco")
-            }
             console.log(data)
+            if (data.success) {
             this.userData.imageUrl = data.updateuser.image
             this.user.email = data.updateuser.email
             this.userData._id = data.updateuser._id
@@ -85,6 +83,8 @@ export const authStore = defineStore('auth',  {
             
             localStorage.setItem('user', JSON.stringify(this.user));
             router.push("/")
+            }
+            return data
         },
         async changeUserPassword(payload: ChangePassword) {
             const token = JSON.parse(localStorage.getItem('user') || "error");
