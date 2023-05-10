@@ -11,9 +11,33 @@ module.exports = {
 
       black: "black",
       white: "white",
+      transparent: "transparent",
+      slate: {
+        100: "#F4F4F4",
+        200: "#EAEAEA",
+        300: "#E3E3E3",
+        400: "#A3A3A3",
+        500: "#737373",
+        600: "#525252",
+        700: "#404040",
+        800: "#262626",
+        900: "#171717"
+        
+      },
 
       blue: {
-        primary: "#3179BA"
+        primary: "#3179BA",
+        secondary: "#0B5FFF",
+        100: "#CEEAFB",
+        200: "#9ED6F7",
+        300: "#6DC1F3",
+        400: "#3DADEF",
+        500: "#0C98EB",
+        600: "#0A7ABC",
+        700: "#075B8D",
+        800: "#053D5E",
+        900: "#021E2F"
+
     },
     yellow: {
         100: "#FFFBEA",

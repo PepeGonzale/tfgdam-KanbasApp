@@ -10,7 +10,7 @@
       </div> -->
       <div>
         <Draggable
-          class="draggable-list md:h-[50vh] "
+          class="draggable-list md:h-[50vh] overflow-auto"
           tag="ul"
           :model-value="store.searchedTask(column._id)"
           v-if="store.searchedTasks"
@@ -24,7 +24,7 @@
         </Draggable>
         <Draggable
         v-else
-          class="draggable-list md:h-[50vh]"
+          class="draggable-list md:h-[55vh] overflow-auto"
           tag="ul"
           :model-value="
             store.taskByColumn(column._id)

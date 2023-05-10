@@ -46,7 +46,7 @@
         >
           <div class="relative flex-1 grid gap-1 p-1">
             <a
-              v-for="user in auth.allUsers"
+              v-for="user in auth.allUsers.splice(0,1)"
               class="cursor-pointer lista"
               @click="handleUserSelect(user._id)"
               :key="user._id"
@@ -54,7 +54,7 @@
               {{ user.email }}
             </a>
             <p
-              v-if="!auth.allUsers.length"
+              v-if="!auth.allUsers < 0"
               class="px-3 py-2 text-sm text-gray-700"
             >
               No se encontraron resultados.

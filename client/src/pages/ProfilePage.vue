@@ -1,9 +1,10 @@
 <template>
 <Default>
-<section class="p-6 xl:max-w-6xl xl:mx-auto">
+    <div class="h-full w-screen bg-blue-primary">
+<section class="p-6 xl:max-w-6xl xl:mx-auto ">
 <section class="mb-6 flex items-center justify-between">
 <div class="flex items-center justify-start">
-    <span class="inline-flex justify-center items-center w-12 h-12 rounded-full bg-white text-black mr-3">
+    <span class="inline-flex justify-center items-center w-12 h-12">
         <h1 class="text-3xl leading-tight">Profile</h1>
 
     </span>
@@ -91,6 +92,7 @@
     </UserForm>
 </div>
 </section>
+</div>
 </Default>
 </template>
 <script lang="ts" setup>

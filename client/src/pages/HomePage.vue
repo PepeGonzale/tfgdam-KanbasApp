@@ -1,11 +1,7 @@
 <template>
   <Default>
     <div class="flex flex-1">
-      <transition name="sidebar-transition" appear>
-        <div class="w-1/6 bg-gray-200 flex-col" v-if="useLayoutStore.sidebar">
-          <Sidebar />
-        </div>
-      </transition>
+      
       <main class="flex-1 overflow-hidden bg-blue-primary">
         <div class="flex flex-row lg:flex-col">
           <div class="shrink-0 hidden lg:flex justify-between items-center p-4">
