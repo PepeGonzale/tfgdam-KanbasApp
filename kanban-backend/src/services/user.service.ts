@@ -9,13 +9,12 @@ const registerUser = async (data) => {
     const token = await createJwt(saveUser);
     return { user: { email: saveUser.email }, token };
   } catch (err) {
-    throw new Error(err);
+    throw new Error("No ha sido posible crear la cuenta, intentelo de nuevo mas tarde");
   }
 };
 
 const loginUser = async (email, password) => {
   const user = await UserModel.findOne({ email });
-console.log(password, user.password)
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
     console.log(auth)
@@ -29,9 +28,9 @@ console.log(password, user.password)
       const token = await createJwt(user);
       return { updateuser, token };
     }
-    throw new Error("incorrect password");
+    throw new Error("Error al verificar los credenciales (contraseña)");
   }
-  throw new Error("incorrect email");
+  throw new Error("Error al verificar los credenciales (email)");
 };
 const getUsers = async () => {
   const users = UserModel.find({});

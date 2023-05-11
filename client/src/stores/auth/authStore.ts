@@ -15,6 +15,7 @@ export interface AuthStore {
       email: string | null;
       token: string | null;
     };
+    loading: boolean;
     userData:User,
     allUsers: any,
     selectedUser: string | null
@@ -30,7 +31,8 @@ export const authStore = defineStore('auth',  {
             _id: ''
         },
         allUsers: [],
-        selectedUser: ''
+        selectedUser: '',
+        loading: false
     }), 
     getters: {
         isLoggedIn: (state) => !!state.user.token,
@@ -53,14 +55,22 @@ export const authStore = defineStore('auth',  {
             /* Tenemos que registrar a los usuarios, utilizamos 
             axios para hacer una peticion post a la ruta /api/register
              mandandole como payload el email y la contraseña */
+             this.loading = true
             const {data} = await axios.post("http://localhost:3000/api/auth/register", payload)
-            
-            
-            this.user.email = data.user.email
-            this.user.token = data.token
-            
-            localStorage.setItem('user', JSON.stringify(this.user))
-            router.push("/")
+            console.log(data)
+            if (data.success) {
+
+                this.user.email = data.user.user.email
+                this.user.token = data.user.token
+
+           
+            }
+            setTimeout(() => {
+                localStorage.setItem('user', JSON.stringify(this.user))
+                router.push("/")
+                this.loading = false
+            }, 2000)
+            return data
         },
         async listUsers(email: any) {
             const getUsers = await axios.get(`http://localhost:3000/api/auth/find/user?email=${email}`)
@@ -72,18 +82,22 @@ export const authStore = defineStore('auth',  {
           },
         async login (payload: {email: string, password: string}) {
             
-            
+            this.loading = true
             const { data } = await axios.post("http://localhost:3000/api/auth/login", payload)
             console.log(data)
             if (data.success) {
-            this.userData.imageUrl = data.updateuser.image
-            this.user.email = data.updateuser.email
-            this.userData._id = data.updateuser._id
-            this.user.token = data.token
+            this.userData.imageUrl = data.user.updateuser.image
+            this.user.email = data.user.updateuser.email
+            this.userData._id = data.user.updateuser._id
+            this.user.token = data.user.token
             
-            localStorage.setItem('user', JSON.stringify(this.user));
-            router.push("/")
+            
             }
+            setTimeout(() => {
+                this.loading = false
+                localStorage.setItem('user', JSON.stringify(this.user));
+            router.push("/")
+            }, 1000)
             return data
         },
         async changeUserPassword(payload: ChangePassword) {

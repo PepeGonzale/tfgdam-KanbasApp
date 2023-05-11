@@ -1,8 +1,8 @@
 <template>
   
-  <div class="flex min-h-screen items-center justify-center bg-white">
+  <div class="flex min-h-screen items-center justify-center bg-gray-900">
     <div
-      class="box-shadow rounded-md bg-gray-600 border-4 border-gray-800 p-12 shadow-xl w-6/12 h-2.2/6"
+      class="box-shadow rounded-md bg-gray-500 border-4 border-gray-800 p-12 shadow-xl w-6/12 h-2.2/6"
     >
       <h1 class="block w-full text-white text-center mb-6">
         <span v-if="formView === 'login'">Login</span>
@@ -80,7 +80,7 @@
         </div>
         <div v-if="errorMessage" class="my-4 text-sm text-red-500" v-html="errorMessage"></div>
 
-        <SecundaryButton text="Login" v-if="formView === 'login'" />
+        <SecundaryButton text="Login" v-if="formView === 'login'" :loading="useAuthStore.loading" />
         <SecundaryButton
           text="Create an account"
           v-if="formView === 'register'"
@@ -130,12 +130,12 @@ const dataUser = reactive({
   mobile: "",
 });
 const loginOrRegister = async () => {
-  isLoading.value = true;
+  
   if (formView.value === "register") {
-    userRegister().then(() => {
-      isLoading.value = false;
-    });
+    userRegister()
   } else {
+
+    
     const {success, error} = await checkUser()
     
     if (success) {
@@ -148,27 +148,32 @@ const loginOrRegister = async () => {
   
     
   }
+  
 };
 const checkUser = async () => {
   const res = await useAuthStore.login({
     email: dataUser.email,
     password: dataUser.password,
   });
-  console.log(res)
+  
   return res
 };
 const userRegister = async () => {
-  try {
-    console.log(dataUser);
-    await useAuthStore.register({
+  
+    
+    const {success, error} = await useAuthStore.register({
       email: dataUser.email,
       password: dataUser.password,
       mobile: dataUser.mobile,
       username: dataUser.username,
     });
-    router.push({ path: "/" });
-  } catch (err) {
-    console.error(err);
-  }
+    if (success) {
+      router.push({ path: "/" });
+    }
+    if (error && !success) {
+      errorMessage.value = error
+    }
+    
+  
 };
 </script>

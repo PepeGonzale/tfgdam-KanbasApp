@@ -26,6 +26,7 @@ const register = async (req: Request, res: Response) => {
   if (!email || !password) {
     throw new Error("Please rewrite the fields with correct data");
   }
+  try {
   const user = await registerUser({
     email: email,
     password: password,
@@ -33,13 +34,17 @@ const register = async (req: Request, res: Response) => {
     username,
     mobile,
   });
-  res.json(user);
+  
+  res.json({success: true, error: null, user});
+} catch(err) {
+  res.json({success: false, error: err.message})
+}
 };
 const login = async (req: Request, res: Response) => {
   const { email, password } = req.body;
   try {
   const user = await loginUser(email, password);
-  res.json({success: true, error: null});
+  res.json({success: true, error: null, user});
   } catch(err) {
     res.json({success: false, error: err.message});
   }

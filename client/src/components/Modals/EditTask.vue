@@ -132,7 +132,7 @@
             </button>
           </div>
         </div>
-        <button class="bg-purple-500 text-white px-2 py-1 rounded-sm">
+        <button class="bg-blue-primary text-white px-2 py-1 rounded-sm">
           Add Tasks
         </button>
       </form>
