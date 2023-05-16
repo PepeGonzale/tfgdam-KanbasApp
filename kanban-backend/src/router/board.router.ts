@@ -11,6 +11,7 @@ router.post("/column/:boardId",useRole, boardController.createColumn);
 router.post("/", boardController.postBoard);
 router.get("/boards",  boardController.getBoard);
 router.get("/board/:boardId/search", boardController.search)
+router.get("/board/:boardId/archived/search", boardController.searchArchived)
 router.get("/board/:boardId", boardController.getBoardById)
 router.get("/user/access", taskController.listAccessUsers)
 router.get("/access/user/:boardId", taskController.listAccessUsers)

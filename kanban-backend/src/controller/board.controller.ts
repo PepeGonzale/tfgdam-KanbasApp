@@ -1,5 +1,5 @@
 import { Response } from "express";
-import {  archiveTask, boardToUser, createBoard, deleteArchive, deleteColumn, findBoard, getBoards, inputSearch, listArchivedTasks, newColumn, restoreTask, starProject, updateColumn } from "../services/board.service";
+import {  archiveTask, archiveTaskSearch, boardToUser, createBoard, deleteArchive, deleteColumn, findBoard, getBoards, inputSearch, listArchivedTasks, newColumn, restoreTask, starProject, updateColumn } from "../services/board.service";
 import { AuthRequest } from "../utils/authMiddleware";
 import validateMongoDbID from "../utils/validateMongoDbId";
 
@@ -103,11 +103,18 @@ const restoredTask = async (req: AuthRequest, res: Response) => {
   const task = await restoreTask(boardId, taskId)
   res.json(task)
 }
-
+const searchArchived = async (req: AuthRequest, res: Response) => {
+  const { archivedSearch } = req.query;
+  const { boardId} = req.params;
+  console.log(archivedSearch);
+  
+  const result = await archiveTaskSearch(boardId, archivedSearch);
+  res.json(result)
+}
 const deleteArchiveTask = async (req: AuthRequest, res: Response) => {
   const {boardId, taskId} = req.params;
   const task = await deleteArchive(boardId, taskId)
   res.json(task)
 }
-const boardController =  { starredProject,getBoard, postBoard,editColumn, createColumn, asignUser, removeColumn, getBoardById, search, archiveTasks , listArchived, restoredTask, deleteArchiveTask };
+const boardController =  { starredProject,getBoard, postBoard,editColumn, createColumn, asignUser, removeColumn, getBoardById, search, archiveTasks , listArchived, restoredTask, deleteArchiveTask, searchArchived };
 export default boardController

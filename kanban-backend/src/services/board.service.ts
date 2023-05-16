@@ -183,6 +183,16 @@ const deleteArchive = async (boardId, taskId) => {
   await board.save()
   return board;
 }
+const archiveTaskSearch = async (boardId: string, query: any) => {
+  console.log(boardId);
+  
+  const realSearchTime = await Board.find({
+    _id: boardId,
+    "archivedTasks.title": { $regex: new RegExp(query, "i") },
+  });
+  const result = await realSearchTime[0].archivedTasks.filter((t) => t.title.includes(query))
+  return result;
+};
 export {
   updateColumn,
   listArchivedTasks,
@@ -196,5 +206,6 @@ export {
   boardToUser,
   deleteColumn,
   findBoard,
-  deleteArchive
+  deleteArchive,
+  archiveTaskSearch
 };
