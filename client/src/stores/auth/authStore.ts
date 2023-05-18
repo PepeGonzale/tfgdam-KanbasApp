@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import axios from "axios"
 import router from "@/router";
 import type { ChangePassword } from "@/types/types";
+import { auth } from "@/helpers/auth";
 
 export interface User {
     email: string,
@@ -38,7 +38,7 @@ export const authStore = defineStore('auth',  {
         isLoggedIn: (state) => !!state.user.token,
         userInfo: async (state) => {
             const email = state.user.email
-            const res = await axios.get(`http://localhost:3000/api/auth/find/user/${email}`)
+            const res = await auth.get(`find/user/${email}`)
             .then(res => {
                 console.log(res)
                 state.userData.imageUrl = res.data.image
@@ -56,7 +56,7 @@ export const authStore = defineStore('auth',  {
             axios para hacer una peticion post a la ruta /api/register
              mandandole como payload el email y la contraseña */
              this.loading = true
-            const {data} = await axios.post("http://localhost:3000/api/auth/register", payload)
+            const {data} = await auth.post("/register", payload)
             console.log(data)
             if (data.success) {
 
@@ -73,7 +73,7 @@ export const authStore = defineStore('auth',  {
             return data
         },
         async listUsers(email: any) {
-            const getUsers = await axios.get(`http://localhost:3000/api/auth/find/user?email=${email}`)
+            const getUsers = await auth.get(`/find/user?email=${email}`)
             
             
             this.allUsers = getUsers.data
@@ -83,7 +83,7 @@ export const authStore = defineStore('auth',  {
         async login (payload: {email: string, password: string}) {
             
             this.loading = true
-            const { data } = await axios.post("http://localhost:3000/api/auth/login", payload)
+            const { data } = await auth.post("/login", payload)
             console.log(data)
             if (data.success) {
             this.userData.imageUrl = data.user.updateuser.image
@@ -102,14 +102,14 @@ export const authStore = defineStore('auth',  {
         },
         async changeUserPassword(payload: ChangePassword) {
             const token = JSON.parse(localStorage.getItem('user') || "error");
-            const {data} = await axios.post(`http://localhost:3000/api/auth/user/password/${this.userData._id}`, payload, {headers: {
+            const {data} = await auth.post(`/user/password/${this.userData._id}`, payload, {headers: {
                 Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
               }})
             console.log(data);
             
         },
         async updateUsers(payload: any) {
-            const {data} = await axios.post(`http://localhost:3000/api/auth/update/${payload._id}`, payload)
+            const {data} = await auth.post(`/update/${payload._id}`, payload)
         },
         logout() {
                 localStorage.removeItem('user');
