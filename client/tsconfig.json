@@ -1,0 +1,17 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.web.json",
+  "include": [".env", "src/**/*", "src/**/*.vue", "src/**/*/*.vue","__tests__/*.ts"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "types": ["vite/client", "jest"],
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+  },
+
+  "references": [
+    {
+      "path": "./tsconfig.config.json"
+    }
+  ]
+}
