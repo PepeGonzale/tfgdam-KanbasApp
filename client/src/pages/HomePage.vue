@@ -24,11 +24,11 @@
             "
           >
             <div
-              class="inline-flex items-start flex-col mx-auto md:flex-row md:px-4 md:pb-4 md:space-x-4 w-screen"
+              class="inline-flex items-start flex-col mx-auto md:flex-row md:px-4 md:pb-4 md:space-x-4"
             >
          
               <div
-                class="md:m-2 bg-gray-300 items-center md:items-start md:w-80 md:bg-none flex flex-col w-full rounded-[3px]"
+                class="md:m-2 bg-gray-300 items-center md:items-start md:w-80 md:bg-none flex flex-col rounded-[3px]"
                 v-for="column in store.selectedBoard?.column"
                 :key="column._id"
               >

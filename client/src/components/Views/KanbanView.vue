@@ -1,6 +1,6 @@
 <template>
   <div
-    class="flex mt-4 group justify-between items-center w-full px-3 py-2"
+    class="flex mt-4 group justify-between items-center md:w-full px-3 py-2"
   >
     <div>
       <span class="drag-handle text-left cursor-move">⠏ </span>
