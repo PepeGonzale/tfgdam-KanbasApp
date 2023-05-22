@@ -67,7 +67,3 @@ const handleDrag = async (e:any) => {
 
 
 </script>
-<style scoped>
-
-
-</style>

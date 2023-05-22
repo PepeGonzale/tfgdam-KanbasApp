@@ -8,20 +8,6 @@
             <h1 class="text-2x font-bold">
               Project Name : {{ store.selectedBoard?.title }}
             </h1>
-
-            <!--     <div class="flex items-center">
-            <button @click="handleView">
-              <span v-if="boardView === 'board'">Table View</span>
-              <span v-else>Board View</span>
-            </button>-->
-            <!-- <div v-for="a in store.selectedBoard?.usersWithAccess" class="avatar w-12 h-12 rounded-full object-cover">
-    <img :src="a.image" class="rounded-full"/>
-  </div> -->
-            <!-- 
-  <div class="cursor-pointer" @click="sendToArchive">
-    Archived items
-  </div>
-</div> -->
             <IconNavigation :board-view="boardView" />
             <div>
               <CreateColumnVue />

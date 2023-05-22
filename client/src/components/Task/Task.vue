@@ -23,14 +23,14 @@
       </button>
     <div
         class="absolute right-0 w-36 origin-top-right bg-white border border-gray-200 rounded-md shadow-lg divide-y divide-gray-100 z-10"
-        :class="optionsTask ? 'block' : 'hidden'"
+        :class="optionsTask ? 'block ' : 'hidden'"
         
       >
       <div class="grid relative">
     
-          <span @click="handleArchive(props.task._id)" class="p-2 hover:bg-green-400 cursor-pointer rounded-md">Archive</span>
+          <span @click="handleArchive(props.task._id)" class="p-2 hover:bg-[#1DBF73] cursor-pointer rounded-md">Archive</span>
         
-        <span @click="deleteTask(props.task._id)" class="p-2 hover:bg-red-200 cursor-pointer rounded-md">Delete from project</span>
+        <span @click="deleteTask(props.task._id)" class="p-2 hover:bg-[#FF0000] cursor-pointer rounded-md">Delete from project</span>
       </div>
     
       </div>
