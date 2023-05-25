@@ -1,5 +1,5 @@
 <template>
-   <div class="bg-gray-300 text-black pl-8 rounded-lg text-center max-w-2xl m-auto">
+   <div class="bg-slate-400 text-black pl-8 rounded-lg text-center max-w-2xl m-auto">
     <!-- The button to open modal -->
     <label for="" class="ml-auto pt-3 text-sm lg:text-lg"> create new board</label>
     <!-- Put this part before </body> tag -->

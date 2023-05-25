@@ -1,6 +1,6 @@
 <template>
   <button
-    class="w-full active:scale-95 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none bg-white focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:hover:bg-slate-800 dark:hover:text-slate-100 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 bg-slate-900 text-white hover:bg-slate-700 dark:bg-slate-50 dark:text-slate-900 py-2 px-5"
+    class="w-full active:scale-95 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none text-white focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 dark:hover:bg-slate-800 dark:hover:text-slate-100 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 data-[state=open]:bg-slate-100 dark:data-[state=open]:bg-slate-800 bg-slate-900 hover:bg-slate-700 dark:bg-slate-50 py-2 px-5"
   >   
   <!-- Default icon -->
   <svg v-if="!loading" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">

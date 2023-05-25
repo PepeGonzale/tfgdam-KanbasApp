@@ -1,86 +1,44 @@
 <template>
-  
-  <div class="flex min-h-screen items-center justify-center bg-gray-900">
+  <div class="flex min-h-screen bg-blue-primary items-center justify-center">
     <div
-      class="box-shadow rounded-md bg-gray-500 border-4 border-gray-800 p-12 shadow-xl w-6/12 h-2.2/6"
+      class="box-shadow rounded-md bg-white border-4 border-gray-800 p-12 shadow-xl w-3/12 h-2.2/6"
     >
-      <h1 class="block w-full text-white text-center mb-6">
+      <h1 class="block w-full text-black text-center mb-6">
         <span v-if="formView === 'login'">Login</span>
         <span v-if="formView === 'register'">Register</span>
       </h1>
 
-      <form class="p-4" @submit.prevent="loginOrRegister">
-        <div class="relative z-0 w-full mb-6 group">
-          <input
-            v-model="dataUser.email"
-            type="email"
-            name="floating_email"
-            id="floating_email"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="floating_email"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Email address</label
-          >
+      <form class="p-4 space-y-4" @submit.prevent="loginOrRegister">
+        <div class="relative mb-3">
+          <LoginInputVue text="Email address" type="email" @value="(e) => dataUser.email = e" />
         </div>
-        <div
-          class="relative z-0 w-full mb-6 group"
-          v-if="formView === 'register'"
-        >
-          <input
-            v-model="dataUser.username"
-            type="text"
-            name="username"
-            id="username"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-          />
-          <label
-            for="username"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Username</label
-          >
-        </div>
-        <div
-          class="relative z-0 w-full mb-6 group"
-          v-if="formView === 'register'"
-        >
-          <input
-            v-model="dataUser.mobile"
-            type="text"
-            name="mobile"
-            id="mobile"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-          />
-          <label
-            for="mobile"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Mobile Phone</label
-          >
-        </div>
-        <div class="relative z-0 w-full mb-6 group">
-          <input
-            v-model="dataUser.password"
-            type="password"
-            name="floating_password"
-            id="floating_password"
-            class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-            placeholder=" "
-            required
-          />
-          <label
-            for="floating_password"
-            class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
-            >Password</label
-          >
-        </div>
-        <div v-if="errorMessage" class="my-4 text-sm text-red-500" v-html="errorMessage"></div>
 
-        <SecundaryButton text="Login" v-if="formView === 'login'" :loading="useAuthStore.loading" />
+        <div
+          class="relative z-0 w-full mb-6 group"
+          v-if="formView === 'register'"
+        >
+          <LoginInputVue text="Username" type="text" @value="(e) => dataUser.username = e"/>
+        </div>
+        <div
+          class="relative z-0 w-full mb-6 group"
+          v-if="formView === 'register'"
+        >
+          <LoginInputVue text="Mobile" type="text" @value="(e) => dataUser.mobile = e"/>
+        </div>
+        <div class="relative mb-3">
+          <LoginInputVue text="Password" type="password" @value="(e) => dataUser.password = e"/>
+        </div>
+        <div
+          v-if="errorMessage"
+          class="my-4 text-sm text-red-500"
+          v-html="errorMessage"
+        ></div>
+
+        <SecundaryButton
+          text="Login"
+          v-if="formView === 'login'"
+          :loading="useAuthStore.loading"
+        />
         <SecundaryButton
           text="Create an account"
           v-if="formView === 'register'"
@@ -117,6 +75,7 @@ import { authStore } from "@/stores/auth/authStore";
 import SecundaryButton from "@/components/buttons/RegisterButton.vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue-sonner";
+import LoginInputVue from "../General/LoginInput.vue";
 const input = ref(false);
 const useAuthStore = authStore();
 const isLoading = ref(false);
@@ -130,50 +89,41 @@ const dataUser = reactive({
   mobile: "",
 });
 const loginOrRegister = async () => {
+  console.log(dataUser);
   
   if (formView.value === "register") {
-    userRegister()
+    userRegister();
   } else {
+    const { success, error } = await checkUser();
 
-    
-    const {success, error} = await checkUser()
-    
     if (success) {
       toast.success("Login success");
+    } else {
+      console.log("error", error);
+      errorMessage.value = error;
     }
-    else{
-      console.log('error', error)
-      errorMessage.value = error
-    }
-  
-    
   }
-  
 };
 const checkUser = async () => {
   const res = await useAuthStore.login({
     email: dataUser.email,
     password: dataUser.password,
   });
-  
-  return res
+
+  return res;
 };
 const userRegister = async () => {
-  
-    
-    const {success, error} = await useAuthStore.register({
-      email: dataUser.email,
-      password: dataUser.password,
-      mobile: dataUser.mobile,
-      username: dataUser.username,
-    });
-    if (success) {
-      router.push({ path: "/" });
-    }
-    if (error && !success) {
-      errorMessage.value = error
-    }
-    
-  
+  const { success, error } = await useAuthStore.register({
+    email: dataUser.email,
+    password: dataUser.password,
+    mobile: dataUser.mobile,
+    username: dataUser.username,
+  });
+  if (success) {
+    router.push({ path: "/" });
+  }
+  if (error && !success) {
+    errorMessage.value = error;
+  }
 };
 </script>
