@@ -75,7 +75,7 @@
  
              </div>
         </li> 
-        <li v-show="starred && project.starred" class="relative bg-white hover:bg-gray-100 p-3 cursor-pointer text-center">
+        <li v-show="starred && project.starred" class="relative hover:bg-gray-100 p-3 bg-gray-200 cursor-pointer text-center">
           <a class=""  @click="handleSelectedBoard(project)">
             <div class="block">{{ project.title }}</div>
             <div class="block">{{ project.description }}</div>

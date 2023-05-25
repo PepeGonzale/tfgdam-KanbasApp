@@ -50,7 +50,7 @@
           Dont have an account?
           <a
             @click.prevent="formView = 'register'"
-            class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+            class="font-medium text-primary-600 hover:underline dark:text-primary-500 cursor-pointer"
             >Register here</a
           >
         </p>
@@ -61,7 +61,7 @@
           Already have an account?
           <a
             @click.prevent="formView = 'login'"
-            class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+            class="font-medium text-primary-600 hover:underline dark:text-primary-500 cursor-pointer"
             >Login here</a
           >
         </p>

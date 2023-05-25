@@ -14,7 +14,7 @@
             </div>
           </div>
 
-          <Search @search="handleSearch" />
+          <Search @search="handleSearch"  />
 
           <div
             class="flex-1 lg:col-auto flex-col md:flex-col m-auto md:w-[2040px]"

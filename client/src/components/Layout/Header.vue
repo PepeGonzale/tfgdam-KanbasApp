@@ -25,7 +25,9 @@
           </div> 
              
       </div>
-      <div @click="router.push({path: '/'})" class="cursor-pointer">My boards</div>
+      <div v-if="router.currentRoute.value.path = '/' || '/boards'" class="md:hidden mr-12 cursor-pointer" @click="router.push({path: '/profile'})">Profile</div>
+      <div v-else>Boards</div>
+      <div @click="router.push({path: '/'})" class="hidden md:block cursor-pointer">My boards</div>
       <!-- Right avatar -->
 
       <div class="relative md:inline-block hidden" @mouseover="() => useLayoutStore.profileDropdown = true" @mouseout="() => useLayoutStore.profileDropdown = !useLayoutStore.profileDropdown" >
@@ -79,6 +81,7 @@ const store = useStore();
 const useAuthStore = authStore();
 const router = useRouter();
 const dropdown = ref(null)
+console.log(router.currentRoute.value)
 const drop = () => {
   useLayoutStore.projectDropdown = true
   
