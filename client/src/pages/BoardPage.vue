@@ -2,14 +2,19 @@
   <DefaultVue>
 <BoardView :boards="store.boards" @selectedBoard="handleEvent"/>
 <div
-    class="absolute top-1/2 left-1/2 translate-x-[-50%] translate-y-[-50%] max-w-xs w-11/12 sm:max-w-md"
-  >
+      class="top-0 bottom-0 left-0 right-0 fixed modal overflow-auto z-index-40"
+      v-if="useLayoutStore.drawerOpen"
+    >
+      <div class="p-1.5 my-10 mx-auto outline-none shadow-xl w-4/6">
+        <div class="">
 <Modal
       v-if="
         useLayoutStore.drawerOpen &&
         useLayoutStore.modalContent === 'createBoard'
       "
     />
+</div>
+</div>
 </div>
 </DefaultVue>
 </template>
@@ -59,3 +64,17 @@ const handleEvent = (board: any) => {
   
 }
 </script>
+<style scoped>
+.sidebar-transition-enter-active,
+.sidebar-transition-leave-active {
+  transition: transform 0.3s ease;
+}
+
+.sidebar-transition-enter,
+.sidebar-transition-leave-to {
+  transform: translateX(-100%);
+}
+.modal {
+  background: rgba(0, 0, 0, 0.33);
+}
+</style>
