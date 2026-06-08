@@ -36,41 +36,33 @@ export const authStore = defineStore('auth',  {
     }), 
     getters: {
         isLoggedIn: (state) => !!state.user.token,
-        userInfo: async (state) => {
-            const email = state.user.email
-            const res = await auth.get(`find/user/${email}`)
-            .then(res => {
-                console.log(res)
-                state.userData.imageUrl = res.data.image
-                state.userData.email = res.data.email
-                state.userData.username = res.data.username
-                state.userData._id = res.data._id
-                
-            })
-            
-        }
     },
     actions: {
+        async fetchUserInfo() {
+            const email = this.user.email;
+            const res = await auth.get(`find/user/${email}`);
+            this.userData.imageUrl = res.data.image;
+            this.userData.email = res.data.email;
+            this.userData.username = res.data.username;
+            this.userData._id = res.data._id;
+        },
         async register(payload: {email: string, password: string, mobile: string, username: string}){
-            /* Tenemos que registrar a los usuarios, utilizamos 
-            axios para hacer una peticion post a la ruta /api/register
-             mandandole como payload el email y la contraseña */
-             this.loading = true
-            const {data} = await auth.post("/register", payload)
-            console.log(data)
-            if (data.success) {
-
-                this.user.email = data.user.user.email
-                this.user.token = data.user.token
-
-           
-            }
-            setTimeout(() => {
-                localStorage.setItem('user', JSON.stringify(this.user))
-                router.push("/")
+            this.loading = true
+            try {
+                const {data} = await auth.post("/register", payload)
+                if (data.success) {
+                    this.user.email = data.user.user.email
+                    this.user.token = data.user.token
+                    localStorage.setItem('user', JSON.stringify(this.user))
+                    router.push("/")
+                }
+                return data
+            } catch (err: any) {
+                const msg = err.response?.data?.error || 'Registration failed'
+                return { success: false, error: msg }
+            } finally {
                 this.loading = false
-            }, 2000)
-            return data
+            }
         },
         async listUsers(email: any) {
             const getUsers = await auth.get(`/find/user?email=${email}`)
@@ -81,24 +73,24 @@ export const authStore = defineStore('auth',  {
             return getUsers
           },
         async login (payload: {email: string, password: string}) {
-            
             this.loading = true
-            const { data } = await auth.post("/login", payload)
-            console.log(data)
-            if (data.success) {
-            this.userData.imageUrl = data.user.updateuser.image
-            this.user.email = data.user.updateuser.email
-            this.userData._id = data.user.updateuser._id
-            this.user.token = data.user.token
-            
-            
-            }
-            setTimeout(() => {
+            try {
+                const { data } = await auth.post("/login", payload)
+                if (data.success) {
+                    this.userData.imageUrl = data.user.updateuser.image
+                    this.user.email = data.user.updateuser.email
+                    this.userData._id = data.user.updateuser._id
+                    this.user.token = data.user.token
+                    localStorage.setItem('user', JSON.stringify(this.user))
+                    router.push("/")
+                }
+                return data
+            } catch (err: any) {
+                const msg = err.response?.data?.error || 'Login failed'
+                return { success: false, error: msg }
+            } finally {
                 this.loading = false
-                localStorage.setItem('user', JSON.stringify(this.user));
-            router.push("/")
-            }, 1000)
-            return data
+            }
         },
         async changeUserPassword(payload: ChangePassword) {
             const token = JSON.parse(localStorage.getItem('user') || "error");

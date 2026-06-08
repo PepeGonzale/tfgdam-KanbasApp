@@ -1,15 +1,11 @@
 <template>
-    <footer class="p-6">
-            <div class="flex items-center justify-start flex-wrap -mb-3">
-                <button type="submit" class="inline-flex justify-center items-center whitespace-nowrap focus:outline-none transition-colors focus:ring duration-150 border cursor-pointer rounded border-blue-600 dark:border-blue-500 ring-blue-300 dark:ring-blue-700 bg-blue-primary dark:bg-blue-500 text-white hover:bg-blue-secundary hover:border-blue-700 hover:dark:bg-blue-600 hover:dark:border-blue-600 py-2 px-3 mr-3 last:mr-0 mb-3">
-                    <span class="px-2">Submit</span>
-                </button>
-                <button class="inline-flex justify-center items-center whitespace-nowrap focus:outline-none transition-colors focus:ring duration-150 border cursor-pointer rounded border-blue-600 dark:border-blue-500 ring-blue-300 dark:ring-blue-700 text-blue-600 dark:text-blue-500 hover:bg-blue-600 hover:text-white hover:dark:text-white hover:dark:border-blue-600 py-2 px-3 mr-3 last:mr-0 mb-3">
-                    <span class="px-2">Options</span>
-                </button>
-            </div>
-        </footer>
+  <footer class="px-6 py-4 border-t border-white/[0.06] flex items-center gap-3">
+    <button
+      type="submit"
+      class="bg-amber-500 hover:bg-amber-400 text-[#0E0C0A] font-bold rounded-xl px-5 py-2.5 text-sm transition-all"
+      style="box-shadow: 0 0 16px rgba(245,158,11,0.18);"
+    >Save changes</button>
+  </footer>
 </template>
-<script lang="ts" setup>
 
-</script>
+<script lang="ts" setup></script>

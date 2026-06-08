@@ -1,185 +1,184 @@
 <template>
-  <div
-    class="bg-white fixed top-24 rounded-md right-0 bottom-0 w-2/3 overflow-hidden"
-  >
-    <div class="flex-justify-end transition-transform duration-300">
+  <div class="bg-bg-surface border-l border-white/[0.06] fixed top-14 right-0 bottom-0 w-full md:w-[480px] flex flex-col shadow-modal z-50">
+
+    <!-- Amber top accent -->
+    <div class="h-px bg-gradient-to-r from-amber-500/40 via-amber-400/20 to-transparent shrink-0"></div>
+
+    <!-- Panel header -->
+    <div class="flex items-center justify-between px-6 py-4 border-b border-white/[0.05] shrink-0">
       <div>
-    <div
-      class="p-1.5 rounded-full cursor-pointer"
-      @click="useLayoutStore.drawerOpen = false"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke-width="1.5"
-        stroke="currentColor"
-        class="w-6 h-6"
+        <h2 class="text-sm font-semibold text-[#F5F0E8]">Task details</h2>
+        <p class="text-[10px] text-[#5A4E42] mt-0.5">
+          Created by <span class="text-[#8A7A66]">{{ store.selectedTask.createdBy?.username }}</span>
+        </p>
+      </div>
+      <button
+        class="w-7 h-7 flex items-center justify-center rounded-lg text-[#5A4E42] hover:text-[#F5F0E8] hover:bg-white/[0.06] transition-colors"
+        @click="useLayoutStore.drawerOpen = false"
       >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          d="M6 18L18 6M6 6l12 12"
-        />
-      </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
     </div>
-    <div class="px-3 py-2 md:px-12 text-sm md:text-base">
-      <form autocomplete="off" @submit.prevent="createTask" >
-        <h4 class="text-lg sm:text-2xl text-gray-800">Add a New Task</h4>
 
-     <h1>Created By: {{store.selectedTask.createdBy.username}}</h1>
+    <!-- Scrollable form area -->
+    <div class="flex-1 overflow-y-auto px-6 py-5">
+      <form id="edit-task-form" autocomplete="off" @submit.prevent="createTask" class="space-y-5">
 
+        <!-- Title -->
+        <div>
+          <label class="block text-[10px] font-semibold uppercase tracking-[0.15em] text-[#5A4E42] mb-2">Title</label>
+          <input
+            type="text"
+            v-model="title"
+            class="w-full bg-bg-card border border-white/[0.07] rounded-xl px-4 py-2.5
+                   text-[#F5F0E8] placeholder-[#3D3425]
+                   focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/10 focus:outline-none
+                   text-sm transition-all"
+            placeholder="Task title"
+          />
+        </div>
 
-        <div class="mt-6 sm:mt-12">
-          <div class="justify-between">
-            <label class="block text-gray-500">Title: </label>
-            <input
-              type="text"
-              
-              v-model="title"
-              class="bg-transparent border-b border-gray-400 w-3/4 text-lg md:text-2xl outline-none"
-            />
-            
-          </div>
-          <div class="sm:flex my-8">
-            <!-- // priority select -->
-            <div>
-              <label class="text-gray-500 block sm:inline"
-                >Priority:
-              </label>
-              <input
-                v-model="priority"
-                type="text"
-                name="priority"
-                list="prioritys"
-                class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black"
-                autocomplete="off"
-              />
-              <datalist id="prioritys" placeholder="">
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
-              </datalist>
-            </div>
-            <div class="mt-8 sm:mt-0 sm:ml-12">
-              <label class="text-gray-500 block sm:inline"
-                >Select a column:
-              </label>
-              <!-- // column options -->
-              <input
-                v-model="column"
-                type="text"
-                name="city"
-                list="column"
-                class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black hover:cursor-pointer"
-                autocomplete="off"
-              />
-              <datalist id="column" class="mr-1 py-1 px-1 border-r-1">
-                <option
-                  class="hover:cursor-pointer"
-                  v-for="(column, index) in store.selectedBoard?.column"
-                  :key="column._id"
-                  :value="column.name"
-                />
-              </datalist>
-            </div>
+        <!-- Priority -->
+        <div>
+          <label class="block text-[10px] font-semibold uppercase tracking-[0.15em] text-[#5A4E42] mb-2">Priority</label>
+          <div class="flex gap-2">
+            <button
+              v-for="level in ['Low', 'Medium', 'High']"
+              :key="level"
+              type="button"
+              @click="priority = level"
+              class="flex-1 py-2 rounded-lg text-xs font-semibold transition-all border"
+              :class="{
+                'bg-sky-500/15 text-sky-400 border-sky-500/30':     level === 'Low'    && priority === level,
+                'bg-amber-500/15 text-amber-400 border-amber-500/30': level === 'Medium' && priority === level,
+                'bg-red-500/15 text-red-400 border-red-500/30':       level === 'High'   && priority === level,
+                'bg-bg-card text-[#5A4E42] border-white/[0.06] hover:border-white/[0.12] hover:text-[#8A7A66]': priority !== level,
+              }"
+            >{{ level }}</button>
           </div>
         </div>
-        <div class="flex justify-between">
-       
 
-
-
-<!-- <div class="relative max-w-sm">
-<div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-<svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"></path></svg>
-</div>
-<input v-model="dueDate" @change="(e) => date(e)" type="datetime-local" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Select date">
-</div> -->
-
-
-
-          <DropdownSearch/>
+        <!-- Column -->
+        <div>
+          <label class="block text-[10px] font-semibold uppercase tracking-[0.15em] text-[#5A4E42] mb-2">Column</label>
+          <input
+            v-model="column"
+            type="text"
+            list="column-list"
+            autocomplete="off"
+            class="w-full bg-bg-card border border-white/[0.07] rounded-xl px-4 py-2.5
+                   text-[#F5F0E8] placeholder-[#3D3425]
+                   focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/10 focus:outline-none
+                   text-sm transition-all"
+          />
+          <datalist id="column-list">
+            <option v-for="col in store.selectedBoard?.column" :key="col._id" :value="col.name" />
+          </datalist>
         </div>
-        <div class="my-8">
-          <label class="block text-gray-500">Description: (Optional)</label>
+
+        <!-- Assignee -->
+        <div>
+          <label class="block text-[10px] font-semibold uppercase tracking-[0.15em] text-[#5A4E42] mb-2">Assignee</label>
+          <DropdownSearch />
+        </div>
+
+        <!-- Divider -->
+        <div class="h-px bg-white/[0.04]"></div>
+
+        <!-- Description -->
+        <div>
+          <label class="block text-[10px] font-semibold uppercase tracking-[0.15em] text-[#5A4E42] mb-2">
+            Description
+            <span class="normal-case font-normal text-[#3D3425] ml-1">optional</span>
+          </label>
           <textarea
-            class="border border-gray-300 w-full px-4 py-3 outline-none h-32"
-
             v-model="description"
+            rows="4"
+            class="w-full bg-bg-card border border-white/[0.07] rounded-xl px-4 py-3
+                   text-[#F5F0E8] placeholder-[#3D3425]
+                   focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/10 focus:outline-none
+                   text-sm transition-all resize-none"
+            placeholder="Add a description..."
           ></textarea>
         </div>
-        <div class="my-4 items-center">
-          Comments:
+
+        <!-- Divider -->
+        <div class="h-px bg-white/[0.04]"></div>
+
+        <!-- Comments -->
+        <div>
+          <label class="block text-[10px] font-semibold uppercase tracking-[0.15em] text-[#5A4E42] mb-3">Comments</label>
           <button
-            class="text-blue-600 underline"
-            @click.prevent="leaveComment"
+            type="button"
+            class="inline-flex items-center gap-1.5 text-xs font-medium text-amber-500 hover:text-amber-400 transition-colors"
+            @click="leaveComment"
           >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+            </svg>
             Leave a comment
           </button>
-          <div v-if="useLayoutStore.commentInput">
+          <div v-if="useLayoutStore.commentInput" class="mt-3 flex gap-2">
             <input
               v-model="commentt"
               type="text"
-              class="mt-2 shadow appearance-none border rounded py-1 px-1 text-black"
+              class="flex-1 bg-bg-card border border-white/[0.07] rounded-xl px-4 py-2
+                     text-[#F5F0E8] placeholder-[#3D3425]
+                     focus:border-amber-500/40 focus:ring-1 focus:ring-amber-500/10 focus:outline-none
+                     text-sm transition-all"
+              placeholder="Write a comment..."
             />
-            <div class="error"></div>
             <button
+              type="button"
               @click="commentUpload"
-              class="bg-blue-600 rounded-lg hover:bg-blue-300 shadow-md p-2 w-24 mx-2"
-            >
-              Reply
-            </button>
+              class="bg-amber-500 hover:bg-amber-400 text-[#0E0C0A] text-xs font-bold rounded-xl px-4 py-2 transition-all shrink-0"
+            >Send</button>
           </div>
+          <div class="error text-xs text-red-400 mt-1.5"></div>
         </div>
-        <button class="bg-blue-primary text-white px-2 py-1 rounded-sm">
-          Add Tasks
-        </button>
+
       </form>
     </div>
-  </div>
+
+    <!-- Sticky save footer -->
+    <div class="shrink-0 px-6 py-4 border-t border-white/[0.05] bg-bg-surface">
+      <button
+        type="submit"
+        form="edit-task-form"
+        class="w-full bg-amber-500 hover:bg-amber-400 text-[#0E0C0A] font-bold rounded-xl py-3 text-sm transition-all"
+        style="box-shadow: 0 0 20px rgba(245,158,11,0.18);"
+      >
+        Save Changes
+      </button>
     </div>
+
   </div>
 </template>
+
 <script lang="ts" setup>
-import { useStore } from "@/stores/store";
-import { layoutStore } from "@/stores/LayouStore";
-import { Toaster, toast } from "vue-sonner";
-
-
-import { ref, onMounted } from "vue";
-import { authStore } from "@/stores/auth/authStore";
-import DropdownSearch from "../General/DropdownSearch.vue";
+import { useStore } from '@/stores/store';
+import { layoutStore } from '@/stores/LayouStore';
+import { toast } from 'vue-sonner';
+import { ref, onMounted } from 'vue';
+import DropdownSearch from '../General/DropdownSearch.vue';
 
 const useLayoutStore = layoutStore();
 const store = useStore();
-const auth = authStore();
 
-var error = "";
+var error = '';
 const commentt = ref(store.taskDefault.comments.title);
 const priority = ref(store.taskDefault.priority);
 const title = ref(store.taskDefault.title);
 const description = ref(store.taskDefault.description);
-const asigned = ref(store.taskDefault.asigned?.email);
-
 const column = ref(store.taskDefault.status.name);
-const dueDate = ref("");
-const isDateAfterNow = ref(false);
+const dueDate = ref('');
+
 onMounted(async () => {
   await store.asignedTo();
 });
-// Checkear si la fecha elegida es correcta
-const date = (e) => {
-  const selectedDateObject = new Date(e.target.value);
-  const now = new Date();
-  console.log(selectedDateObject.getTime());
 
-  if (selectedDateObject.getTime() > now.getTime()) {
-    console.log("Date is after now");
-  } else {
-    console.log(console.log("Date is before now"));
-  }
-};
 const createTask = () => {
   const payload = {
     task: {
@@ -188,32 +187,26 @@ const createTask = () => {
       status: {
         name: column.value,
         _id: store.selectedBoard?.column.filter(
-          (t) => t._id === store.taskDefault.status._id
-        )[0]._id,
+          (t) => t.name === column.value
+        )[0]?._id ?? store.taskDefault.status._id,
       },
     },
   };
-  const res = store.editTask(payload).then((data) => {
-    toast.success("Task updated");
-
+  store.editTask(payload).then(() => {
+    toast.success('Task updated');
     setTimeout(() => {
       useLayoutStore.drawerOpen = false;
     }, 1000);
   });
 };
+
 const leaveComment = () => {
   useLayoutStore.commentInput = !useLayoutStore.commentInput;
 };
 
-
-const handleAsignedTo = async (user) => {
-  console.log(user);
-};
 const commentUpload = async () => {
-  const payload = {
-    comment: commentt.value,
-  };
-  const commentError = document.querySelector(".error");
+  const payload = { comment: commentt.value };
+  const commentError = document.querySelector('.error');
   const response = await store.updateComment(payload);
   if (response.data.error && commentError) {
     useLayoutStore.toast = true;
@@ -225,6 +218,3 @@ const commentUpload = async () => {
   }
 };
 </script>
-<style>
-
-</style>

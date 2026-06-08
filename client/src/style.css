@@ -1,9 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Design Tokens ───────────────────────────────────────── */
+:root {
+  --bg-base:     #0E0C0A;
+  --bg-surface:  #161411;
+  --bg-card:     #1C1814;
+  --bg-elevated: #232018;
+  --bg-hover:    #2A2318;
+
+  --accent:       #d97706;
+  --accent-hover: #f59e0b;
+  --accent-light: #fbbf24;
+  --accent-muted: rgba(245, 158, 11, 0.12);
+  --accent-glow:  rgba(245, 158, 11, 0.20);
+
+  --ink-primary:   #F5F0E8;
+  --ink-secondary: #8A7A66;
+  --ink-muted:     #6A5C4E;
+  --ink-ghost:     #3D3425;
+
+  --border:        rgba(255, 255, 255, 0.06);
+  --border-bright: rgba(255, 255, 255, 0.12);
+  --border-accent: rgba(245, 158, 11, 0.30);
+
+  --priority-high:   #f87171;
+  --priority-medium: #fbbf24;
+  --priority-low:    #38bdf8;
+
+  --radius-sm:  0.5rem;
+  --radius-md:  0.75rem;
+  --radius-lg:  1rem;
+  --radius-xl:  1.25rem;
+  --radius-2xl: 1.5rem;
+}
+
+/* ── Base ────────────────────────────────────────────────── */
 * {
-    box-sizing: border-box;
-    
-  }
-  
+  box-sizing: border-box;
+}
+
+html, body {
+  background: var(--bg-base);
+  color: var(--ink-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Focus ring ──────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid rgba(245, 158, 11, 0.5);
+  outline-offset: 2px;
+}
+
+/* ── Scrollbar ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.35);
+}
+
+/* ── Modal backdrop ──────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Input base ──────────────────────────────────────────── */
+.field {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 0.625rem 1rem;
+  color: var(--ink-primary);
+  font-size: 0.875rem;
+  transition: border-color 0.15s;
+}
+
+.field::placeholder {
+  color: var(--ink-ghost);
+}
+
+.field:focus {
+  border-color: var(--border-accent);
+  outline: none;
+}

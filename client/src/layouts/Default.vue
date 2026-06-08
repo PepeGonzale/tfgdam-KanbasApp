@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col min-h-screen w-screen bg-white overflow-auto">
+  <div class="flex flex-col min-h-screen w-screen bg-bg-base overflow-auto">
     
     <Header />
     <slot></slot>

@@ -1,15 +1,10 @@
 <template>
-
-<form @submit.prevent="submit" class="rounded-2xl flex-col bg-gray-200 flex">
-        
-            <slot></slot>
-        
-            </form>
+  <form @submit.prevent="submit" class="bg-bg-card border border-white/[0.06] rounded-2xl overflow-hidden">
+    <slot></slot>
+  </form>
 </template>
 
 <script lang="ts" setup>
-const emits = defineEmits(['submit'])
-const submit = (e) => {
-    emits('submit', e)
-}
+const emits = defineEmits(['submit']);
+const submit = (e: Event) => emits('submit', e);
 </script>

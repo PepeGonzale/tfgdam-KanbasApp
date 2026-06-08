@@ -1,290 +1,194 @@
 import { api } from "@/helpers/axios";
-import axios from "axios";
 import { defineStore } from "pinia";
-import type { Store, Task, Status, AddUsers,Board,Column,Subtask } from "@/types/types";
+import type { Store, Task, Status, AddUsers, Board, Column, Subtask } from "@/types/types";
 
-    
 export const useStore = defineStore("store", {
-    state: ():Store => ({
-        boards: [],
+  state: (): Store => ({
+    boards: [],
+    selectedTaskId: '',
+    selectedTask: {},
+    selectedColumn: {},
+    dialogContent: '',
+    usersInBoard: [],
+    dialogOpen: false,
+    addUser: { user: '', board: '', role: '' },
+    taskDefault: {
+      title: '',
+      description: '',
+      status: { _id: '', color: '', name: '' },
+      asigned: {},
+      priority: '',
+      comments: { _id: '', title: '' },
+    },
+    draftTask: {
+      _id: '',
+      title: '',
+      description: '',
+      status: { title: '', color: '', _id: '' },
+      subtasks: [],
+    },
+    draftColumn: { _id: '', name: '', color: '' },
+    searchingTasks: false,
+    searchedTasks: [],
+    drawerOpen: false,
+    newTask: { title: '', description: '', status: '', subtasks: [] },
+    selectedBoard: undefined,
+    archivedTask: [],
+  }),
 
-        selectedTaskId: '',
-        selectedTask: {},
-        selectedColumn: {},
-        dialogContent: '',
-        usersInBoard: [],
-        dialogOpen: false,
-        addUser: {
-          user: '',
-          board: '',
-          role: ''
-        },
-        taskDefault: {
-          title: '',
-          description:'' ,
-          status: {
-            _id: '',
-            color:'',
-            name: ''
-          },
-          asigned: {},
-          priority: '',
-          comments:  {
-            _id: '',
-            title: ''
-          }
-        },
-        draftTask: {
-          _id: '',
-          title: '',
-          description: '',
-          status: {
-            title: '',
-            color: '',
-            _id: '',
-          },
-          subtasks: [],
-        },
-        draftColumn: {
-          _id: '',
-          name: '',
-          color: '',
-        },
-        searchingTasks: false,
-        drawerOpen: false,
-        newTask: { title: '', description: '', status: '', subtasks: [] },
-        selectedBoard: undefined,
-        archivedTask: []
-      }),  
-      getters: {
-        taskByColumn: (state) => (column: string) => {
-          return state.selectedBoard?.tasks.filter((task) => task.status._id === column);
-        },
-        columnByColumn: (state) => (column: string) => {
-          return state.selectedBoard?.column.filter((c) => c._id === column);
-        },
-        searchedTask: (state) => (column: string) => {
-          console.log(state.searchedTasks)
-            return state.searchedTasks.filter(t => {
-              console.log(t)
-              return t.status._id === column
-            })
-        },
-        column: (state) =>
-        state.selectedBoard?.column.map((c) => {
-          return {
-            ...c,
-            name: c.name[0].toUpperCase().concat(c.name.slice(1)),
-          };
-        }) || [],
-      },
-    actions: {
-        async createBoard(payload:{title: string, description: string}) {
-           
-            const postBoard = await api.post(`/`, payload)
-            this.boards.push(postBoard.data)
-            return postBoard
-        },
-        async getBoard(id: string) {
-          const getBoard = await api.get(`/board/${id}`)
-          
-            this.selectedBoard = getBoard.data
-        },
-        async asignTaskToUser(payload: {asginedTo: string}) {
-          const asign = await api.post(`/board/${this.selectedBoard?._id}/task/${this.selectedTaskId}`, payload)
-          
-           if (asign.data.tasks!== undefined && this.selectedBoard?.tasks !== undefined) {
-          this.selectedBoard.tasks = asign.data.tasks
-         
-          } 
-          return asign
-        },
-        async changeStatus(task: Task, status: Status) {
-          const prevStatus = task.status;
-          task.status = status;
-          try {
-            
-            const token = JSON.parse(localStorage.getItem('user') || "error");
+  getters: {
+    taskByColumn: (state) => (column: string) =>
+      state.selectedBoard?.tasks.filter((task) => task.status._id === column),
+    columnByColumn: (state) => (column: string) =>
+      state.selectedBoard?.column.filter((c) => c._id === column),
+    searchedTask: (state) => (column: string) =>
+      state.searchedTasks.filter((t) => t.status._id === column),
+    column: (state) =>
+      state.selectedBoard?.column.map((c) => ({
+        ...c,
+        name: c.name[0].toUpperCase().concat(c.name.slice(1)),
+      })) || [],
+  },
 
-            
-            const data = await axios.post(`http://localhost:3000/api/boards/task/update/${task._id}`, { task },{headers: {
-              Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
-            }});
-            
-            /* this.success('Task saved successfully'); */
-            
-          } catch (error) {
-            
-            task.status = prevStatus;
-          } 
-        },
-        async fetchBoards() {
-            const token = JSON.parse(localStorage.getItem('user') || "error");
-            
-            const getBoards = await axios.get(`http://localhost:3000/api/boards/boards`, {headers: {
-                Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
-              }})
-              this.boards = getBoards.data
-              
-            
-        },
-        async usersWithAccess(email: string) {
-          const userEmail = await api.get(`/access/user/${this.selectedBoard?._id}?email=${email}`)
-          console.log(userEmail)
-          return userEmail;
-        },
-        async createColumn(payload: {name: string, color:string}) {
-          const token = JSON.parse(localStorage.getItem('user') || "error");
-          
-         const newColumn = await axios.post(`http://localhost:3000/api/boards/column/${this.selectedBoard?._id}`, payload, {headers: {
-          Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
-          
-        }})
-        return newColumn
-        
-        },
-        async createTask(payload: {title: string}) {
-          const token = JSON.parse(localStorage.getItem('user') || "error");
-          
-          const newTask = await axios.post(`http://localhost:3000/api/boards/task/${this.selectedBoard?._id}`, payload, {headers: {
-           Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
-         }})
-         
-         if(newTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
-          this.selectedBoard.tasks = newTask.data.tasks 
-          
-          } 
-          console.log()
-         return this.selectedBoard?.tasks
-        },
-        async editTask(payload: {task: {title:string,description:string, status: {name:string, _id:any},  comments?: {comment: string}}}){
-          
-          const token = JSON.parse(localStorage.getItem('user') || "error");
-        
-          const editTask = await axios.post(`http://localhost:3000/api/boards/task/update/${this.selectedTaskId}`, payload, {headers: {
-            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
-          }})
-          if(editTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
-          this.selectedBoard.tasks = editTask.data.tasks 
-          }
-          
-          
-          return editTask
-        },
-        async taskInfo(){
-          const response = await api.get(`/task/${this.selectedTaskId}/board/${this.selectedBoard?._id}`)
-          console.log(response.data)
-          if(response.data && this.selectedBoard?.tasks !== undefined) {
-            this.selectedTask = response.data 
-            } 
-            
-          return response
-        },
-        async asignUserToBoard(payload: AddUsers) {
-          console.log(payload.role)
-          const response = await api.post(`/board/${payload.board}/user/${payload.user}`, {payload: payload.role});
-          console.log(response);
-          
-          return response;
-        },
-        async asignedTo(){
-          const listAccessUsers =await api.get(`/access/user/${this.selectedBoard?._id}`);
-          this.usersInBoard = listAccessUsers.data.usersWithAccess
-          return listAccessUsers
-        },  
-        async updateComment(payload: {comment: string}) {
-          const updateComment = api.post(`/task/update/comment/${this.selectedTaskId}`, payload);
+  actions: {
+    async createBoard(payload: { title: string; description: string }) {
+      const postBoard = await api.post(`/`, payload);
+      await this.fetchBoards();
+      return postBoard;
+    },
 
-          return updateComment
-        },
-        async deleteTask() {
-          const token = JSON.parse(localStorage.getItem('user') || "error");
-        
-          const deleteTask = await axios.post(`http://localhost:3000/api/boards/task/delete/${this.selectedTaskId}`,null, {headers: {
-            Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
-          }})
-          
-          if(deleteTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
-            this.selectedBoard.tasks = deleteTask.data.tasks 
-            }
-            console.log(this.selectedBoard?.tasks);
-            
-          return deleteTask
-        },
-        async deleteArchiveTask() {
-          const data = await api.post(`/board/${this.selectedBoard?._id}/delete/archived/${this.selectedTaskId}`)
-          if(data.data.tasks && this.selectedBoard?.tasks !== undefined) {
-            this.archivedTask = data.data.archivedTasks 
-            }
-            console.log(data)
-        },
-        async editColumn(column: any) {
-          const editColumn = await api.post(`/board/${this.selectedBoard?._id}/column/${column._id}/edit`, column)
-         if (editColumn.data.column && this.selectedBoard?.column !== undefined) {
-           this.selectedBoard.column = editColumn.data.column
-           
-         }
-         console.log(editColumn)
-          
-        },
-        async deleteColumn (columnId: string) {
-          const token = JSON.parse(localStorage.getItem('user') || "error");
+    async getBoard(id: string) {
+      const getBoard = await api.get(`/board/${id}`);
+      this.selectedBoard = getBoard.data;
+    },
 
-          const response = await axios.post(`http://localhost:3000/api/boards/board/${this.selectedBoard?._id}/column/${columnId}`, null, {headers: {
-            Authorization: 'Bearer ' + token.token
-          }})
-          if (response.data.column && this.selectedBoard?.column !== undefined) {
-            this.selectedBoard.column = response.data.column
-            
-          }
-          
-          
-        }, 
-        async selectBoard(board: Board) {
-          
+    async asignTaskToUser(payload: { asginedTo: string }) {
+      const asign = await api.post(`/board/${this.selectedBoard?._id}/task/${this.selectedTaskId}`, payload);
+      if (asign.data.tasks !== undefined && this.selectedBoard?.tasks !== undefined) {
+        this.selectedBoard.tasks = asign.data.tasks;
+      }
+      return asign;
+    },
 
-            this.newTask = {
-              title: '',
-              description: '',
-              status: '',
-              subtasks: [],
-            };
-            this.draftTask = {
-              _id: '',
-              title: '',
-              description: '',
-              status: {
-                title: '',
-                color: '',
-                _id: '',
-              },
-              subtasks: [],
-            };
-            /* this.selectedBoard = board; */
-          },
-        async archiveTask(taskId: string) {
-          const data = await api.post(`/board/${this.selectedBoard?._id}/archived/${taskId}`)
-          if(data.data.tasks && this.selectedBoard?.tasks !== undefined) {
-            this.selectedBoard.tasks = data.data.tasks 
-            }
-          
-        },
-          loadDraftColumn(column: Column) {
-            this.draftColumn = {
-              _id: column._id,
-              name: column.name,
-              color: column.color
-            }
-          },
-          loadDraftTask(task: Task) {
-            this.draftTask = {
-              _id: task._id,
-              title: task.title,
-              description: task.description,
-              status: task.status,
-              subtasks: task.subtasks,
-            };
-            
-          }
-    }
-})
+    async changeStatus(task: Task, status: Status) {
+      const prevStatus = task.status;
+      task.status = status;
+      try {
+        await api.post(`/task/update/${task._id}`, { task });
+      } catch {
+        task.status = prevStatus;
+      }
+    },
+
+    async fetchBoards() {
+      const getBoards = await api.get(`/boards`);
+      this.boards = getBoards.data;
+    },
+
+    async usersWithAccess(email: string) {
+      const res = await api.get(`/access/user/${this.selectedBoard?._id}?email=${email}`);
+      return res;
+    },
+
+    async createColumn(payload: { name: string; color: string }) {
+      const newColumn = await api.post(`/column/${this.selectedBoard?._id}`, payload);
+      if (newColumn.data.column && this.selectedBoard?.column !== undefined) {
+        this.selectedBoard.column = newColumn.data.column;
+      }
+      return newColumn;
+    },
+
+    async createTask(payload: { title: string }) {
+      const newTask = await api.post(`/task/${this.selectedBoard?._id}`, payload);
+      if (newTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
+        this.selectedBoard.tasks = newTask.data.tasks;
+      }
+      return this.selectedBoard?.tasks;
+    },
+
+    async editTask(payload: { task: { title: string; description: string; status: { name: string; _id: any }; comments?: { comment: string } } }) {
+      const editTask = await api.post(`/task/update/${this.selectedTaskId}`, payload);
+      if (editTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
+        this.selectedBoard.tasks = editTask.data.tasks;
+      }
+      return editTask;
+    },
+
+    async taskInfo() {
+      const response = await api.get(`/task/${this.selectedTaskId}/board/${this.selectedBoard?._id}`);
+      if (response.data && this.selectedBoard?.tasks !== undefined) {
+        this.selectedTask = response.data;
+      }
+      return response;
+    },
+
+    async asignUserToBoard(payload: AddUsers) {
+      const response = await api.post(`/board/${payload.board}/user/${payload.user}`, { role: payload.role });
+      return response;
+    },
+
+    async asignedTo() {
+      const listAccessUsers = await api.get(`/access/user/${this.selectedBoard?._id}`);
+      this.usersInBoard = listAccessUsers.data.usersWithAccess ?? [];
+      return listAccessUsers;
+    },
+
+    async updateComment(payload: { comment: string }) {
+      const response = await api.post(`/task/update/comment/${this.selectedTaskId}`, payload);
+      if (response.data && this.selectedTask) {
+        this.selectedTask = response.data;
+      }
+      return response;
+    },
+
+    async deleteTask() {
+      const deleteTask = await api.post(`/task/delete/${this.selectedTaskId}`, null);
+      if (deleteTask.data.tasks && this.selectedBoard?.tasks !== undefined) {
+        this.selectedBoard.tasks = deleteTask.data.tasks;
+      }
+      return deleteTask;
+    },
+
+    async deleteArchiveTask() {
+      const data = await api.post(`/board/${this.selectedBoard?._id}/delete/archived/${this.selectedTaskId}`);
+      if (data.data.archivedTasks && this.selectedBoard?.tasks !== undefined) {
+        this.archivedTask = data.data.archivedTasks;
+      }
+    },
+
+    async editColumn(column: any) {
+      const editColumn = await api.post(`/board/${this.selectedBoard?._id}/column/${column._id}/edit`, column);
+      if (editColumn.data.column && this.selectedBoard?.column !== undefined) {
+        this.selectedBoard.column = editColumn.data.column;
+      }
+    },
+
+    async deleteColumn(columnId: string) {
+      const response = await api.post(`/board/${this.selectedBoard?._id}/column/${columnId}`, null);
+      if (response.data.column && this.selectedBoard?.column !== undefined) {
+        this.selectedBoard.column = response.data.column;
+      }
+    },
+
+    async selectBoard(board: Board) {
+      this.selectedBoard = board;
+      this.newTask = { title: '', description: '', status: '', subtasks: [] };
+      this.draftTask = { _id: '', title: '', description: '', status: { title: '', color: '', _id: '' }, subtasks: [] };
+    },
+
+    async archiveTask(taskId: string) {
+      const data = await api.post(`/board/${this.selectedBoard?._id}/archived/${taskId}`);
+      if (data.data.tasks && this.selectedBoard?.tasks !== undefined) {
+        this.selectedBoard.tasks = data.data.tasks;
+      }
+    },
+
+    loadDraftColumn(column: Column) {
+      this.draftColumn = { _id: column._id, name: column.name, color: column.color };
+    },
+
+    loadDraftTask(task: Task) {
+      this.draftTask = { _id: task._id, title: task.title, description: task.description, status: task.status, subtasks: task.subtasks };
+    },
+  },
+});
