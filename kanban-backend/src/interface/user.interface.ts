@@ -6,7 +6,6 @@ export interface Photo {
 
 
 export interface User {
-    
     _id: string,
     email: string,
     username: string,
@@ -14,6 +13,7 @@ export interface User {
     refreshToken: string,
     role: string;
     image: string,
-    password: string, 
+    password?: string,
+    googleId?: string,
     dateSignUp: Date
 }

@@ -16,6 +16,8 @@ import { FileArray } from "express-fileupload";
 import { AuthRequest } from "../utils/authMiddleware";
 import validateMongoDbID from "../utils/validateMongoDbId";
 import { uploadToBucket } from "../utils/s3";
+import { createJwt } from "../utils/createJwt";
+import config from "../config/config";
 
 const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -153,6 +155,23 @@ const updatePassword = async (req: AuthRequest, res: Response) => {
     }
 };
 
+const googleCallback = async (req: AuthRequest, res: Response) => {
+    try {
+        const user = req.user as any;
+        const token = await createJwt(user);
+        const params = new URLSearchParams({
+            token,
+            email: user.email,
+            username: user.username,
+            imageUrl: user.image || "",
+            _id: user._id.toString(),
+        });
+        res.redirect(`${config.FRONTEND_URL}/auth/callback?${params}`);
+    } catch (err: any) {
+        res.redirect(`${config.FRONTEND_URL}/login?error=${encodeURIComponent(err.message)}`);
+    }
+};
+
 export {
     login,
     logout,
@@ -165,4 +184,5 @@ export {
     getOneBoard,
     uploadImage,
     getUserByEmail,
+    googleCallback,
 };

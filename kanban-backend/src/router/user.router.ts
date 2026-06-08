@@ -1,24 +1,34 @@
 import { Router } from "express";
 import {
-  deleteUser,
-  getAllUsers,
-  getOneBoard,
-  getUser,
-  getUserByEmail,
-  login,
-  logout,
-  register,
-  updateCUsers,
-  updatePassword,
-  uploadImage,
+    deleteUser,
+    getAllUsers,
+    getOneBoard,
+    getUser,
+    getUserByEmail,
+    login,
+    logout,
+    register,
+    updateCUsers,
+    updatePassword,
+    uploadImage,
+    googleCallback,
 } from "../controller/user.controller";
 import { authMiddleware } from "../utils/authMiddleware";
+import passport from "../config/passport";
 
 const router = Router();
 
 // Public
 router.post("/register", register);
 router.post("/login", login);
+
+// Google OAuth
+router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+router.get(
+    "/google/callback",
+    passport.authenticate("google", { session: false, failureRedirect: "/login" }),
+    googleCallback
+);
 
 // Protected
 router.post("/logout", authMiddleware, logout);

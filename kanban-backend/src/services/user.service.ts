@@ -107,19 +107,46 @@ const getIUser = async (email: RegExp) => {
 };
 
 const deleteUserId = async (id: string) => {
-  return UserModel.findByIdAndDelete(id);
+    return UserModel.findByIdAndDelete(id);
+};
+
+const findOrCreateGoogleUser = async (profile: any) => {
+    const email = profile.emails?.[0]?.value;
+    const googleId = profile.id;
+    const username = profile.displayName || email?.split("@")[0] || "user";
+    const image = profile.photos?.[0]?.value;
+
+    let user = await UserModel.findOne({ googleId });
+    if (user) return user;
+
+    user = await UserModel.findOne({ email });
+    if (user) {
+        user.googleId = googleId;
+        if (image) user.image = image;
+        await user.save();
+        return user;
+    }
+
+    user = await UserModel.create({
+        email,
+        googleId,
+        username,
+        image: image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
+    });
+    return user;
 };
 
 export {
-  loginUser,
-  logoutUser,
-  registerUser,
-  getUsers,
-  changeUserPassword,
-  getIUser,
-  deleteUserId,
-  updateUser,
-  searchByBoardId,
-  searchUserEmail,
-  saveImage,
+    loginUser,
+    logoutUser,
+    registerUser,
+    getUsers,
+    changeUserPassword,
+    getIUser,
+    deleteUserId,
+    updateUser,
+    searchByBoardId,
+    searchUserEmail,
+    saveImage,
+    findOrCreateGoogleUser,
 };
