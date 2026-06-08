@@ -1,18 +1,34 @@
 import { Router } from "express";
-import { deleteUser, getAllUsers, getOneBoard, getUser, login, register, tokenAuthenticate, updateCUsers, uploadImage,getUserByEmail, updatePassword } from "../controller/user.controller";
-import {authMiddleware} from "../utils/authMiddleware";
+import {
+  deleteUser,
+  getAllUsers,
+  getOneBoard,
+  getUser,
+  getUserByEmail,
+  login,
+  logout,
+  register,
+  updateCUsers,
+  updatePassword,
+  uploadImage,
+} from "../controller/user.controller";
+import { authMiddleware } from "../utils/authMiddleware";
 
 const router = Router();
 
-router.post("/register", register)
-router.post("/login", login)
-router.post("/user/image/:bucketId",  uploadImage)
-router.post("/user/password/:userId", authMiddleware, updatePassword)
-router.post("/delete/:userId", deleteUser)
-router.post("/update", authMiddleware,updateCUsers)
-router.get("/authenticate/user", tokenAuthenticate)
-router.get("/users", getAllUsers)
-router.get("/find/user", getUser)
-router.get("/find/user/:userEmail", getUserByEmail)
-router.get("/user/board/:boardId", authMiddleware, getOneBoard)
-export default router
+// Public
+router.post("/register", register);
+router.post("/login", login);
+
+// Protected
+router.post("/logout", authMiddleware, logout);
+router.post("/user/image/:bucketId", authMiddleware, uploadImage);
+router.post("/user/password", authMiddleware, updatePassword);
+router.post("/delete/:userId", authMiddleware, deleteUser);
+router.post("/update", authMiddleware, updateCUsers);
+router.get("/users", authMiddleware, getAllUsers);
+router.get("/find/user", authMiddleware, getUser);
+router.get("/find/user/:userEmail", authMiddleware, getUserByEmail);
+router.get("/user/board/:boardId", authMiddleware, getOneBoard);
+
+export default router;

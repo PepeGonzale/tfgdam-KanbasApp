@@ -1,135 +1,168 @@
 import { Request, Response } from "express";
 import {
-  changeUserPassword,
-  deleteUserId,
-  getIUser,
-  getUsers,
-  loginUser,
-  registerUser,
-  saveImage,
-  searchByBoardId,
-  searchUserEmail,
-  updateUser,
-  
+    changeUserPassword,
+    deleteUserId,
+    getIUser,
+    getUsers,
+    loginUser,
+    logoutUser,
+    registerUser,
+    saveImage,
+    searchByBoardId,
+    searchUserEmail,
+    updateUser,
 } from "../services/user.service";
-import { FileArray } from 'express-fileupload';
-
+import { FileArray } from "express-fileupload";
 import { AuthRequest } from "../utils/authMiddleware";
-import { createJwt } from "../utils/createJwt";
 import validateMongoDbID from "../utils/validateMongoDbId";
-import { getBuckets, uploadToBucket } from "../utils/s3";
-import { Auth } from "aws-sdk/clients/docdbelastic";
+import { uploadToBucket } from "../utils/s3";
 
+const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const register = async (req: Request, res: Response) => {
-  const { email, password, role, mobile, username } = req.body;
-  if (!email || !password) {
-    throw new Error("Please rewrite the fields with correct data");
-  }
-  try {
-  const user = await registerUser({
-    email: email,
-    password: password,
-    role: role,
-    username,
-    mobile,
-  });
-  
-  res.json({success: true, error: null, user});
-} catch(err) {
-  res.json({success: false, error: err.message})
-}
+    try {
+        const { email, password, role, mobile, username } = req.body;
+        if (!email || !password || !username) {
+            return res.status(400).json({ success: false, error: "Email, password, and username are required" });
+        }
+        const user = await registerUser({ email, password, role, username, mobile });
+        res.status(201).json({ success: true, error: null, user });
+    } catch (err: any) {
+        res.status(400).json({ success: false, error: err.message });
+    }
 };
+
 const login = async (req: Request, res: Response) => {
-  const { email, password } = req.body;
-  try {
-  const user = await loginUser(email, password);
-  res.json({success: true, error: null, user});
-  } catch(err) {
-    res.json({success: false, error: err.message});
-  }
- 
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ success: false, error: "Email and password are required" });
+        }
+        const user = await loginUser(email, password);
+        res.json({ success: true, error: null, user });
+    } catch (err: any) {
+        res.status(401).json({ success: false, error: err.message });
+    }
 };
 
-const getAllUsers = async (req: Request, res: Response) => {
-  const allUsers = await getUsers();
-  res.json(allUsers);
+const logout = async (req: AuthRequest, res: Response) => {
+    try {
+        await logoutUser(req.user._id);
+        res.json({ success: true });
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
 };
-const getUserByEmail = async (req: Request, res: Response) => {
-  const {userEmail} = req.params
-  const email = await searchUserEmail(userEmail)
-  res.json(email)
-}
+
+const getAllUsers = async (req: AuthRequest, res: Response) => {
+    try {
+        const allUsers = await getUsers();
+        res.json(allUsers);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
+const getUserByEmail = async (req: AuthRequest, res: Response) => {
+    try {
+        const { userEmail } = req.params;
+        const user = await searchUserEmail(userEmail);
+        if (!user) return res.status(404).json({ error: "User not found" });
+        res.json(user);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
 const updateCUsers = async (req: AuthRequest, res: Response) => {
-  const { _id } = req.user;
-  const data = req.body;
-  
-  const updateData = await updateUser(_id, data);
-  res.json(updateData);
-};
-const deleteUser = async (req: Request, res: Response) => {
-  const { userId } = req.params;
-  validateMongoDbID(userId);
-  const deleteUsers = await deleteUserId(userId);
-  res.json(deleteUsers);
-};
-const getUser = async (req: Request, res: Response) => {
-  const email = req.query['email']
-  console.log("Email", email);
-  try {
-  if (typeof email !== "string") throw new Error("Not found")
-  else{
-    const regex = new RegExp(email, 'i'); // case-insensitive regular expression
-    const usersWithEmail = await getIUser(regex);
-    res.json(usersWithEmail);
-  }
-} catch(err) {
-  return err
-}
+    try {
+        const { _id } = req.user;
+        const updated = await updateUser(_id, req.body);
+        res.json(updated);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
 };
 
-const tokenAuthenticate = async (req:Request, res: Response) => {
-  const user = {
-    _id: "6415e88d2c1995cf4b150ba7",
-    email: "pepille@gmail.com"
-  }
-  const token = await createJwt(user);
-  res.json({token:token})
-}
+const deleteUser = async (req: AuthRequest, res: Response) => {
+    try {
+        const { userId } = req.params;
+        validateMongoDbID(userId);
+
+        const callerId = req.user._id.toString();
+        if (callerId !== userId) {
+            return res.status(403).json({ error: "You can only delete your own account" });
+        }
+
+        const deleted = await deleteUserId(userId);
+        res.json(deleted);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
+const getUser = async (req: AuthRequest, res: Response) => {
+    try {
+        const email = req.query["email"];
+        if (typeof email !== "string") return res.status(400).json({ error: "Email query param required" });
+        const regex = new RegExp(escapeRegex(email), "i");
+        const users = await getIUser(regex);
+        res.json(users);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
 const getOneBoard = async (req: AuthRequest, res: Response) => {
-  const {_id} = req.user
-  const {boardId} = req.params
-  const board = await searchByBoardId(_id,boardId)
-  res.json(board)
-}
+    try {
+        const { _id } = req.user;
+        const { boardId } = req.params;
+        const board = await searchByBoardId(_id, boardId);
+        res.json(board);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
 interface CustomRequest extends AuthRequest {
-  files?: FileArray;
+    files?: FileArray;
 }
+
 const uploadImage = async (req: CustomRequest, res: Response) => {
-  const {bucketId} = req.params;
-  const file = req.files.image;
-  const result = await uploadToBucket(bucketId,file);
-  const location = result.Location;
-  const updateUserImage = await saveImage(req.body.id, location)
-  res.json(updateUserImage);
-}
+    try {
+        const { bucketId } = req.params;
+        if (!req.files?.image) return res.status(400).json({ error: "No image file provided" });
+        const result = await uploadToBucket(bucketId, req.files.image);
+        const location = (result as any).Location;
+        // Use the authenticated user's ID — never trust req.body for this
+        const updated = await saveImage(req.user._id, location);
+        res.json(updated);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+};
 
 const updatePassword = async (req: AuthRequest, res: Response) => {
-  const {userId} = req.params;
-  const data = req.body
-  const password = await changeUserPassword(data, userId)
-  res.json(password)
-}
+    try {
+        // Use authenticated user's ID — ignore any userId param to prevent IDOR
+        const userId = req.user._id.toString();
+        const result = await changeUserPassword(req.body, userId);
+        res.json(result);
+    } catch (err: any) {
+        res.status(400).json({ error: err.message });
+    }
+};
+
 export {
-  login,
-  updatePassword,
-  register,
-  getAllUsers,
-  deleteUser,
-  updateCUsers,
-  getUser,
-  getOneBoard,
-  tokenAuthenticate,
-  uploadImage,
-  getUserByEmail
+    login,
+    logout,
+    updatePassword,
+    register,
+    getAllUsers,
+    deleteUser,
+    updateCUsers,
+    getUser,
+    getOneBoard,
+    uploadImage,
+    getUserByEmail,
 };

@@ -1,10 +1,12 @@
-import jwt from "jsonwebtoken"
-import config from "../config/config"
+import jwt from "jsonwebtoken";
+import config from "../config/config";
+
 const verifyToken = (token: string) => {
     try {
-        return jwt.verify(token, config.JWT_SECRET)
+        return jwt.verify(token, config.JWT_SECRET);
     } catch (error) {
-        throw new Error(error)
+        throw error;
     }
-}
-export default verifyToken
+};
+
+export default verifyToken;

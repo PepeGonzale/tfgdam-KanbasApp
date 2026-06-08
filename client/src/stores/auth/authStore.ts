@@ -94,7 +94,7 @@ export const authStore = defineStore('auth',  {
         },
         async changeUserPassword(payload: ChangePassword) {
             const token = JSON.parse(localStorage.getItem('user') || "error");
-            const {data} = await auth.post(`/user/password/${this.userData._id}`, payload, {headers: {
+            const {data} = await auth.post(`/user/password`, payload, {headers: {
                 Authorization: 'Bearer ' + token.token //the token is a variable which holds the token
               }})
             console.log(data);

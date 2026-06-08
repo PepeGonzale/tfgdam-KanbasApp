@@ -2,43 +2,34 @@ import UserModel from "../models/user.model";
 import { NextFunction, Request, Response } from "express";
 import { User } from "../interface/user.interface";
 import verifyToken from "./verifyToken";
+
 export interface AuthRequest extends Request {
-  user: User;
+    user: User;
 }
 
-const authMiddleware = async (
-  req: AuthRequest,
-  res: Response,
-  next: NextFunction
-) => {
-  let token;
-  if (req.headers.authorization?.startsWith("Bearer")) {
-    token = req.headers.authorization.split(" ")[1];
-    try {
-      if (token) {
-        const decoded = verifyToken(token);
-
-        const user = await UserModel.findById(decoded.userId);
-
-        req.user = user;
-        next();
-      }
-    } catch (err) {
-      res.status(401).send({ error: "Not Authorized token expired, please login again"})
+const authMiddleware = async (req: AuthRequest, res: Response, next: NextFunction) => {
+    const header = req.headers.authorization;
+    if (!header?.startsWith("Bearer")) {
+        return res.status(401).json({ error: "No token provided" });
     }
-  } else {
-    res.status(401).send({ error: "There is no token attached to the header" });  }
-};
-const isAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
-  const {email} = req.user;
-  const adminUser = await UserModel.findOne({
-    email: email
-  });
-  if (adminUser.email !== "admin") throw new Error("You are not an admin")
-  else {
-    next()
-  }
+
+    const token = header.split(" ")[1];
+    try {
+        const decoded = verifyToken(token) as { userId: string };
+        const user = await UserModel.findById(decoded.userId).select("-password -refreshToken");
+        if (!user) return res.status(401).json({ error: "User not found" });
+        req.user = user as unknown as User;
+        next();
+    } catch {
+        res.status(401).json({ error: "Not Authorized — token expired, please login again" });
+    }
 };
 
+const isAdmin = (req: AuthRequest, res: Response, next: NextFunction) => {
+    if (req.user?.role !== "admin") {
+        return res.status(403).json({ error: "Admin access required" });
+    }
+    next();
+};
 
-export { authMiddleware, isAdmin};
+export { authMiddleware, isAdmin };
